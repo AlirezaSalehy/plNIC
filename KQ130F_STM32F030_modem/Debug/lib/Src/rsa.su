@@ -1,0 +1,7 @@
+../lib/Src/rsa.c:25:11:gcd	32	static
+../lib/Src/rsa.c:35:11:ExtEuclid	96	static
+../lib/Src/rsa.c:45:25:modmult	88	static
+../lib/Src/rsa.c:80:11:rsa_modExp	64	static
+../lib/Src/rsa.c:99:6:rsa_gen_keys	88	static
+../lib/Src/rsa.c:145:12:rsa_encrypt	80	static
+../lib/Src/rsa.c:163:7:rsa_decrypt	72	static

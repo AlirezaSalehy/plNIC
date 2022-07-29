@@ -1,0 +1,9 @@
+Clock set to 72 mhz for fastest data procssing using pll but prepherals set to minmum needed clock for power saving 
+Clock Security System is enabled
+RTC Enabled
+Signals are pinned
+FreeRTOS enabled V2(tell why Vs) but non preemptive type so that there no need for critical section handling and the tasks are simple and cooperative
+DMA is used 
+LED for status
+using 5v regulator for modem alongside with 3.3v regulator for mcu for modem protection for its sensitivity, using resistance volltage devider, using PTC
+can not use freertos with dynamic heap allocation due to lack of main memeory available for jobs BUT static allocation has more promising results
