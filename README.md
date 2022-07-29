@@ -1,5 +1,5 @@
 # BSE_Project_PLM
-The under developed modem will use encryption, DMA, buffering techniques, CRC error checking and RTOS(FreeRTOS).
+The under developed plNIC will provide encryption, DMA, buffering techniques, CRC error checking and RTOS(FreeRTOS).
 
 ## Hardware
 
@@ -21,7 +21,9 @@ Figure above showing connection for AT89C51 MCU which uses TTL logic level.
 ### Bill of Materials
 
 ### Final Module
-<img src="Docs/Imgs/Modem_Physical_Picture.jpg" width="50%" height="60%">
+The discussed plNIC soldered on double sided hole board as bellow:
+<img src="Docs/Imgs/Modem_Physical_Picture.jpg" width="70%" height="70%">
+
 ## Software
 
 
