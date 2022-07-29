@@ -1,2 +1,2 @@
 # BSE_Project_PLM
-This repository contains resources of data transmission project using Power Line Modem (PLM) using KQ-130F and STM32F030C8T6. 
+The under developed modem will use encryption, DMA, buffering techniques, CRC error checking and RTOS(FreeRTOS).
