@@ -1,0 +1,3 @@
+(sym_lib_table
+  (lib (name "PLM")(type "KiCad")(uri "${KIPRJMOD}/PLM.kicad_sym")(options "")(descr ""))
+)
