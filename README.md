@@ -189,10 +189,14 @@ BOM for every plNIC is as follows:
 <td>KQ130-F</td>
 <td> </td>
 <td align="right">1</td>
+ </tr>
+ <tr>
 <td>Hole Board</td>
 <td>9cm * 7cm double sided</td>
 <td> </td>
 <td align="right">1</td>
+</tr>
+<tr>
 <td>SMD to DIP</td>
 <td>QFN48 to DIP package converter</td>
 <td> </td>
