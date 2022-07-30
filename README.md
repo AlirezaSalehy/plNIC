@@ -21,6 +21,7 @@ The designed schematic of plNIC is shown bellow:
 <img src="Docs/Imgs/plNIC_Schematic.png" width="70%" height="70%">
 
 ### Bill of Materials
+BOM for every plNIC is as follows:
 <table class="table table-bordered table-hover table-condensed">
 <thead><tr><th title="Field #1">Reference</th>
 <th title="Field #2">Value</th>
@@ -186,6 +187,14 @@ The designed schematic of plNIC is shown bellow:
 <tr>
 <td>U4</td>
 <td>KQ130-F</td>
+<td> </td>
+<td align="right">1</td>
+<td>Hole Board</td>
+<td>9cm * 7cm double sided</td>
+<td> </td>
+<td align="right">1</td>
+<td>SMD to DIP</td>
+<td>QFN48 to DIP package converter</td>
 <td> </td>
 <td align="right">1</td>
 </tr>
