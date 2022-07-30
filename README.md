@@ -21,6 +21,175 @@ The designed schematic of plNIC is shown bellow:
 <img src="Docs/Imgs/plNIC_Schematic.png" width="70%" height="70%">
 
 ### Bill of Materials
+<table class="table table-bordered table-hover table-condensed">
+<thead><tr><th title="Field #1">Reference</th>
+<th title="Field #2">Value</th>
+<th title="Field #3">Footprint</th>
+<th title="Field #4">Qty</th>
+</tr></thead>
+<tbody><tr>
+<td>Y1</td>
+<td>32.768Hz</td>
+<td> </td>
+<td align="right">1</td>
+</tr>
+<tr>
+<td>TH1</td>
+<td>800mA PTC</td>
+<td> </td>
+<td align="right">1</td>
+</tr>
+<tr>
+<td>SW1</td>
+<td>SW_Push</td>
+<td> </td>
+<td align="right">1</td>
+</tr>
+<tr>
+<td>R5-R7</td>
+<td>330</td>
+<td> </td>
+<td align="right">3</td>
+</tr>
+<tr>
+<td>R4</td>
+<td>2k</td>
+<td> </td>
+<td align="right">1</td>
+</tr>
+<tr>
+<td>R3</td>
+<td>1k</td>
+<td> </td>
+<td align="right">1</td>
+</tr>
+<tr>
+<td>R1, R2</td>
+<td>10k</td>
+<td> </td>
+<td align="right">2</td>
+</tr>
+<tr>
+<td>JP1</td>
+<td>Jumper</td>
+<td> </td>
+<td align="right">1</td>
+</tr>
+<tr>
+<td>J5</td>
+<td>plNIC Interface</td>
+<td> </td>
+<td align="right">1</td>
+</tr>
+<tr>
+<td>J4</td>
+<td>SW_DEBUG</td>
+<td> </td>
+<td align="right">1</td>
+</tr>
+<tr>
+<td>J3</td>
+<td>UART_DEBUG</td>
+<td> </td>
+<td align="right">1</td>
+</tr>
+<tr>
+<td>J1</td>
+<td>Screw_Terminal_01x02</td>
+<td> </td>
+<td align="right">1</td>
+</tr>
+<tr>
+<td>D3</td>
+<td>RED</td>
+<td> </td>
+<td align="right">1</td>
+</tr>
+<tr>
+<td>D2</td>
+<td>GREEN</td>
+<td> </td>
+<td align="right">1</td>
+</tr>
+<tr>
+<td>D1</td>
+<td>YELLOW</td>
+<td> </td>
+<td align="right">1</td>
+</tr>
+<tr>
+<td>C10</td>
+<td>4.7uF</td>
+<td> </td>
+<td align="right">1</td>
+</tr>
+<tr>
+<td>C9</td>
+<td>10nF</td>
+<td> </td>
+<td align="right">1</td>
+</tr>
+<tr>
+<td>C8, C13</td>
+<td>100nF</td>
+<td> </td>
+<td align="right">2</td>
+</tr>
+<tr>
+<td>C3, C5, C7</td>
+<td>0.1uF</td>
+<td> </td>
+<td align="right">3</td>
+</tr>
+<tr>
+<td>C6, C15</td>
+<td>1uF</td>
+<td> </td>
+<td align="right">2</td>
+</tr>
+<tr>
+<td>C4</td>
+<td>10uF</td>
+<td> </td>
+<td align="right">1</td>
+</tr>
+<tr>
+<td>C1, C2</td>
+<td>10pF</td>
+<td> </td>
+<td align="right">2</td>
+</tr>
+<tr>
+<td>U3</td>
+<td>LM7805_TO220</td>
+<td>Package_TO_SOT_THT:TO-220-3_Vertical</td>
+<td align="right">1</td>
+</tr>
+<tr>
+<td>D4</td>
+<td>1N4001</td>
+<td>Diode_THT:D_DO-41_SOD81_P10.16mm_Horizontal</td>
+<td align="right">1</td>
+</tr>
+<tr>
+<td>U1</td>
+<td>STM32F030C8Tx</td>
+<td>Package_QFP:LQFP-48_7x7mm_P0.5mm</td>
+<td align="right">1</td>
+</tr>
+<tr>
+<td>U2</td>
+<td>LF33_TO220</td>
+<td>Package_TO_SOT_THT:TO-220-3_Vertical</td>
+<td align="right">1</td>
+</tr>
+<tr>
+<td>U4</td>
+<td>KQ130-F</td>
+<td> </td>
+<td align="right">1</td>
+</tr>
+</tbody></table>
 
 ### Final Module
 The discussed plNIC soldered on double sided hole board as bellow:
