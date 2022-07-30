@@ -9,7 +9,7 @@ This PLM has fairly simple application and interface circuit, Though it is not p
 As it's shown; there is 9 pins in total and that pins 1 and 2 are connected to AC powerline(No matter you connect phase wire or neutral wire to pin 1 or 2), pins 3, 4 and 5 provides power and pin 6 and 7 are used for data communication. 
  
 <img src="Docs/Imgs/KQ130-F_Picture_Connection.png" width="100%" height="100%">
-The figure above shows connections for AT89C51 MCU which uses TTL logic level. Remember that this PLM suppots TTL logical voltage levels so you need a voltage devider if you want to use it with a 3.3v MCU like STM32 MCUs. I used <a href="https://en.wikipedia.org/wiki/Voltage_divider#:~:text=Resistor%20voltage%20dividers%20are%20commonly,signal%20attenuators%20at%20low%20frequencies." title="Resistor Voltage Devider">Resistor Voltage Devider</a> to convert 5v TTL to 3.3v in MCU rx <-> KQ130-F tx connection. However there is no need to do so for MCU tx <-> KQ130-F rx.
+The figure above shows connections for AT89C51 MCU which uses TTL logic level. Remember that this PLM suppots TTL logical voltage levels so you need a voltage devider if you want to use it with a 3.3v MCU like STM32 MCUs. I used <a href="https://en.wikipedia.org/wiki/Voltage_divider#:~:text=Resistor%20voltage%20dividers%20are%20commonly,signal%20attenuators%20at%20low%20frequencies." title="Resistor Voltage Devider">Resistor Voltage Devider</a> to convert 5v TTL to 3.3v in MCU rx <-> KQ130-F tx connection. However there is no need to do so for MCU tx <-> KQ130-F rx. Resistor voltage devider is suitable for this application because baud rate of data signals are relatively very low. Otherwise we might need to use diode or FET based voltage converters or rather to use converter chips like <a href="https://www.sparkfun.com/products/12009" >this</a>.
 
 ### STM32F030C8
 #### DMA
@@ -17,6 +17,8 @@ The figure above shows connections for AT89C51 MCU which uses TTL logic level. R
 #### UART
 
 ### Schematic
+The designed schematic of plNIC is shown bellow:
+<img src="Docs/Kicad/schematic/schematic.svg" width="70%" height="70%">
 
 ### Bill of Materials
 
