@@ -23,13 +23,9 @@ namespace Enc {
 	};
 
 	class RSA: public Encryption {
-		struct
-		RSA() {
-
-		}
-		RSA(unsigned long, unsigned long, unsigned long, unsigned long) {
-
-		}
+	public:
+		RSA();
+		RSA(RSAKey_t& pub, RSAKey_t& priv);
 
 		void encrypt(const uint8_t* plain, const size_t pLen, uint8_t* enc, size_t& eLen);
 		void decrypt(const uint8_t* enc, const size_t eLen, uint8_t* plain, size_t& pLen);

@@ -8,12 +8,17 @@
 #include "Encryption.h"
 #include "primes.h"
 
-Enc::Encryption::Encryption() {
-	// TODO Auto-generated constructor stub
+Enc::RSA::RSA() {}
+Enc::RSA::RSA(RSAKey_t& pub, RSAKey_t& priv) {}
+void Enc::RSA::encrypt(const uint8_t* plain, const size_t pLen,
+									uint8_t* enc, size_t& eLen) {}
+void Enc::RSA::decrypt(const uint8_t* enc, const size_t eLen,
+									uint8_t* plain, size_t& pLen) {}
 
-}
-
-Enc::Encryption::~Encryption() {
-	// TODO Auto-generated destructor stub
-}
+Enc::Encryption::Encryption() {}
+Enc::Encryption::~Encryption() {}
+void Enc::Encryption::encrypt(const uint8_t* plain, const size_t pLen,
+									uint8_t* enc, size_t& eLen) {}
+void Enc::Encryption::decrypt(const uint8_t* enc, const size_t eLen,
+									uint8_t* plain, size_t& pLen) {}
 
