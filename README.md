@@ -206,7 +206,9 @@ BOM for every plNIC is as follows:
 
 ### Final Module
 The discussed plNIC soldered on double sided hole board as bellow:
+
 <img src="Docs/Imgs/Modem_Physical_Picture.jpg" width="70%" height="70%">
+<img src="/Docs/Imgs/Modems.jpg" width="70%" height="70%">
 
 ## Software
 
