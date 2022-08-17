@@ -10,8 +10,10 @@ RM := rm -rf
 # All of the sources participating in the build are defined here
 -include sources.mk
 -include lib/Src/subdir.mk
--include Middlewares/FreeRTOS/subdir.mk
--include Drivers/STM32F0xx_HAL_Driver/subdir.mk
+-include Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM0/subdir.mk
+-include Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/subdir.mk
+-include Middlewares/Third_Party/FreeRTOS/Source/subdir.mk
+-include Drivers/STM32F0xx_HAL_Driver/Src/subdir.mk
 -include Core/Startup/subdir.mk
 -include Core/Src/subdir.mk
 -include objects.mk
@@ -77,8 +79,8 @@ all: main-build
 main-build: KQ130F_STM32F030_modem.elf secondary-outputs
 
 # Tool invocations
-KQ130F_STM32F030_modem.elf KQ130F_STM32F030_modem.map: $(OBJS) $(USER_OBJS) /home/lidoma/Desktop/Project/BSE_Project_PLM/KQ130F_STM32F030_modem/STM32F030C8TX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-g++ -o "KQ130F_STM32F030_modem.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m0 -T"/home/lidoma/Desktop/Project/BSE_Project_PLM/KQ130F_STM32F030_modem/STM32F030C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="KQ130F_STM32F030_modem.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
+KQ130F_STM32F030_modem.elf KQ130F_STM32F030_modem.map: $(OBJS) $(USER_OBJS) C:\Users\Lidoma\Desktop\plNIC\KQ130F_STM32F030_modem\STM32F030C8TX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-g++ -o "KQ130F_STM32F030_modem.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m0 -T"C:\Users\Lidoma\Desktop\plNIC\KQ130F_STM32F030_modem\STM32F030C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="KQ130F_STM32F030_modem.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 

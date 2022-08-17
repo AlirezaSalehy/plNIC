@@ -1,2 +1,0 @@
-/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_iwdg.c:171:19:HAL_IWDG_Init	24	static
-/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_iwdg.c:258:19:HAL_IWDG_Refresh	16	static
