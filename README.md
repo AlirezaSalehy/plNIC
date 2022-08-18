@@ -18,7 +18,7 @@ The figure above shows connections for AT89C51 MCU which uses TTL logic level. R
 
 ### Schematic
 The designed schematic of plNIC is shown bellow:
-<img src="Docs/Imgs/plNIC_Schematic.png" width="70%" height="70%">
+<img src="Docs/Imgs/plNIC_Schematic.png" width="90%" height="90%">
 
 ### Bill of Materials
 BOM for every plNIC is as follows:
