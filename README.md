@@ -20,6 +20,8 @@ The figure above shows connections for AT89C51 MCU which uses TTL logic level. R
 The designed schematic of plNIC is shown bellow:
 <img src="Docs/Imgs/plNIC_Schematic.png" width="90%" height="90%">
 
+> __Note__ Due to Hi-Z state of pins, if using pin headers and detachable connections in my implementation of this schema, I recommend using a pull-up resistor on the base pin of transistors. So to pull the base pin to a logical one by default.
+
 ### Bill of Materials
 BOM for every plNIC is as follows:
 <table class="table table-bordered table-hover table-condensed">
@@ -240,6 +242,13 @@ The discussed plNIC soldered on double sided hole board as bellow:
 >__Warning__  The ambiguous insufficient documentation of this Chinese modem, which I provided in Docs/Texts, states that the maximum current crossing the modem is about 300mA. Though my tests reveal effectively more current passing it. This misinformation made me use a heat sink after board soldering, which was a trouble, as it gets necessary. So be careful about it. 
 
 >__Note__ This website has useful information to calculate Total Thermal Resistance(θ<sub>JA</sub>(TOTAL)) and need of heat sink: https://www.petervis.com/electronics/Voltage_Regulator_Heatsink/Heatsink_for_TO-220_Voltage_Regulator.html
+
+Based on the above explanation, version 1.4 of plNIC board designed and looks like this:
+
+<img src="Docs/Imgs/Modems_v1.4.jpg" width="70%" height="70%">
+
+>__Note__ There is also another neat approach to this problem. The problem should get solved by using multiple (2 should be enough) LM7805 regulators in parallel to supply current to this current beast. (However I've not tested, It is a more promising solution because you should not need heat sinks and can lower the input voltage, as well)
+
 
 ## Software
 
