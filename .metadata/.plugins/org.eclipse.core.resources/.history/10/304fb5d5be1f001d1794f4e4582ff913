@@ -1,0 +1,10 @@
+#pragma once
+
+#include "Encryption.hpp"
+
+
+// master first should start a connection (rx net id + enc method + maxTimeout)
+class VirtualConnection {
+private:
+	Enc::Encryption enc;
+};

@@ -1,0 +1,27 @@
+#pragma once
+
+// sizeof(Message)
+typedef struct {
+	uint8_t netId;     // RX or TX NetId based on the TX/RX Flag
+	uint8_t flags; //  | 1b ack | 1b handshake | 1b autoIDAllocate |
+	uint16_t datStart; // A pointer to somewhere in the buffer
+	uint16_t datLen;
+	uint8_t crc[CRC_FEILD_LEN];
+} Message;
+
+
+class MessageHandler {
+private:
+
+};
+
+
+		typedef struct {
+			bool isOccupied;
+			bool TxRx;
+
+			uint8_t numRetries;
+			uint32_t rxTick;
+
+			Message msg;
+		} MessageHandle;

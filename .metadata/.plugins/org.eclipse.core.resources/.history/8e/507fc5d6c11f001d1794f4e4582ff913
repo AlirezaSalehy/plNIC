@@ -1,0 +1,30 @@
+#pragma once
+
+#include "Encryption.hpp"
+
+
+// master first should start a connection (rx net id + enc method + timeout)
+class VirtualConnection {
+private:
+	uint32_t _rxTimeOutMics;
+	uint8_t _maxRetries;
+
+	typedef enum {
+		atInit,
+		atHandshake,
+		atTransferReady,
+		atDestroyed
+	} Connectionstate;
+
+	Connectionstate state;
+
+	static size_t _timePassed(uint32_t _rxOutMicSec) {
+		size_t curTick = osKernelSysTick();
+		if (curTick > _rxOutMicSec)
+			return curTick - _rxOutMicSec;
+		else
+			return (UINT32_MAX - _rxOutMicSec) + curTick; // Other impls may cause overflow
+	}
+
+	Enc::Encryption enc;
+};

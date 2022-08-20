@@ -16,6 +16,9 @@ Core/Src/AppMain.o: ../Core/Src/AppMain.cpp \
  ../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/include/event_groups.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/include/timers.h \
+ C:/Users/Lidoma/Desktop/plNIC/KQ130F_STM32F030_modem/lib/Inc/Encryption.hpp \
+ C:/Users/Lidoma/Desktop/plNIC/KQ130F_STM32F030_modem/lib/Inc/primes.h \
+ C:/Users/Lidoma/Desktop/plNIC/KQ130F_STM32F030_modem/lib/Inc/rsa.h \
  ../Core/Inc/AppMain.hpp ../Core/Inc/main.h \
  ../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal.h \
  ../Core/Inc/stm32f0xx_hal_conf.h \
@@ -52,10 +55,7 @@ Core/Src/AppMain.o: ../Core/Src/AppMain.cpp \
  ../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_uart.h \
  ../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_uart_ex.h \
  C:/Users/Lidoma/Desktop/plNIC/KQ130F_STM32F030_modem/lib/Inc/PLModem.hpp \
- C:/Users/Lidoma/Desktop/plNIC/KQ130F_STM32F030_modem/lib/Inc/Encryption.h \
- C:/Users/Lidoma/Desktop/plNIC/KQ130F_STM32F030_modem/lib/Inc/rsa.h \
- C:/Users/Lidoma/Desktop/plNIC/KQ130F_STM32F030_modem/lib/Inc/primes.h \
- C:/Users/Lidoma/Desktop/plNIC/KQ130F_STM32F030_modem/lib/Inc/Encryption.h
+ C:/Users/Lidoma/Desktop/plNIC/KQ130F_STM32F030_modem/lib/Inc/Encryption.hpp
 ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h:
 ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h:
 ../Core/Inc/FreeRTOSConfig.h:
@@ -73,6 +73,9 @@ Core/Src/AppMain.o: ../Core/Src/AppMain.cpp \
 ../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h:
 ../Middlewares/Third_Party/FreeRTOS/Source/include/event_groups.h:
 ../Middlewares/Third_Party/FreeRTOS/Source/include/timers.h:
+C:/Users/Lidoma/Desktop/plNIC/KQ130F_STM32F030_modem/lib/Inc/Encryption.hpp:
+C:/Users/Lidoma/Desktop/plNIC/KQ130F_STM32F030_modem/lib/Inc/primes.h:
+C:/Users/Lidoma/Desktop/plNIC/KQ130F_STM32F030_modem/lib/Inc/rsa.h:
 ../Core/Inc/AppMain.hpp:
 ../Core/Inc/main.h:
 ../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal.h:
@@ -110,7 +113,4 @@ Core/Src/AppMain.o: ../Core/Src/AppMain.cpp \
 ../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_uart.h:
 ../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_uart_ex.h:
 C:/Users/Lidoma/Desktop/plNIC/KQ130F_STM32F030_modem/lib/Inc/PLModem.hpp:
-C:/Users/Lidoma/Desktop/plNIC/KQ130F_STM32F030_modem/lib/Inc/Encryption.h:
-C:/Users/Lidoma/Desktop/plNIC/KQ130F_STM32F030_modem/lib/Inc/rsa.h:
-C:/Users/Lidoma/Desktop/plNIC/KQ130F_STM32F030_modem/lib/Inc/primes.h:
-C:/Users/Lidoma/Desktop/plNIC/KQ130F_STM32F030_modem/lib/Inc/Encryption.h:
+C:/Users/Lidoma/Desktop/plNIC/KQ130F_STM32F030_modem/lib/Inc/Encryption.hpp:

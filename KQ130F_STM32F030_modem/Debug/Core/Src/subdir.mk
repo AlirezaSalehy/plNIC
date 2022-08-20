@@ -6,7 +6,6 @@
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
 ../Core/Src/freertos.c \
-../Core/Src/main.c \
 ../Core/Src/stm32f0xx_hal_msp.c \
 ../Core/Src/stm32f0xx_hal_timebase_tim.c \
 ../Core/Src/stm32f0xx_it.c \
@@ -20,7 +19,6 @@ CPP_SRCS += \
 
 C_DEPS += \
 ./Core/Src/freertos.d \
-./Core/Src/main.d \
 ./Core/Src/stm32f0xx_hal_msp.d \
 ./Core/Src/stm32f0xx_hal_timebase_tim.d \
 ./Core/Src/stm32f0xx_it.d \

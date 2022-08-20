@@ -16,7 +16,9 @@
 
 #include "stm32f0xx_hal.h"
 
-#include "Encryption.h"
+#include "Encryption.hpp"
+
+#define DBG(msg) HAL_UART_Transmit(_dbugbCom, (uint8_t*)#msg, sizeof(#msg), 200);
 
 // stop & wait ARQ
 // DMA
@@ -44,81 +46,33 @@ namespace PLM {
 		/* Asynchronous Character Based transmission (Byte Stuffing) TODO HEADER and TAIL should be in ALL
 		 * Master/Modem packets
 		 *  handshake
-		 *  	header(rxNetID|txNetID, packetLen MSGTYPE) | NetID(1-254) => may yield error or automatic, encMode, keys(pub, prv) or automatic
+		 *  	header(rxNetID|txNetID, packetLen MSGFLAGS) | NetID(1-254) => may yield error or automatic, encMode, keys(pub, prv) or automatic
 		 *  data transmission
-		 * 		header(rxNetID|txNetID, packetLen, MSGTYPE) | (data) | tail(padding) // should be PACKET_MAX_SIZE bytes
+		 * 		header(rxNetID|txNetID, packetLen, MSGFLAGS) | (data) | tail(padding) // should be PACKET_MAX_SIZE bytes
 		 *
 		 * Modem/Modem packets
 		 * 	handshake
-		 * 		header(rxNetID|txNetID, packetLen, MSGTYPE) | public key |
+		 * 		header(rxNetID|txNetID, packetLen, MSGFLAGS) | public key |
 		 * 	data transmission
-		 * 		header(rxNetID|txNetID, packetLen, MSGTYPE) | (len, data) | tail(CRC)	 // should be atleast 3 bytes and max of PACKET_MAX_SIZE bytes
+		 * 		header(rxNetID|txNetID, packetLen, MSGFLAGS) | (len, data) | tail(CRC)	 // should be atleast 3 bytes and max of PACKET_MAX_SIZE bytes
 		 */
 
-		static const int CRC_FEILD_LEN = 2;
-		static const int NETID_FEILD_LEN = 1;
-		static const int MSGLEN_FEILD_LEN = 1;
-		static const int MSGTYP_FEILD_LEN = 1;
-
-		static const int PACKET_MAX_SIZE = 32;
-		static const int PAYLOAD_MAX_SIZE = PACKET_MAX_SIZE - CRC_FEILD_LEN - NETID_FEILD_LEN
-													- MSGLEN_FEILD_LEN - MSGTYP_FEILD_LEN;
-
-
-		// sizeof(Message)
-		typedef struct {
-			uint8_t netId;
-			uint16_t datStart; // A pointer to somewhere in the buffer
-			uint16_t datLen;
-			uint8_t crc[CRC_FEILD_LEN];
-		} Message;
-
-		typedef struct {
-			Message msg;
-			uint8_t numRetries;
-			uint8_t flags; // | 1b MSB (TX = 1,RX = 0) | 1b (free = 0 or occupied = 1) | 1b ack | 1b handshake | 1b autoIDAllocate |
-			uint32_t rxTick;
-		} MessageHandler;
-		static const uint8_t TX_RX_MASK = (1 << 7);
-		static const uint8_t EMP_OCP_MASK = (1 << 6);
-		static const uint8_t DAT_MASK = (1 << 0); // piggy backing is possible, both ack and dat flags or set then
-		static const uint8_t ACK_MASK = (1 << 1);
-		static const uint8_t HAND_MASK = (1 << 2);
-		static const uint8_t AUTO_ID_MASK = (1 << 3);
-
-//		static const int
-
-		static constexpr size_t BUFFER_LEN(size_t bfln) {
-			size_t len = ((bfln-PACKET_MAX_SIZE*2) * PACKET_MAX_SIZE) / (sizeof(MessageHandler) + PACKET_MAX_SIZE);
-			return len;
-		}
-
-		static constexpr size_t NUM_MESSAGES(size_t bfln) {
-			size_t num = BUFFER_LEN((bfln-PACKET_MAX_SIZE*2))/PACKET_MAX_SIZE;
-			return num;
-		}
 
 		uint8_t _netId;
-		uint8_t _maxRetries;
-		uint32_t _rxOutMicSec;
-
-		MessageHandler _msgHndls[NUM_MESSAGES(N)];
 		uint8_t _waitBuf[BUFFER_LEN(N)]; // Waiting space for tx and rx messages
-		uint8_t _txBuf[PACKET_MAX_SIZE];
-		uint8_t _rxBuf[PACKET_MAX_SIZE];
+		uint8_t _rxEncBuf[PACKET_MAX_SIZE];
+
 		osThreadId _handleId;
-		Enc::Encryption _enc;
 
 		bool _isTerminate;
 
-		rxFunc _rxCallback;
 		UART_HandleTypeDef* _modemCom;
 		UART_HandleTypeDef* _dbugbCom;
 
 		int _findOccupyEmptyMessage() {
 			for (uint8_t i = 0; i < NUM_MESSAGES(N); i++)
-				if (not(_msgHndls[i].flags & EMP_OCP_MASK)) {
-					_msgHndls[i].flags |= EMP_OCP_MASK;
+				if (not(_msgHndls[i].isOccupied)) {
+					_msgHndls[i].isOccupied = true;
 					return i;
 				}
 			return -1;
@@ -127,30 +81,46 @@ namespace PLM {
 			_msgHndls[index].flags = 0; // now is Simpler than &= ~(MessageHandler::EMP_OCP_MASK);
 		}
 		void _generateTXWaitingMsg(MessageHandler& msghd, const uint8_t netId, const uint8_t* dat, const uint8_t len) {
-			msghd.flags |= TX_RX_MASK;
-			msghd.flags &= ~(TX_RX_MASK | EMP_OCP_MASK);
+			msghd.TxRx = 1;
+			msghd.isOccupied = 1;
+			msghd.rxTick = UINT32_MAX;
 
 			Message& msg = msghd.msg;
 			msg.netId = netId;
 			msg.datLen = len;
+			msg.flags |= DAT_MASK;
 			memcpy(_waitBuf+(msg.datStart), dat, len);
 		}
 		bool _receivePacketRaw(uint8_t* src, Message& msg) {
 			return true;
 		}
 		void _serializeMessage(uint8_t* dest, size_t& len, Message msg) {
-			_generateCRC();
+//			_generateCRC();
 		}
 		void _generateCRC(uint8_t* crc, const uint8_t* dat, const size_t len) {
 		}
 		bool _checkCRC(const uint8_t* crc, const uint8_t* dat, const size_t len) {
 			return true;
 		}
-		bool _sendBasic(const uint8_t* buf, const uint8_t len) {
-			_enc.encrypt(plain, pLen, enc, eLen)
-			HAL_UART_Transmit(_modemCom, (uint8_t*)&len, 1, 1000);
+		bool _send(MessageHandler& msgh) { // This is the owner of _txEncBuf
+			//			osKernelSysTickMicroSec(100000);
+			size_t serLen = 0;
+			_serializeMessage(_txSerBuf, serLen, msgh.msg); // NOTE: it starts from MSGTYPE and netid and len are in plain text
 
-			HAL_UART_Transmit(_modemCom, (uint8_t*)buf, len, 1000);
+			size_t encLen = 0;
+			_enc.encrypt(_txSerBuf, serLen, _txEncBuf+NETID_FEILD_LEN+MSGLEN_FEILD_LEN, encLen);
+
+			memcpy(_txEncBuf, (uint8_t*)&(msgh.msg.netId), NETID_FEILD_LEN);
+			uint8_t encLenInMsgFieldSize = (uint8_t) encLen;
+			memcpy(_txEncBuf+NETID_FEILD_LEN, (uint8_t*)&encLenInMsgFieldSize, MSGLEN_FEILD_LEN);
+			HAL_StatusTypeDef res = HAL_UART_Transmit(_modemCom, (uint8_t*)_txEncBuf,
+											encLen+NETID_FEILD_LEN+MSGLEN_FEILD_LEN, 1000);
+			if (res != HAL_OK)
+				return false;
+
+			msgh.numRetries += 1;
+			msgh.rxTick = osKernelSysTick();
+
 			return true;
 		}
 
@@ -167,7 +137,7 @@ namespace PLM {
 			this->_rxOutMicSec = rxOut;
 			this->_enc = encMethod;
 
-			HAL_UART_Receive_IT(_modemCom, _rxBuf, 1);
+			HAL_UART_Receive_IT(_modemCom, _rxEncBuf, 1);
 
 			return true;
 		}
@@ -188,19 +158,45 @@ namespace PLM {
 		// This function handle receive from other devices and checks if it is handshake or data receive or auto id protocol
 		void handle(const void* args) {
 			_handleId = osThreadGetId();
-			uint8_t nextTXCheckIdx = 0; // Checks msgs in the buffer and if it was tx then if retry == 0 sends it, else
+			bool lastTxAckReceived = true;
+			uint8_t currTXCheckIdx = 0; // Checks msgs in the buffer and if it was tx then if retry == 0 sends it, else
 										// checks timeout and if it has exceeded then retransmits the packet and retry += 1
 			while (not _isTerminate) {
-				osEvent ev = osSignalWait(10, 0);
-				if (ev.status != osEventSignal || ev.value.signals != 10)
-					continue;
+//				osEvent ev = osSignalWait(10, 0);
+//				if (ev.status != osEventSignal || ev.value.signals != 10)
+//					continue;
+				osThreadYield();
+
+				// Check for the sent packet
+				if (_timePassed(_msgHndls[currTXCheckIdx].rxTick) > _rxOutMicSec) {
+					if (_msgHndls[currTXCheckIdx].numRetries > _maxRetries) {
+						DBG(Packet_fucked_up_discarding_it);
+						_msgHndls[currTXCheckIdx].isOccupied = false;
+						lastTxAckReceived = true;
+					}
+					else
+					_send(_msgHndls[currTXCheckIdx]);
+				}
+
 
 				for (uint8_t i = 0; i < NUM_MESSAGES(N); i++) {
-					if (_msgHndls[i].flags )
+					if (not _msgHndls[i].isOccupied)
+						continue;
 
-					osKernelSysTick();
-					osKernelSysTickMicroSec(100000);
-					_sendBasic(buf, (uint8_t)len); // TODO here we cast to uint8_t but it might be bigger
+					if (lastTxAckReceived & currTXCheckIdx > i & _msgHndls[i].TxRx) { // Valid TX packet
+						currTXCheckIdx = i; // Check if next packet is TX (MAYBE RX IF THAT THEN currTXCheckIdx++)
+
+						if (currTXCheckIdx = i & ) {
+
+
+						} else {
+
+						}
+					} else { // Valid RX packet
+						lastTxAckReceived
+					}
+
+
 					// Then we should wait for acknowledgment
 
 

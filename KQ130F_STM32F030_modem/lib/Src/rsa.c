@@ -6,7 +6,8 @@
 #include <string.h>
 
 
-char buffer[1024];
+// Lib is https://github.com/andrewkiluk/RSA-Library
+
 const int MAX_DIGITS = 50;
 int i,j = 0;
 

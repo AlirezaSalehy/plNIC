@@ -1,0 +1,21 @@
+#pragma once
+
+#include "Encryption.hpp"
+
+
+// master first should start a connection (rx net id + enc method + timeout)
+class VirtualConnection {
+private:
+	uint32_t timeOutMics;
+
+	typedef enum {
+		atInit,
+		atHandshake,
+		atTransferReady,
+		atDestroyed
+	} Connectionstate;
+
+	Connectionstate state;
+
+	Enc::Encryption enc;
+};

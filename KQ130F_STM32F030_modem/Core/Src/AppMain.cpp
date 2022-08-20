@@ -1,7 +1,7 @@
 #include <cmsis_os.h>
+#include <Encryption.hpp>
 
 #include "AppMain.hpp"
-#include "Encryption.h"
 
 extern I2C_HandleTypeDef hi2c1;
 

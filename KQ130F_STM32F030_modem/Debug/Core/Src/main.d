@@ -52,9 +52,9 @@ Core/Src/main.o: ../Core/Src/main.cpp ../Core/Inc/main.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/include/timers.h \
  ../Core/Inc/AppMain.hpp ../Core/Inc/main.h \
  C:/Users/Lidoma/Desktop/plNIC/KQ130F_STM32F030_modem/lib/Inc/PLModem.hpp \
- C:/Users/Lidoma/Desktop/plNIC/KQ130F_STM32F030_modem/lib/Inc/Encryption.h \
- C:/Users/Lidoma/Desktop/plNIC/KQ130F_STM32F030_modem/lib/Inc/rsa.h \
- C:/Users/Lidoma/Desktop/plNIC/KQ130F_STM32F030_modem/lib/Inc/primes.h
+ C:/Users/Lidoma/Desktop/plNIC/KQ130F_STM32F030_modem/lib/Inc/Encryption.hpp \
+ C:/Users/Lidoma/Desktop/plNIC/KQ130F_STM32F030_modem/lib/Inc/primes.h \
+ C:/Users/Lidoma/Desktop/plNIC/KQ130F_STM32F030_modem/lib/Inc/rsa.h
 ../Core/Inc/main.h:
 ../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal.h:
 ../Core/Inc/stm32f0xx_hal_conf.h:
@@ -110,6 +110,6 @@ Core/Src/main.o: ../Core/Src/main.cpp ../Core/Inc/main.h \
 ../Core/Inc/AppMain.hpp:
 ../Core/Inc/main.h:
 C:/Users/Lidoma/Desktop/plNIC/KQ130F_STM32F030_modem/lib/Inc/PLModem.hpp:
-C:/Users/Lidoma/Desktop/plNIC/KQ130F_STM32F030_modem/lib/Inc/Encryption.h:
-C:/Users/Lidoma/Desktop/plNIC/KQ130F_STM32F030_modem/lib/Inc/rsa.h:
+C:/Users/Lidoma/Desktop/plNIC/KQ130F_STM32F030_modem/lib/Inc/Encryption.hpp:
 C:/Users/Lidoma/Desktop/plNIC/KQ130F_STM32F030_modem/lib/Inc/primes.h:
+C:/Users/Lidoma/Desktop/plNIC/KQ130F_STM32F030_modem/lib/Inc/rsa.h:
