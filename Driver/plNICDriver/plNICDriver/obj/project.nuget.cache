@@ -1,0 +1,16 @@
+{
+  "version": 2,
+  "dgSpecHash": "0jG+JDbM+Vbrgoy46JQTlq/gblAqj66Unm54kBriwpy/z9Y4XSzOMA3Fo6f6oj1HMiINa2fmE7aUFHGlMwcciA==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Lidoma\\Desktop\\plNIC\\Driver\\plNICDriver\\plNICDriver\\plNICDriver.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Lidoma\\.nuget\\packages\\runtime.linux-arm.runtime.native.system.io.ports\\6.0.0\\runtime.linux-arm.runtime.native.system.io.ports.6.0.0.nupkg.sha512",
+    "C:\\Users\\Lidoma\\.nuget\\packages\\runtime.linux-arm64.runtime.native.system.io.ports\\6.0.0\\runtime.linux-arm64.runtime.native.system.io.ports.6.0.0.nupkg.sha512",
+    "C:\\Users\\Lidoma\\.nuget\\packages\\runtime.linux-x64.runtime.native.system.io.ports\\6.0.0\\runtime.linux-x64.runtime.native.system.io.ports.6.0.0.nupkg.sha512",
+    "C:\\Users\\Lidoma\\.nuget\\packages\\runtime.native.system.io.ports\\6.0.0\\runtime.native.system.io.ports.6.0.0.nupkg.sha512",
+    "C:\\Users\\Lidoma\\.nuget\\packages\\runtime.osx-arm64.runtime.native.system.io.ports\\6.0.0\\runtime.osx-arm64.runtime.native.system.io.ports.6.0.0.nupkg.sha512",
+    "C:\\Users\\Lidoma\\.nuget\\packages\\runtime.osx-x64.runtime.native.system.io.ports\\6.0.0\\runtime.osx-x64.runtime.native.system.io.ports.6.0.0.nupkg.sha512",
+    "C:\\Users\\Lidoma\\.nuget\\packages\\system.io.ports\\6.0.0\\system.io.ports.6.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}
