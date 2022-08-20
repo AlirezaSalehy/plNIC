@@ -233,7 +233,7 @@ Implementation Specific parts:
 </tr>
 </tbody></table>
 
-### Final Module
+### Implemented Module
 The discussed plNIC soldered on double sided hole board as bellow:
 
 <img src="Docs/Imgs/Modem_Physical_Picture.jpg" width="70%" height="70%">
@@ -243,7 +243,7 @@ The discussed plNIC soldered on double sided hole board as bellow:
 
 >__Note__ This website has useful information to calculate Total Thermal Resistance(θ<sub>JA</sub>(TOTAL)) and need of heat sink: https://www.petervis.com/electronics/Voltage_Regulator_Heatsink/Heatsink_for_TO-220_Voltage_Regulator.html
 
-#### Final board 
+#### Final Version 
 Based on the above explanation, version 1.4 of plNIC board designed and looks like this:
 
 <img src="Docs/Imgs/Modems_v1.4.jpg" width="70%" height="70%">
