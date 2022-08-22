@@ -61,10 +61,6 @@ void Error_Handler(void);
 #define PLM_TX_GPIO_Port GPIOA
 #define PLM_RX_Pin GPIO_PIN_3
 #define PLM_RX_GPIO_Port GPIOA
-#define TX_LED_Pin GPIO_PIN_12
-#define TX_LED_GPIO_Port GPIOB
-#define RX_LED_Pin GPIO_PIN_13
-#define RX_LED_GPIO_Port GPIOB
 #define DEBUG_TX_Pin GPIO_PIN_9
 #define DEBUG_TX_GPIO_Port GPIOA
 #define DEBUG_RX_Pin GPIO_PIN_10
