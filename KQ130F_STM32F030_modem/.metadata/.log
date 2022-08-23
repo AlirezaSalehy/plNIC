@@ -55,3 +55,34 @@ java.lang.NullPointerException
 
 !ENTRY org.eclipse.equinox.p2.metadata.repository 4 1000 2022-08-16 12:51:32.686
 !MESSAGE No repository found at https://download.eclipse.org/releases/2022-03.
+!SESSION 2022-08-23 15:38:55.740 -----------------------------------------------
+eclipse.buildId=Version 1.10.1
+java.version=11.0.14.1
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=linux, ARCH=x86_64, WS=gtk, NL=en_US
+Command-line arguments:  -os linux -ws gtk -arch x86_64
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 4 4 2022-08-23 15:39:20.088
+!MESSAGE CubeMX plugin appears to be active, Log4j initialization might be too late.
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2022-08-23 15:39:20.155
+!MESSAGE Log4j initialized with config file /home/lidoma/Desktop/Project/BSE_Project_PLM/KQ130F_STM32F030_modem/.metadata/.log4j.xml
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2022-08-23 15:39:25.517
+!MESSAGE Started RMI Server, listening on port 41337
+!SESSION 2022-08-23 15:40:44.689 -----------------------------------------------
+eclipse.buildId=Version 1.10.1
+java.version=11.0.14.1
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=linux, ARCH=x86_64, WS=gtk, NL=en_US
+Framework arguments:  /home/lidoma/Desktop/Project/BSE_Project_PLM/KQ130F_STM32F030_modem/.project
+Command-line arguments:  -os linux -ws gtk -arch x86_64 /home/lidoma/Desktop/Project/BSE_Project_PLM/KQ130F_STM32F030_modem/.project
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 4 4 2022-08-23 15:40:56.885
+!MESSAGE CubeMX plugin appears to be active, Log4j initialization might be too late.
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2022-08-23 15:40:56.971
+!MESSAGE Log4j initialized with config file /home/lidoma/Desktop/Project/BSE_Project_PLM/KQ130F_STM32F030_modem/.metadata/.log4j.xml
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2022-08-23 15:41:01.157
+!MESSAGE Started RMI Server, listening on port 41337
