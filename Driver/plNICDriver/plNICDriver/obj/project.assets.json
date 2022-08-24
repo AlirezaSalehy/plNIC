@@ -2,6 +2,15 @@
   "version": 3,
   "targets": {
     "net6.0": {
+      "NullFX.CRC/1.1.5": {
+        "type": "package",
+        "compile": {
+          "lib/net6.0/NullFX.CRC.dll": {}
+        },
+        "runtime": {
+          "lib/net6.0/NullFX.CRC.dll": {}
+        }
+      },
       "runtime.linux-arm.runtime.native.System.IO.Ports/6.0.0": {
         "type": "package",
         "runtimeTargets": {
@@ -85,6 +94,25 @@
     }
   },
   "libraries": {
+    "NullFX.CRC/1.1.5": {
+      "sha512": "eiYssrRB66GvvgvFZiiVsmBpJO1AGpw6nxfGK62dun5F8os9q8sPHq1FjfE7HzuPFK94IaNMPBYBeVonDLITmA==",
+      "type": "package",
+      "path": "nullfx.crc/1.1.5",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net40/NullFX.CRC.dll",
+        "lib/net45/NullFX.CRC.dll",
+        "lib/net46/NullFX.CRC.dll",
+        "lib/net47/NullFX.CRC.dll",
+        "lib/net48/NullFX.CRC.dll",
+        "lib/net5.0/NullFX.CRC.dll",
+        "lib/net6.0/NullFX.CRC.dll",
+        "lib/netcoreapp3.1/NullFX.CRC.dll",
+        "nullfx.crc.1.1.5.nupkg.sha512",
+        "nullfx.crc.nuspec"
+      ]
+    },
     "runtime.linux-arm.runtime.native.System.IO.Ports/6.0.0": {
       "sha512": "75q52H7CSpgIoIDwXb9o833EvBZIXJ0mdPhz1E6jSisEXUBlSCPalC29cj3EXsjpuDwr0dj1LRXZepIQH/oL4Q==",
       "type": "package",
@@ -216,6 +244,7 @@
   },
   "projectFileDependencyGroups": {
     "net6.0": [
+      "NullFX.CRC >= 1.1.5",
       "System.IO.Ports >= 6.0.0"
     ]
   },
@@ -258,6 +287,10 @@
       "net6.0": {
         "targetAlias": "net6.0",
         "dependencies": {
+          "NullFX.CRC": {
+            "target": "Package",
+            "version": "[1.1.5, )"
+          },
           "System.IO.Ports": {
             "target": "Package",
             "version": "[6.0.0, )"

@@ -22,3 +22,4 @@ C:\Users\Lidoma\Desktop\plNIC\Driver\plNICDriver\plNICDriver\obj\Debug\net6.0\re
 C:\Users\Lidoma\Desktop\plNIC\Driver\plNICDriver\plNICDriver\obj\Debug\net6.0\plNICDriver.pdb
 C:\Users\Lidoma\Desktop\plNIC\Driver\plNICDriver\plNICDriver\obj\Debug\net6.0\plNICDriver.genruntimeconfig.cache
 C:\Users\Lidoma\Desktop\plNIC\Driver\plNICDriver\plNICDriver\obj\Debug\net6.0\ref\plNICDriver.dll
+C:\Users\Lidoma\Desktop\plNIC\Driver\plNICDriver\plNICDriver\bin\Debug\net6.0\NullFX.CRC.dll

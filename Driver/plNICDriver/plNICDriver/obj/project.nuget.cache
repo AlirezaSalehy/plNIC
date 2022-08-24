@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "0jG+JDbM+Vbrgoy46JQTlq/gblAqj66Unm54kBriwpy/z9Y4XSzOMA3Fo6f6oj1HMiINa2fmE7aUFHGlMwcciA==",
+  "dgSpecHash": "OWmrUeQEfHA6Ti0aG6Mw+f4V2Bri1Au3PvO/n3OhPXVeASraqRnnrWSSaj9ncPJNnSX+52+EtQfaZ+QfYg/5bA==",
   "success": true,
   "projectFilePath": "C:\\Users\\Lidoma\\Desktop\\plNIC\\Driver\\plNICDriver\\plNICDriver\\plNICDriver.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\Lidoma\\.nuget\\packages\\nullfx.crc\\1.1.5\\nullfx.crc.1.1.5.nupkg.sha512",
     "C:\\Users\\Lidoma\\.nuget\\packages\\runtime.linux-arm.runtime.native.system.io.ports\\6.0.0\\runtime.linux-arm.runtime.native.system.io.ports.6.0.0.nupkg.sha512",
     "C:\\Users\\Lidoma\\.nuget\\packages\\runtime.linux-arm64.runtime.native.system.io.ports\\6.0.0\\runtime.linux-arm64.runtime.native.system.io.ports.6.0.0.nupkg.sha512",
     "C:\\Users\\Lidoma\\.nuget\\packages\\runtime.linux-x64.runtime.native.system.io.ports\\6.0.0\\runtime.linux-x64.runtime.native.system.io.ports.6.0.0.nupkg.sha512",
