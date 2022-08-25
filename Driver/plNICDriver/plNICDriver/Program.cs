@@ -2,21 +2,17 @@
 using plNICDriver.Link;
 using plNICDriver.Phy;
 using System.IO.Ports;
-
-Console.WriteLine("Hello, World!");
-
-byte [] buffer = new byte[1024];
-getByteArr(buffer);
-
-Console.WriteLine(buffer[0]);
+using System.Text;
 
 foreach (var item in PHYSerial.GetAvailablePortsName())
-{
 	Console.WriteLine(item);
-}
 
+Link link = new Link("COM3", 3, 1000, (byte txid, byte[] dat) => {
+	Console.WriteLine("Recv: {0}", Encoding.ASCII.GetString(dat));
+});
+link.Begin();
 
-void getByteArr(byte[] bytes)
-{
-	bytes[0] = 10;
-}
+string hi = "hello world!";
+link.SendPacket(Encoding.ASCII.GetBytes(hi));
+
+Console.ReadLine();

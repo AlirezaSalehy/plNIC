@@ -35,33 +35,35 @@ namespace plNICDriver.Phy
 		}
 
 
-		public IBasicPhy.Status SendBytes(byte[] bytes, int numBytes, int timeOutMillis)
+		public IBasicPhy.Status SendBytes(byte[] bytes, int offset, int numBytes)
 		{
-			_serialPort.WriteTimeout = timeOutMillis;
+			_serialPort.WriteTimeout = int.MaxValue;
 			try
 			{
-				_serialPort.Write(bytes, 0, numBytes);
+				_serialPort.Write(bytes, offset, numBytes);
 				return IBasicPhy.Status.Success;
 
 			}
 			catch (Exception ex)
 			{
-				Console.WriteLine(ex.Message);
+				Console.WriteLine("PHY Trasmit EXCP: " +  ex.Message);
 				return IBasicPhy.Status.Failure;
 			}
 		}
 
-		public IBasicPhy.Status ReceiveBytes(byte[] bytes, int numBytes, int timeOutMillis)
+		public IBasicPhy.Status ReceiveBytes(byte[] bytes, int offset, int numBytes)
 		{
-			_serialPort.ReadTimeout = timeOutMillis;
-			try
+			_serialPort.ReadTimeout = 500;
+			int numRecv = 0;
+			while (0 < numBytes)
 			{
-				_serialPort.Read(bytes, 0, numBytes);
-				return IBasicPhy.Status.Success;
-			} catch (Exception ex) {
-				Console.WriteLine(ex.Message);
-				return IBasicPhy.Status.Failure;
+				try
+				{
+					numRecv += _serialPort.Read(bytes, numRecv+offset, numBytes);
+					numBytes -= numRecv;
+				} catch { }
 			}
+			return IBasicPhy.Status.Success;
 		}
 
 		public void Dispose()

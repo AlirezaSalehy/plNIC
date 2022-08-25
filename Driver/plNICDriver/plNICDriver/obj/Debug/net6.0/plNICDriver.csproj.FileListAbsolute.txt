@@ -23,3 +23,15 @@ C:\Users\Lidoma\Desktop\plNIC\Driver\plNICDriver\plNICDriver\obj\Debug\net6.0\pl
 C:\Users\Lidoma\Desktop\plNIC\Driver\plNICDriver\plNICDriver\obj\Debug\net6.0\plNICDriver.genruntimeconfig.cache
 C:\Users\Lidoma\Desktop\plNIC\Driver\plNICDriver\plNICDriver\obj\Debug\net6.0\ref\plNICDriver.dll
 C:\Users\Lidoma\Desktop\plNIC\Driver\plNICDriver\plNICDriver\bin\Debug\net6.0\NullFX.CRC.dll
+C:\Users\Lidoma\Desktop\plNIC\Driver\plNICDriver\plNICDriver\bin\Debug\net6.0\Microsoft.Extensions.Configuration.dll
+C:\Users\Lidoma\Desktop\plNIC\Driver\plNICDriver\plNICDriver\bin\Debug\net6.0\Microsoft.Extensions.Configuration.Abstractions.dll
+C:\Users\Lidoma\Desktop\plNIC\Driver\plNICDriver\plNICDriver\bin\Debug\net6.0\Microsoft.Extensions.Configuration.Binder.dll
+C:\Users\Lidoma\Desktop\plNIC\Driver\plNICDriver\plNICDriver\bin\Debug\net6.0\Microsoft.Extensions.DependencyInjection.dll
+C:\Users\Lidoma\Desktop\plNIC\Driver\plNICDriver\plNICDriver\bin\Debug\net6.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+C:\Users\Lidoma\Desktop\plNIC\Driver\plNICDriver\plNICDriver\bin\Debug\net6.0\Microsoft.Extensions.Logging.dll
+C:\Users\Lidoma\Desktop\plNIC\Driver\plNICDriver\plNICDriver\bin\Debug\net6.0\Microsoft.Extensions.Logging.Abstractions.dll
+C:\Users\Lidoma\Desktop\plNIC\Driver\plNICDriver\plNICDriver\bin\Debug\net6.0\Microsoft.Extensions.Logging.Configuration.dll
+C:\Users\Lidoma\Desktop\plNIC\Driver\plNICDriver\plNICDriver\bin\Debug\net6.0\Microsoft.Extensions.Logging.Console.dll
+C:\Users\Lidoma\Desktop\plNIC\Driver\plNICDriver\plNICDriver\bin\Debug\net6.0\Microsoft.Extensions.Options.dll
+C:\Users\Lidoma\Desktop\plNIC\Driver\plNICDriver\plNICDriver\bin\Debug\net6.0\Microsoft.Extensions.Options.ConfigurationExtensions.dll
+C:\Users\Lidoma\Desktop\plNIC\Driver\plNICDriver\plNICDriver\bin\Debug\net6.0\Microsoft.Extensions.Primitives.dll

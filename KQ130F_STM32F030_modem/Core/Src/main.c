@@ -21,8 +21,8 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#define BFR_SIZE 2000
-#define EACH_RECV_LEN 10
+#define BFR_SIZE 200
+#define EACH_RECV_LEN 1
 
 /* USER CODE END Includes */
 
@@ -77,26 +77,43 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 		nfp = &toMdBf;
 
 	nfp->datEnd += nfp->lastRxDif;
-	if (nfp->datEnd >= BFR_SIZE)
-		nfp->datEnd = 0;
-
 	nfp->lastRxDif = EACH_RECV_LEN;
-    HAL_UART_Receive_IT(huart, (nfp->bf)+(nfp->datEnd), EACH_RECV_LEN);
+	if (nfp->datEnd >= BFR_SIZE)
+		return;
+
+    HAL_UART_Receive_IT(huart, (nfp->bf)+(nfp->datEnd), nfp->lastRxDif);
 }
 
 void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart)
 {
-	buffer_t* nfp;
-	if (huart == &MD_UART)
-		nfp = &toMdBf;
-	else
-		nfp = &toPcBf;
+//	buffer_t* nfp;
+//	if (huart == &MD_UART)
+//		nfp = &toMdBf;
+//	else
+//		nfp = &toPcBf;
+//
+//	nfp->datStart += nfp->lastTxDif;
+//	if (nfp->datStart >= BFR_SIZE)
+//		nfp->datStart = 0;
 
-	nfp->datStart += nfp->lastTxDif;
-	if (nfp->datStart >= BFR_SIZE)
-		nfp->datStart = 0;
 }
 
+static inline void handleTransmission(UART_HandleTypeDef* uart, buffer_t* bfr) {
+   if (bfr->datStart < bfr->datEnd)
+	  bfr->lastTxDif = bfr->datEnd - bfr->datStart;
+   else
+	   return;
+
+  HAL_UART_Transmit_IT(uart, bfr->bf+(bfr->datStart), bfr->lastTxDif);
+  bfr->datStart += bfr->lastTxDif;
+}
+
+static inline void handleBufferRecycle(UART_HandleTypeDef* uart, buffer_t* rxbfr) {
+  if (rxbfr->datStart >= BFR_SIZE) {
+	  rxbfr->datStart = rxbfr->datEnd = 0;
+	  HAL_UART_Receive_IT(uart, (rxbfr->bf)+(rxbfr->datEnd), rxbfr->lastRxDif);
+  }
+}
 
 /* USER CODE END 0 */
 
@@ -141,15 +158,11 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	  if (toPcBf.datStart < toPcBf.datEnd) {
-		  toPcBf.lastTxDif = toPcBf.datEnd - toPcBf.datStart;
-		  HAL_UART_Transmit_IT(&PC_UART, toPcBf.bf+(toPcBf.datStart), toPcBf.lastTxDif);
-	  }
+	  handleTransmission(&PC_UART, &toPcBf);
+	  handleTransmission(&MD_UART, &toMdBf);
 
-	  if (toMdBf.datStart < toMdBf.datEnd) {
-		  toMdBf.lastTxDif = toMdBf.datEnd - toMdBf.datStart;
-		  HAL_UART_Transmit_IT(&MD_UART, toMdBf.bf+(toMdBf.datStart), toMdBf.lastTxDif);
-	  }
+	  handleBufferRecycle(&MD_UART, &toPcBf);
+	  handleBufferRecycle(&PC_UART, &toMdBf);
 
     /* USER CODE END WHILE */
 
@@ -157,6 +170,7 @@ int main(void)
   }
   /* USER CODE END 3 */
 }
+
 
 /**
   * @brief System Clock Configuration

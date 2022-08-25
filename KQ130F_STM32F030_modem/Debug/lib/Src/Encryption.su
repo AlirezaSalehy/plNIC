@@ -7,5 +7,5 @@
 ../lib/Src/Encryption.cpp:34:1:virtual Enc::Encryption::~Encryption()	16	static
 ../lib/Src/Encryption.cpp:35:6:virtual void Enc::Encryption::encrypt(const uint8_t*, size_t, uint8_t*, size_t&)	24	static
 ../lib/Src/Encryption.cpp:37:6:virtual void Enc::Encryption::decrypt(const uint8_t*, size_t, uint8_t*, size_t&)	24	static
-/home/lidoma/Desktop/Project/BSE_Project_PLM/KQ130F_STM32F030_modem/lib/Inc/Encryption.hpp:27:8:Enc::RSA::~RSA()	16	static
-/home/lidoma/Desktop/Project/BSE_Project_PLM/KQ130F_STM32F030_modem/lib/Inc/Encryption.hpp:27:8:virtual Enc::RSA::~RSA()	16	static
+C:/Users/Lidoma/Desktop/plNIC/KQ130F_STM32F030_modem/lib/Inc/Encryption.hpp:27:8:Enc::RSA::~RSA()	16	static
+C:/Users/Lidoma/Desktop/plNIC/KQ130F_STM32F030_modem/lib/Inc/Encryption.hpp:27:8:virtual Enc::RSA::~RSA()	16	static

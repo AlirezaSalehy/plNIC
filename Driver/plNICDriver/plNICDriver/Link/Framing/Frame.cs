@@ -5,13 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace plNICDriver.Link
+namespace plNICDriver.Link.Framing
 {
 
 	//` ![](ED6D459F5E8088B10469C782A55F30FB.png;;;0.03705,0.02610)
 
 	// Generic Link Frame is consisted of Header + Payload
-	public class LinkFrame
+	public class Frame
 	{
 		private struct FieldInfo
 		{
@@ -31,13 +31,13 @@ namespace plNICDriver.Link
 		{
 			Flag,
 			PLen,
+			TxId,
+			RxId,
 			Rerv,
 			WnId,
-			TxId,
-			RxId
 		};
 
-		 public enum FrameType // Resides in Flag
+		public enum FrameType // Resides in Flag
 		{
 			SDU = 0b001,
 			ACK = 0b010,
@@ -54,8 +54,8 @@ namespace plNICDriver.Link
 		};
 
 		public static readonly byte HEADER_LEN = 3;
-		public static readonly byte PAYLOAD_MAX_LEN = (byte) Math.Pow(2, 5);
-		public static readonly byte FRAME_MAX_LEN = (byte) (PAYLOAD_MAX_LEN + HEADER_LEN);
+		public static readonly byte PAYLOAD_MAX_LEN = (byte)Math.Pow(2, 5);
+		public static readonly byte FRAME_MAX_LEN = (byte)(PAYLOAD_MAX_LEN + HEADER_LEN);
 
 		public bool filled;
 		public byte[] txFrame;
@@ -74,28 +74,38 @@ namespace plNICDriver.Link
 
 		private static void GetField(in byte[] hdr, in Fields field, out byte fieldVal)
 		{
-			int infoIdx = ((int)field);
+			int infoIdx = (int)field;
 			ref FieldInfo fi = ref FIELD_INFOS[infoIdx];
-			fieldVal = (byte)((hdr[fi.byteIdx] >> fi.bitIdx) & fi.mask);
+			fieldVal = (byte)(hdr[fi.byteIdx] >> fi.bitIdx & fi.mask);
 		}
 
-		public LinkFrame()
+		public Frame()
 		{
-			this.filled = false;
-			this.txFrame = new byte[FRAME_MAX_LEN];
-			this.txUnixMillis = 0;
+			filled = false;
+			txFrame = new byte[FRAME_MAX_LEN];
+			txUnixMillis = 0;
+		}
+
+		public Frame(in Frame fr)
+		{
+			filled = fr.filled;
+			txFrame = new byte[FRAME_MAX_LEN];
+			Array.Copy(fr.txFrame, 0, txFrame, 0, FRAME_MAX_LEN);
+			txUnixMillis = 0;
 		}
 
 		public void SetHeader(byte[] hd)
 		{
+			for (int i = 0; i < HEADER_LEN; i--)
+				Console.WriteLine(hd[i]);
 			Array.Copy(hd, txFrame, HEADER_LEN);
 		}
 
 		private void SetHeader(byte flags, byte len, byte txId, byte rxId, byte wid)
-		{ 
+		{
 			for (int i = HEADER_LEN - 1; i >= 0; i--) // First empty header
-				txFrame[i] = 0; 
-			byte[] feildVals = new byte[] {flags, len, wid, txId, rxId};
+				txFrame[i] = 0;
+			byte[] feildVals = new byte[] { flags, len, txId, rxId, wid };
 
 			var valInfos = FIELD_INFOS.Zip(feildVals, (l, r) => new { info = l, val = r });
 			foreach (var valInfo in valInfos)
@@ -104,7 +114,7 @@ namespace plNICDriver.Link
 
 		private void SetField(Fields field, byte fieldVal)
 		{
-			int infoIdx = ((int)field);
+			int infoIdx = (int)field;
 			ref FieldInfo fi = ref FIELD_INFOS[infoIdx];
 			txFrame[fi.byteIdx] &= (byte)(~(fi.mask << fi.bitIdx) & 0xFF); // First empty field
 			txFrame[fi.byteIdx] |= (byte)((fieldVal & fi.mask) << fi.bitIdx);
@@ -120,13 +130,19 @@ namespace plNICDriver.Link
 			GetHeader(txFrame, out frameType, out txId, out rxId, out wid);
 		}
 
-		public void PackAckFrame()
+		public void GetPLen(out byte plen)
+		{
+			GetField(Fields.PLen, out plen);
+		}
+
+		public void RepackToAckFrame()
 		{
 			GetField(Fields.TxId, out byte txId);
 			GetField(Fields.RxId, out byte rxId);
 			GetField(Fields.WnId, out byte wid);
 
-			SetHeader(((byte)FrameType.ACK), 0, rxId, txId, wid);
+			SetHeader((byte)FrameType.ACK, 0, rxId, txId, wid);
+			SetField(Fields.PLen, 0);
 		}
 
 		public void PackFrame(FrameType type, byte txId, byte rxId, in byte[]? dat, byte wid)
@@ -138,7 +154,7 @@ namespace plNICDriver.Link
 				len += (byte)dat.Length;
 			}
 
-			SetHeader(((byte)type), len, wid, txId, rxId);
+			SetHeader((byte)type, len, txId, rxId, wid);
 		}
 
 		public void PackFrame(in byte[]? dat)
@@ -158,7 +174,29 @@ namespace plNICDriver.Link
 			GetField(Fields.PLen, out byte len);
 			byte frameLen = (byte)(len + HEADER_LEN);
 			frameBytes = new byte[frameLen];
-			Array.Copy(frameBytes, 0, txFrame, 0, frameLen);
+			Array.Copy(txFrame, 0, frameBytes, 0, frameLen);
+		}
+
+		public string GetHeader()
+		{
+			GetHeader(out FrameType ft, out byte tid, out byte rid, out byte wid);
+			GetField(Fields.PLen, out byte plen);
+			return string.Format("HEADER: TxId: {0}, RxId: {1}, FrTp: {2}, WId: {3}, PLen: {4}",
+										tid, rid, ft.ToString(), wid, plen);
+		}
+
+		public override string ToString()
+		{
+			string desc = GetHeader();
+
+			GetField(Fields.PLen, out byte plen);
+			if (plen > 0)
+			{
+				string payload = Encoding.ASCII.GetString(txFrame, HEADER_LEN, plen);
+				desc += String.Format("\nPAYLOAD: Data: {5}", payload);
+			}
+			return desc;
+								
 		}
 	}
 }

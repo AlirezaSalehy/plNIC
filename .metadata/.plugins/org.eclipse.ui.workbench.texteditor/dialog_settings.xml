@@ -8,6 +8,7 @@
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
 		<list key="findhistory">
+			<item value="inline handleTransmission(UART_HandleTypeDef* uart, buffer_t* bfr) {"/>
 			<item value="buffer"/>
 			<item value="_dbug"/>
 			<item value="_"/>

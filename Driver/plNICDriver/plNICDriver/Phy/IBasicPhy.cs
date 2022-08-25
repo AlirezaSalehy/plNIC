@@ -14,7 +14,7 @@ namespace plNICDriver.Phy
 			Failure
 		};
 
-		public Status SendBytes(byte[] bytes, int numBytes, int timeOutMillis);
-		public Status ReceiveBytes(byte[] bytes, int numBytes, int timeOutMillis);
+		public Status SendBytes(byte[] bytes, int offset, int numBytes);
+		public Status ReceiveBytes(byte[] bytes, int offset, int numBytes);
 	}
 }
