@@ -39,8 +39,9 @@ namespace plNICDriver.Link.Framing
 
 		public enum FrameType // Resides in Flag
 		{
-			SDU = 0b001,
-			ACK = 0b010,
+			NCK = 0b000,
+			ACK = 0b001,
+			SDU = 0b010,
 			IdA = 0b100,
 		};
 
@@ -135,14 +136,26 @@ namespace plNICDriver.Link.Framing
 			GetField(Fields.PLen, out plen);
 		}
 
-		public void RepackToAckFrame()
+		private void RepackAckNck(FrameType type, byte? nRxId)
 		{
 			GetField(Fields.TxId, out byte txId);
 			GetField(Fields.RxId, out byte rxId);
 			GetField(Fields.WnId, out byte wid);
 
-			SetHeader((byte)FrameType.ACK, 0, rxId, txId, wid);
+			if (nRxId != null)
+				rxId = nRxId.Value;
+			SetHeader((byte)type, 0, rxId, txId, wid);
 			SetField(Fields.PLen, 0);
+		}
+
+		public void RepackToAckFrame(byte? rxId)
+		{
+			RepackAckNck(FrameType.ACK, rxId);
+		}
+
+		public void RepackToNckFrame(byte? rxId)
+		{
+			RepackAckNck(FrameType.NCK, rxId);
 		}
 
 		public void PackFrame(FrameType type, byte txId, byte rxId, in byte[]? dat, byte wid)
@@ -197,6 +210,23 @@ namespace plNICDriver.Link.Framing
 			}
 			return desc;
 								
+		}
+		public byte[] GetPayload()
+		{
+			GetPLen(out byte len);
+			byte[] payload = new byte[len];
+			Array.Copy(txFrame, Frame.HEADER_LEN, payload, 0, len);
+			return payload;
+		}
+		public void ManiPulateData()
+		{
+			GetPLen(out byte len);
+			if (len == 0)
+				return;
+			var seed = DateTime.UtcNow.Subtract(DateTime.UnixEpoch).Seconds;
+			Random random = new Random(seed);
+			int randIndx = random.Next(HEADER_LEN, len);
+			txFrame[randIndx] = (byte)random.Next(256);
 		}
 	}
 }

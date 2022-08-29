@@ -4041,3 +4041,631 @@ Finished building: default.size.stdout
  
 Finished building: KQ130F_STM32F030_modem.list
  
+??:??:?? **** Build of configuration Debug for project KQ130F_STM32F030_modem ****
+make -j4 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m0 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F030x8 -c -I"C:/Users/Lidoma/Desktop/plNIC/KQ130F_STM32F030_modem/lib/Inc" -I../Core/Inc -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/STM32F0xx_HAL_Driver/Inc -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Middlewares/Third_Party/FreeRTOS/Source/include -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM0 -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/CMSIS/Device/ST/STM32F0xx/Include -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/CMSIS/Include -I../Drivers/STM32F0xx_HAL_Driver/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+arm-none-eabi-g++ -o "KQ130F_STM32F030_modem.elf" @"objects.list"   -mcpu=cortex-m0 -T"C:\Users\Lidoma\Desktop\plNIC\KQ130F_STM32F030_modem\STM32F030C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="KQ130F_STM32F030_modem.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
+Finished building target: KQ130F_STM32F030_modem.elf
+ 
+arm-none-eabi-size   KQ130F_STM32F030_modem.elf 
+arm-none-eabi-objdump -h -S  KQ130F_STM32F030_modem.elf  > "KQ130F_STM32F030_modem.list"
+   text	   data	    bss	    dec	    hex	filename
+  13464	     20	   2340	  15824	   3dd0	KQ130F_STM32F030_modem.elf
+Finished building: default.size.stdout
+ 
+Finished building: KQ130F_STM32F030_modem.list
+ 
+??:??:?? **** Incremental Build of configuration Debug for project KQ130F_STM32F030_modem ****
+make -j4 all 
+arm-none-eabi-size   KQ130F_STM32F030_modem.elf 
+   text	   data	    bss	    dec	    hex	filename
+  13464	     20	   2340	  15824	   3dd0	KQ130F_STM32F030_modem.elf
+Finished building: default.size.stdout
+ 
+??:??:?? **** Incremental Build of configuration Debug for project KQ130F_STM32F030_modem ****
+make -j4 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m0 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F030x8 -c -I"C:/Users/Lidoma/Desktop/plNIC/KQ130F_STM32F030_modem/lib/Inc" -I../Core/Inc -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/STM32F0xx_HAL_Driver/Inc -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Middlewares/Third_Party/FreeRTOS/Source/include -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM0 -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/CMSIS/Device/ST/STM32F0xx/Include -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/CMSIS/Include -I../Drivers/STM32F0xx_HAL_Driver/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+arm-none-eabi-g++ -o "KQ130F_STM32F030_modem.elf" @"objects.list"   -mcpu=cortex-m0 -T"C:\Users\Lidoma\Desktop\plNIC\KQ130F_STM32F030_modem\STM32F030C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="KQ130F_STM32F030_modem.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
+Finished building target: KQ130F_STM32F030_modem.elf
+ 
+arm-none-eabi-size   KQ130F_STM32F030_modem.elf 
+arm-none-eabi-objdump -h -S  KQ130F_STM32F030_modem.elf  > "KQ130F_STM32F030_modem.list"
+   text	   data	    bss	    dec	    hex	filename
+  13464	     20	   2340	  15824	   3dd0	KQ130F_STM32F030_modem.elf
+Finished building: default.size.stdout
+ 
+Finished building: KQ130F_STM32F030_modem.list
+ 
+??:??:?? **** Incremental Build of configuration Debug for project KQ130F_STM32F030_modem ****
+make -j4 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m0 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F030x8 -c -I"C:/Users/Lidoma/Desktop/plNIC/KQ130F_STM32F030_modem/lib/Inc" -I../Core/Inc -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/STM32F0xx_HAL_Driver/Inc -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Middlewares/Third_Party/FreeRTOS/Source/include -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM0 -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/CMSIS/Device/ST/STM32F0xx/Include -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/CMSIS/Include -I../Drivers/STM32F0xx_HAL_Driver/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c:43:11: error: unknown type name 'bool'
+   43 |  volatile bool txDone;
+      |           ^~~~
+../Core/Src/main.c:44:11: error: unknown type name 'bool'
+   44 |  volatile bool rxDone;
+      |           ^~~~
+../Core/Src/main.c: In function 'HAL_UART_RxCpltCallback':
+../Core/Src/main.c:82:19: error: 'true' undeclared (first use in this function)
+   82 |   toPcBf.rxDone = true;
+      |                   ^~~~
+../Core/Src/main.c:82:19: note: each undeclared identifier is reported only once for each function it appears in
+../Core/Src/main.c: In function 'HAL_UART_TxCpltCallback':
+../Core/Src/main.c:90:19: error: 'true' undeclared (first use in this function)
+   90 |   toMdBf.txDone = true;
+      |                   ^~~~
+../Core/Src/main.c: In function 'handleTransmission':
+../Core/Src/main.c:105:14: error: invalid operands to binary == (have 'buffer_t' and 'int')
+  105 |   if (bfr[i] == EFD) {
+      |       ~~~~~~ ^~
+      |          |
+      |          buffer_t
+../Core/Src/main.c:114:18: error: 'false' undeclared (first use in this function)
+  114 |    bfr->txDone = false;
+      |                  ^~~~~
+../Core/Src/main.c:103:11: warning: unused variable 'bfridx' [-Wunused-variable]
+  103 |  uint8_t* bfridx = bfr->bf;
+      |           ^~~~~~
+../Core/Src/main.c: In function 'handleReception':
+../Core/Src/main.c:128:19: error: 'huart' undeclared (first use in this function); did you mean 'uart'?
+  128 |  rxbfr->datEnd += huart->RxXferSize;
+      |                   ^~~~~
+      |                   uart
+../Core/Src/main.c:143:33: error: 'nfp' undeclared (first use in this function)
+  143 |     HAL_UART_Receive_IT(huart, (nfp->bf)+(nfp->datEnd), len + 1);
+      |                                 ^~~
+../Core/Src/main.c:144:18: error: 'false' undeclared (first use in this function)
+  144 |  rxbfr->rxDone = false;
+      |                  ^~~~~
+make: *** [Core/Src/subdir.mk:37: Core/Src/main.o] Error 1
+"make -j4 all" terminated with exit code 2. Build might be incomplete.
+??:??:?? **** Incremental Build of configuration Debug for project KQ130F_STM32F030_modem ****
+make -j4 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m0 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F030x8 -c -I"C:/Users/Lidoma/Desktop/plNIC/KQ130F_STM32F030_modem/lib/Inc" -I../Core/Inc -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/STM32F0xx_HAL_Driver/Inc -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Middlewares/Third_Party/FreeRTOS/Source/include -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM0 -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/CMSIS/Device/ST/STM32F0xx/Include -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/CMSIS/Include -I../Drivers/STM32F0xx_HAL_Driver/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c:43:11: error: unknown type name 'bool'
+   43 |  volatile bool txDone;
+      |           ^~~~
+../Core/Src/main.c:44:11: error: unknown type name 'bool'
+   44 |  volatile bool rxDone;
+      |           ^~~~
+../Core/Src/main.c: In function 'HAL_UART_RxCpltCallback':
+../Core/Src/main.c:82:19: error: 'true' undeclared (first use in this function)
+   82 |   toPcBf.rxDone = true;
+      |                   ^~~~
+../Core/Src/main.c:82:19: note: each undeclared identifier is reported only once for each function it appears in
+../Core/Src/main.c: In function 'HAL_UART_TxCpltCallback':
+../Core/Src/main.c:90:19: error: 'true' undeclared (first use in this function)
+   90 |   toMdBf.txDone = true;
+      |                   ^~~~
+../Core/Src/main.c: In function 'handleTransmission':
+../Core/Src/main.c:105:14: error: invalid operands to binary == (have 'buffer_t' and 'int')
+  105 |   if (bfr[i] == EFD) {
+      |       ~~~~~~ ^~
+      |          |
+      |          buffer_t
+../Core/Src/main.c:114:18: error: 'false' undeclared (first use in this function)
+  114 |    bfr->txDone = false;
+      |                  ^~~~~
+../Core/Src/main.c:103:11: warning: unused variable 'bfridx' [-Wunused-variable]
+  103 |  uint8_t* bfridx = bfr->bf;
+      |           ^~~~~~
+../Core/Src/main.c: In function 'handleReception':
+../Core/Src/main.c:143:32: error: 'nfp' undeclared (first use in this function)
+  143 |     HAL_UART_Receive_IT(uart, (nfp->bf)+(nfp->datEnd), len + 1);
+      |                                ^~~
+../Core/Src/main.c:144:18: error: 'false' undeclared (first use in this function)
+  144 |  rxbfr->rxDone = false;
+      |                  ^~~~~
+make: *** [Core/Src/subdir.mk:37: Core/Src/main.o] Error 1
+"make -j4 all" terminated with exit code 2. Build might be incomplete.
+??:??:?? **** Incremental Build of configuration Debug for project KQ130F_STM32F030_modem ****
+make -j4 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m0 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F030x8 -c -I"C:/Users/Lidoma/Desktop/plNIC/KQ130F_STM32F030_modem/lib/Inc" -I../Core/Inc -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/STM32F0xx_HAL_Driver/Inc -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Middlewares/Third_Party/FreeRTOS/Source/include -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM0 -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/CMSIS/Device/ST/STM32F0xx/Include -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/CMSIS/Include -I../Drivers/STM32F0xx_HAL_Driver/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c:43:11: error: unknown type name 'bool'
+   43 |  volatile bool txDone;
+      |           ^~~~
+../Core/Src/main.c:44:11: error: unknown type name 'bool'
+   44 |  volatile bool rxDone;
+      |           ^~~~
+../Core/Src/main.c: In function 'HAL_UART_RxCpltCallback':
+../Core/Src/main.c:82:19: error: 'true' undeclared (first use in this function)
+   82 |   toPcBf.rxDone = true;
+      |                   ^~~~
+../Core/Src/main.c:82:19: note: each undeclared identifier is reported only once for each function it appears in
+../Core/Src/main.c: In function 'HAL_UART_TxCpltCallback':
+../Core/Src/main.c:90:19: error: 'true' undeclared (first use in this function)
+   90 |   toMdBf.txDone = true;
+      |                   ^~~~
+../Core/Src/main.c: In function 'handleTransmission':
+../Core/Src/main.c:105:14: error: invalid operands to binary == (have 'buffer_t' and 'int')
+  105 |   if (bfr[i] == EFD) {
+      |       ~~~~~~ ^~
+      |          |
+      |          buffer_t
+../Core/Src/main.c:114:18: error: 'false' undeclared (first use in this function)
+  114 |    bfr->txDone = false;
+      |                  ^~~~~
+../Core/Src/main.c:103:11: warning: unused variable 'bfridx' [-Wunused-variable]
+  103 |  uint8_t* bfridx = bfr->bf;
+      |           ^~~~~~
+../Core/Src/main.c: In function 'handleReception':
+../Core/Src/main.c:144:18: error: 'false' undeclared (first use in this function)
+  144 |  rxbfr->rxDone = false;
+      |                  ^~~~~
+make: *** [Core/Src/subdir.mk:37: Core/Src/main.o] Error 1
+"make -j4 all" terminated with exit code 2. Build might be incomplete.
+??:??:?? **** Incremental Build of configuration Debug for project KQ130F_STM32F030_modem ****
+make -j4 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m0 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F030x8 -c -I"C:/Users/Lidoma/Desktop/plNIC/KQ130F_STM32F030_modem/lib/Inc" -I../Core/Inc -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/STM32F0xx_HAL_Driver/Inc -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Middlewares/Third_Party/FreeRTOS/Source/include -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM0 -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/CMSIS/Device/ST/STM32F0xx/Include -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/CMSIS/Include -I../Drivers/STM32F0xx_HAL_Driver/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c:43:11: error: unknown type name 'bool'
+   43 |  volatile bool txDone;
+      |           ^~~~
+../Core/Src/main.c:44:11: error: unknown type name 'bool'
+   44 |  volatile bool rxDone;
+      |           ^~~~
+../Core/Src/main.c: In function 'HAL_UART_RxCpltCallback':
+../Core/Src/main.c:82:19: error: 'true' undeclared (first use in this function)
+   82 |   toPcBf.rxDone = true;
+      |                   ^~~~
+../Core/Src/main.c:82:19: note: each undeclared identifier is reported only once for each function it appears in
+../Core/Src/main.c: In function 'HAL_UART_TxCpltCallback':
+../Core/Src/main.c:90:19: error: 'true' undeclared (first use in this function)
+   90 |   toMdBf.txDone = true;
+      |                   ^~~~
+../Core/Src/main.c: In function 'handleTransmission':
+../Core/Src/main.c:105:14: error: invalid operands to binary == (have 'buffer_t' and 'int')
+  105 |   if (bfr[i] == EFD) {
+      |       ~~~~~~ ^~
+      |          |
+      |          buffer_t
+../Core/Src/main.c:114:18: error: 'false' undeclared (first use in this function)
+  114 |    bfr->txDone = false;
+      |                  ^~~~~
+../Core/Src/main.c:103:11: warning: unused variable 'bfridx' [-Wunused-variable]
+  103 |  uint8_t* bfridx = bfr->bf;
+      |           ^~~~~~
+../Core/Src/main.c: In function 'handleReception':
+../Core/Src/main.c:144:18: error: 'false' undeclared (first use in this function)
+  144 |  rxbfr->rxDone = false;
+      |                  ^~~~~
+make: *** [Core/Src/subdir.mk:37: Core/Src/main.o] Error 1
+"make -j4 all" terminated with exit code 2. Build might be incomplete.
+??:??:?? **** Incremental Build of configuration Debug for project KQ130F_STM32F030_modem ****
+make -j4 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m0 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F030x8 -c -I"C:/Users/Lidoma/Desktop/plNIC/KQ130F_STM32F030_modem/lib/Inc" -I../Core/Inc -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/STM32F0xx_HAL_Driver/Inc -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Middlewares/Third_Party/FreeRTOS/Source/include -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM0 -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/CMSIS/Device/ST/STM32F0xx/Include -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/CMSIS/Include -I../Drivers/STM32F0xx_HAL_Driver/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'handleTransmission':
+../Core/Src/main.c:100:14: error: invalid operands to binary == (have 'buffer_t' and 'int')
+  100 |   if (bfr[i] == EFD) {
+      |       ~~~~~~ ^~
+      |          |
+      |          buffer_t
+../Core/Src/main.c:98:11: warning: unused variable 'bfridx' [-Wunused-variable]
+   98 |  uint8_t* bfridx = bfr->bf;
+      |           ^~~~~~
+make: *** [Core/Src/subdir.mk:37: Core/Src/main.o] Error 1
+"make -j4 all" terminated with exit code 2. Build might be incomplete.
+??:??:?? **** Incremental Build of configuration Debug for project KQ130F_STM32F030_modem ****
+make -j4 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m0 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F030x8 -c -I"C:/Users/Lidoma/Desktop/plNIC/KQ130F_STM32F030_modem/lib/Inc" -I../Core/Inc -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/STM32F0xx_HAL_Driver/Inc -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Middlewares/Third_Party/FreeRTOS/Source/include -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM0 -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/CMSIS/Device/ST/STM32F0xx/Include -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/CMSIS/Include -I../Drivers/STM32F0xx_HAL_Driver/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+arm-none-eabi-g++ -o "KQ130F_STM32F030_modem.elf" @"objects.list"   -mcpu=cortex-m0 -T"C:\Users\Lidoma\Desktop\plNIC\KQ130F_STM32F030_modem\STM32F030C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="KQ130F_STM32F030_modem.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
+Finished building target: KQ130F_STM32F030_modem.elf
+ 
+arm-none-eabi-size   KQ130F_STM32F030_modem.elf 
+arm-none-eabi-objdump -h -S  KQ130F_STM32F030_modem.elf  > "KQ130F_STM32F030_modem.list"
+   text	   data	    bss	    dec	    hex	filename
+  13908	     20	   5532	  19460	   4c04	KQ130F_STM32F030_modem.elf
+Finished building: default.size.stdout
+ 
+Finished building: KQ130F_STM32F030_modem.list
+ 
+??:??:?? **** Incremental Build of configuration Debug for project KQ130F_STM32F030_modem ****
+make -j4 all 
+arm-none-eabi-size   KQ130F_STM32F030_modem.elf 
+   text	   data	    bss	    dec	    hex	filename
+  13908	     20	   5532	  19460	   4c04	KQ130F_STM32F030_modem.elf
+Finished building: default.size.stdout
+ 
+??:??:?? **** Incremental Build of configuration Debug for project KQ130F_STM32F030_modem ****
+make -j4 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m0 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F030x8 -c -I"C:/Users/Lidoma/Desktop/plNIC/KQ130F_STM32F030_modem/lib/Inc" -I../Core/Inc -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/STM32F0xx_HAL_Driver/Inc -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Middlewares/Third_Party/FreeRTOS/Source/include -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM0 -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/CMSIS/Device/ST/STM32F0xx/Include -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/CMSIS/Include -I../Drivers/STM32F0xx_HAL_Driver/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+arm-none-eabi-g++ -o "KQ130F_STM32F030_modem.elf" @"objects.list"   -mcpu=cortex-m0 -T"C:\Users\Lidoma\Desktop\plNIC\KQ130F_STM32F030_modem\STM32F030C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="KQ130F_STM32F030_modem.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
+Finished building target: KQ130F_STM32F030_modem.elf
+ 
+arm-none-eabi-size   KQ130F_STM32F030_modem.elf 
+arm-none-eabi-objdump -h -S  KQ130F_STM32F030_modem.elf  > "KQ130F_STM32F030_modem.list"
+   text	   data	    bss	    dec	    hex	filename
+  13908	     20	   5532	  19460	   4c04	KQ130F_STM32F030_modem.elf
+Finished building: default.size.stdout
+ 
+Finished building: KQ130F_STM32F030_modem.list
+ 
+??:??:?? **** Incremental Build of configuration Debug for project KQ130F_STM32F030_modem ****
+make -j4 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m0 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F030x8 -c -I"C:/Users/Lidoma/Desktop/plNIC/KQ130F_STM32F030_modem/lib/Inc" -I../Core/Inc -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/STM32F0xx_HAL_Driver/Inc -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Middlewares/Third_Party/FreeRTOS/Source/include -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM0 -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/CMSIS/Device/ST/STM32F0xx/Include -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/CMSIS/Include -I../Drivers/STM32F0xx_HAL_Driver/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+arm-none-eabi-g++ -o "KQ130F_STM32F030_modem.elf" @"objects.list"   -mcpu=cortex-m0 -T"C:\Users\Lidoma\Desktop\plNIC\KQ130F_STM32F030_modem\STM32F030C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="KQ130F_STM32F030_modem.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
+Finished building target: KQ130F_STM32F030_modem.elf
+ 
+arm-none-eabi-size   KQ130F_STM32F030_modem.elf 
+arm-none-eabi-objdump -h -S  KQ130F_STM32F030_modem.elf  > "KQ130F_STM32F030_modem.list"
+   text	   data	    bss	    dec	    hex	filename
+  13908	     20	   5532	  19460	   4c04	KQ130F_STM32F030_modem.elf
+Finished building: default.size.stdout
+ 
+Finished building: KQ130F_STM32F030_modem.list
+ 
+??:??:?? **** Incremental Build of configuration Debug for project KQ130F_STM32F030_modem ****
+make -j4 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m0 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F030x8 -c -I"C:/Users/Lidoma/Desktop/plNIC/KQ130F_STM32F030_modem/lib/Inc" -I../Core/Inc -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/STM32F0xx_HAL_Driver/Inc -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Middlewares/Third_Party/FreeRTOS/Source/include -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM0 -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/CMSIS/Device/ST/STM32F0xx/Include -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/CMSIS/Include -I../Drivers/STM32F0xx_HAL_Driver/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+arm-none-eabi-g++ -o "KQ130F_STM32F030_modem.elf" @"objects.list"   -mcpu=cortex-m0 -T"C:\Users\Lidoma\Desktop\plNIC\KQ130F_STM32F030_modem\STM32F030C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="KQ130F_STM32F030_modem.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
+Finished building target: KQ130F_STM32F030_modem.elf
+ 
+arm-none-eabi-size   KQ130F_STM32F030_modem.elf 
+arm-none-eabi-objdump -h -S  KQ130F_STM32F030_modem.elf  > "KQ130F_STM32F030_modem.list"
+   text	   data	    bss	    dec	    hex	filename
+  13948	     20	   5532	  19500	   4c2c	KQ130F_STM32F030_modem.elf
+Finished building: default.size.stdout
+ 
+Finished building: KQ130F_STM32F030_modem.list
+ 
+??:??:?? **** Incremental Build of configuration Debug for project KQ130F_STM32F030_modem ****
+make -j4 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m0 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F030x8 -c -I"C:/Users/Lidoma/Desktop/plNIC/KQ130F_STM32F030_modem/lib/Inc" -I../Core/Inc -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/STM32F0xx_HAL_Driver/Inc -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Middlewares/Third_Party/FreeRTOS/Source/include -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM0 -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/CMSIS/Device/ST/STM32F0xx/Include -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/CMSIS/Include -I../Drivers/STM32F0xx_HAL_Driver/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+arm-none-eabi-g++ -o "KQ130F_STM32F030_modem.elf" @"objects.list"   -mcpu=cortex-m0 -T"C:\Users\Lidoma\Desktop\plNIC\KQ130F_STM32F030_modem\STM32F030C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="KQ130F_STM32F030_modem.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
+Finished building target: KQ130F_STM32F030_modem.elf
+ 
+arm-none-eabi-size   KQ130F_STM32F030_modem.elf 
+arm-none-eabi-objdump -h -S  KQ130F_STM32F030_modem.elf  > "KQ130F_STM32F030_modem.list"
+   text	   data	    bss	    dec	    hex	filename
+  13940	     20	   5524	  19484	   4c1c	KQ130F_STM32F030_modem.elf
+Finished building: default.size.stdout
+ 
+Finished building: KQ130F_STM32F030_modem.list
+ 
+??:??:?? **** Incremental Build of configuration Debug for project KQ130F_STM32F030_modem ****
+make -j4 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m0 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F030x8 -c -I"C:/Users/Lidoma/Desktop/plNIC/KQ130F_STM32F030_modem/lib/Inc" -I../Core/Inc -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/STM32F0xx_HAL_Driver/Inc -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Middlewares/Third_Party/FreeRTOS/Source/include -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM0 -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/CMSIS/Device/ST/STM32F0xx/Include -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/CMSIS/Include -I../Drivers/STM32F0xx_HAL_Driver/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'handleTransmission':
+../Core/Src/main.c:97:25: warning: unused variable 'i' [-Wunused-variable]
+   97 |  uint16_t len = 0XFFFF, i = 0;
+      |                         ^
+../Core/Src/main.c: In function 'handleReception':
+../Core/Src/main.c:128:25: warning: unused variable 'i' [-Wunused-variable]
+  128 |  uint16_t len = 0XFFFF, i = 0;
+      |                         ^
+arm-none-eabi-g++ -o "KQ130F_STM32F030_modem.elf" @"objects.list"   -mcpu=cortex-m0 -T"C:\Users\Lidoma\Desktop\plNIC\KQ130F_STM32F030_modem\STM32F030C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="KQ130F_STM32F030_modem.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
+Finished building target: KQ130F_STM32F030_modem.elf
+ 
+arm-none-eabi-size   KQ130F_STM32F030_modem.elf 
+arm-none-eabi-objdump -h -S  KQ130F_STM32F030_modem.elf  > "KQ130F_STM32F030_modem.list"
+   text	   data	    bss	    dec	    hex	filename
+  13784	     20	   5524	  19328	   4b80	KQ130F_STM32F030_modem.elf
+Finished building: default.size.stdout
+ 
+Finished building: KQ130F_STM32F030_modem.list
+ 
+??:??:?? **** Incremental Build of configuration Debug for project KQ130F_STM32F030_modem ****
+make -j4 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m0 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F030x8 -c -I"C:/Users/Lidoma/Desktop/plNIC/KQ130F_STM32F030_modem/lib/Inc" -I../Core/Inc -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/STM32F0xx_HAL_Driver/Inc -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Middlewares/Third_Party/FreeRTOS/Source/include -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM0 -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/CMSIS/Device/ST/STM32F0xx/Include -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/CMSIS/Include -I../Drivers/STM32F0xx_HAL_Driver/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'handleReception':
+../Core/Src/main.c:122:25: warning: unused variable 'i' [-Wunused-variable]
+  122 |  uint16_t len = 0XFFFF, i = 0;
+      |                         ^
+arm-none-eabi-g++ -o "KQ130F_STM32F030_modem.elf" @"objects.list"   -mcpu=cortex-m0 -T"C:\Users\Lidoma\Desktop\plNIC\KQ130F_STM32F030_modem\STM32F030C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="KQ130F_STM32F030_modem.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
+Finished building target: KQ130F_STM32F030_modem.elf
+ 
+arm-none-eabi-size   KQ130F_STM32F030_modem.elf 
+arm-none-eabi-objdump -h -S  KQ130F_STM32F030_modem.elf  > "KQ130F_STM32F030_modem.list"
+   text	   data	    bss	    dec	    hex	filename
+  13760	     20	   5524	  19304	   4b68	KQ130F_STM32F030_modem.elf
+Finished building: default.size.stdout
+ 
+Finished building: KQ130F_STM32F030_modem.list
+ 
+??:??:?? **** Incremental Build of configuration Debug for project KQ130F_STM32F030_modem ****
+make -j4 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m0 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F030x8 -c -I"C:/Users/Lidoma/Desktop/plNIC/KQ130F_STM32F030_modem/lib/Inc" -I../Core/Inc -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/STM32F0xx_HAL_Driver/Inc -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Middlewares/Third_Party/FreeRTOS/Source/include -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM0 -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/CMSIS/Device/ST/STM32F0xx/Include -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/CMSIS/Include -I../Drivers/STM32F0xx_HAL_Driver/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+arm-none-eabi-g++ -o "KQ130F_STM32F030_modem.elf" @"objects.list"   -mcpu=cortex-m0 -T"C:\Users\Lidoma\Desktop\plNIC\KQ130F_STM32F030_modem\STM32F030C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="KQ130F_STM32F030_modem.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
+Finished building target: KQ130F_STM32F030_modem.elf
+ 
+arm-none-eabi-size   KQ130F_STM32F030_modem.elf 
+arm-none-eabi-objdump -h -S  KQ130F_STM32F030_modem.elf  > "KQ130F_STM32F030_modem.list"
+   text	   data	    bss	    dec	    hex	filename
+  13752	     20	   5524	  19296	   4b60	KQ130F_STM32F030_modem.elf
+Finished building: default.size.stdout
+ 
+Finished building: KQ130F_STM32F030_modem.list
+ 
+??:??:?? **** Incremental Build of configuration Debug for project KQ130F_STM32F030_modem ****
+make -j4 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m0 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F030x8 -c -I"C:/Users/Lidoma/Desktop/plNIC/KQ130F_STM32F030_modem/lib/Inc" -I../Core/Inc -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/STM32F0xx_HAL_Driver/Inc -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Middlewares/Third_Party/FreeRTOS/Source/include -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM0 -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/CMSIS/Device/ST/STM32F0xx/Include -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/CMSIS/Include -I../Drivers/STM32F0xx_HAL_Driver/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+arm-none-eabi-g++ -o "KQ130F_STM32F030_modem.elf" @"objects.list"   -mcpu=cortex-m0 -T"C:\Users\Lidoma\Desktop\plNIC\KQ130F_STM32F030_modem\STM32F030C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="KQ130F_STM32F030_modem.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
+Finished building target: KQ130F_STM32F030_modem.elf
+ 
+arm-none-eabi-size   KQ130F_STM32F030_modem.elf 
+arm-none-eabi-objdump -h -S  KQ130F_STM32F030_modem.elf  > "KQ130F_STM32F030_modem.list"
+   text	   data	    bss	    dec	    hex	filename
+  13744	     20	   5524	  19288	   4b58	KQ130F_STM32F030_modem.elf
+Finished building: default.size.stdout
+ 
+Finished building: KQ130F_STM32F030_modem.list
+ 
+??:??:?? **** Incremental Build of configuration Debug for project KQ130F_STM32F030_modem ****
+make -j4 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m0 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F030x8 -c -I"C:/Users/Lidoma/Desktop/plNIC/KQ130F_STM32F030_modem/lib/Inc" -I../Core/Inc -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/STM32F0xx_HAL_Driver/Inc -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Middlewares/Third_Party/FreeRTOS/Source/include -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM0 -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/CMSIS/Device/ST/STM32F0xx/Include -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/CMSIS/Include -I../Drivers/STM32F0xx_HAL_Driver/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+arm-none-eabi-g++ -o "KQ130F_STM32F030_modem.elf" @"objects.list"   -mcpu=cortex-m0 -T"C:\Users\Lidoma\Desktop\plNIC\KQ130F_STM32F030_modem\STM32F030C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="KQ130F_STM32F030_modem.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
+Finished building target: KQ130F_STM32F030_modem.elf
+ 
+arm-none-eabi-size   KQ130F_STM32F030_modem.elf 
+arm-none-eabi-objdump -h -S  KQ130F_STM32F030_modem.elf  > "KQ130F_STM32F030_modem.list"
+   text	   data	    bss	    dec	    hex	filename
+  13764	     20	   5524	  19308	   4b6c	KQ130F_STM32F030_modem.elf
+Finished building: default.size.stdout
+ 
+Finished building: KQ130F_STM32F030_modem.list
+ 
+??:??:?? **** Incremental Build of configuration Debug for project KQ130F_STM32F030_modem ****
+make -j4 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m0 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F030x8 -c -I"C:/Users/Lidoma/Desktop/plNIC/KQ130F_STM32F030_modem/lib/Inc" -I../Core/Inc -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/STM32F0xx_HAL_Driver/Inc -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Middlewares/Third_Party/FreeRTOS/Source/include -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM0 -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/CMSIS/Device/ST/STM32F0xx/Include -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/CMSIS/Include -I../Drivers/STM32F0xx_HAL_Driver/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'handleReception':
+../Core/Src/main.c:120:8: error: 'bfr' undeclared (first use in this function); did you mean 'rxbfr'?
+  120 |  len = bfr[rxbfr->datStart]; // Added  instead of above
+      |        ^~~
+      |        rxbfr
+../Core/Src/main.c:120:8: note: each undeclared identifier is reported only once for each function it appears in
+make: *** [Core/Src/subdir.mk:37: Core/Src/main.o] Error 1
+"make -j4 all" terminated with exit code 2. Build might be incomplete.
+??:??:?? **** Incremental Build of configuration Debug for project KQ130F_STM32F030_modem ****
+make -j4 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m0 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F030x8 -c -I"C:/Users/Lidoma/Desktop/plNIC/KQ130F_STM32F030_modem/lib/Inc" -I../Core/Inc -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/STM32F0xx_HAL_Driver/Inc -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Middlewares/Third_Party/FreeRTOS/Source/include -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM0 -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/CMSIS/Device/ST/STM32F0xx/Include -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/CMSIS/Include -I../Drivers/STM32F0xx_HAL_Driver/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'handleReception':
+../Core/Src/main.c:125:31: error: 'bfr' undeclared (first use in this function); did you mean 'rxbfr'?
+  125 |     HAL_UART_Receive_IT(uart, bfr+(rxbfr->datEnd), len);
+      |                               ^~~
+      |                               rxbfr
+../Core/Src/main.c:125:31: note: each undeclared identifier is reported only once for each function it appears in
+make: *** [Core/Src/subdir.mk:37: Core/Src/main.o] Error 1
+"make -j4 all" terminated with exit code 2. Build might be incomplete.
+??:??:?? **** Incremental Build of configuration Debug for project KQ130F_STM32F030_modem ****
+make -j4 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m0 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F030x8 -c -I"C:/Users/Lidoma/Desktop/plNIC/KQ130F_STM32F030_modem/lib/Inc" -I../Core/Inc -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/STM32F0xx_HAL_Driver/Inc -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Middlewares/Third_Party/FreeRTOS/Source/include -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM0 -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/CMSIS/Device/ST/STM32F0xx/Include -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/CMSIS/Include -I../Drivers/STM32F0xx_HAL_Driver/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+arm-none-eabi-g++ -o "KQ130F_STM32F030_modem.elf" @"objects.list"   -mcpu=cortex-m0 -T"C:\Users\Lidoma\Desktop\plNIC\KQ130F_STM32F030_modem\STM32F030C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="KQ130F_STM32F030_modem.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
+Finished building target: KQ130F_STM32F030_modem.elf
+ 
+arm-none-eabi-size   KQ130F_STM32F030_modem.elf 
+arm-none-eabi-objdump -h -S  KQ130F_STM32F030_modem.elf  > "KQ130F_STM32F030_modem.list"
+   text	   data	    bss	    dec	    hex	filename
+  13736	     20	   5524	  19280	   4b50	KQ130F_STM32F030_modem.elf
+Finished building: default.size.stdout
+ 
+Finished building: KQ130F_STM32F030_modem.list
+ 
+??:??:?? **** Incremental Build of configuration Debug for project KQ130F_STM32F030_modem ****
+make -j4 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m0 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F030x8 -c -I"C:/Users/Lidoma/Desktop/plNIC/KQ130F_STM32F030_modem/lib/Inc" -I../Core/Inc -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/STM32F0xx_HAL_Driver/Inc -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Middlewares/Third_Party/FreeRTOS/Source/include -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM0 -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/CMSIS/Device/ST/STM32F0xx/Include -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/CMSIS/Include -I../Drivers/STM32F0xx_HAL_Driver/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+arm-none-eabi-g++ -o "KQ130F_STM32F030_modem.elf" @"objects.list"   -mcpu=cortex-m0 -T"C:\Users\Lidoma\Desktop\plNIC\KQ130F_STM32F030_modem\STM32F030C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="KQ130F_STM32F030_modem.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
+Finished building target: KQ130F_STM32F030_modem.elf
+ 
+arm-none-eabi-size   KQ130F_STM32F030_modem.elf 
+arm-none-eabi-objdump -h -S  KQ130F_STM32F030_modem.elf  > "KQ130F_STM32F030_modem.list"
+   text	   data	    bss	    dec	    hex	filename
+  13712	     20	   5524	  19256	   4b38	KQ130F_STM32F030_modem.elf
+Finished building: default.size.stdout
+ 
+Finished building: KQ130F_STM32F030_modem.list
+ 
+??:??:?? **** Incremental Build of configuration Debug for project KQ130F_STM32F030_modem ****
+make -j4 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m0 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F030x8 -c -I"C:/Users/Lidoma/Desktop/plNIC/KQ130F_STM32F030_modem/lib/Inc" -I../Core/Inc -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/STM32F0xx_HAL_Driver/Inc -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Middlewares/Third_Party/FreeRTOS/Source/include -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM0 -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/CMSIS/Device/ST/STM32F0xx/Include -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/CMSIS/Include -I../Drivers/STM32F0xx_HAL_Driver/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+arm-none-eabi-g++ -o "KQ130F_STM32F030_modem.elf" @"objects.list"   -mcpu=cortex-m0 -T"C:\Users\Lidoma\Desktop\plNIC\KQ130F_STM32F030_modem\STM32F030C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="KQ130F_STM32F030_modem.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
+Finished building target: KQ130F_STM32F030_modem.elf
+ 
+arm-none-eabi-size   KQ130F_STM32F030_modem.elf 
+arm-none-eabi-objdump -h -S  KQ130F_STM32F030_modem.elf  > "KQ130F_STM32F030_modem.list"
+   text	   data	    bss	    dec	    hex	filename
+  13740	     20	   5524	  19284	   4b54	KQ130F_STM32F030_modem.elf
+Finished building: default.size.stdout
+ 
+Finished building: KQ130F_STM32F030_modem.list
+ 
+??:??:?? **** Incremental Build of configuration Debug for project KQ130F_STM32F030_modem ****
+make -j4 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m0 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F030x8 -c -I"C:/Users/Lidoma/Desktop/plNIC/KQ130F_STM32F030_modem/lib/Inc" -I../Core/Inc -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/STM32F0xx_HAL_Driver/Inc -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Middlewares/Third_Party/FreeRTOS/Source/include -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM0 -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/CMSIS/Device/ST/STM32F0xx/Include -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/CMSIS/Include -I../Drivers/STM32F0xx_HAL_Driver/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+arm-none-eabi-g++ -o "KQ130F_STM32F030_modem.elf" @"objects.list"   -mcpu=cortex-m0 -T"C:\Users\Lidoma\Desktop\plNIC\KQ130F_STM32F030_modem\STM32F030C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="KQ130F_STM32F030_modem.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
+Finished building target: KQ130F_STM32F030_modem.elf
+ 
+arm-none-eabi-size   KQ130F_STM32F030_modem.elf 
+arm-none-eabi-objdump -h -S  KQ130F_STM32F030_modem.elf  > "KQ130F_STM32F030_modem.list"
+   text	   data	    bss	    dec	    hex	filename
+  13768	     20	   5524	  19312	   4b70	KQ130F_STM32F030_modem.elf
+Finished building: default.size.stdout
+ 
+Finished building: KQ130F_STM32F030_modem.list
+ 
+12:29:32 **** Incremental Build of configuration Debug for project KQ130F_STM32F030_modem ****
+make -j4 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m0 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F030x8 -c -I"C:/Users/Lidoma/Desktop/plNIC/KQ130F_STM32F030_modem/lib/Inc" -I../Core/Inc -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/STM32F0xx_HAL_Driver/Inc -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Middlewares/Third_Party/FreeRTOS/Source/include -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM0 -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/CMSIS/Device/ST/STM32F0xx/Include -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/CMSIS/Include -I../Drivers/STM32F0xx_HAL_Driver/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+arm-none-eabi-g++ -o "KQ130F_STM32F030_modem.elf" @"objects.list"   -mcpu=cortex-m0 -T"C:\Users\Lidoma\Desktop\plNIC\KQ130F_STM32F030_modem\STM32F030C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="KQ130F_STM32F030_modem.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
+Finished building target: KQ130F_STM32F030_modem.elf
+ 
+arm-none-eabi-size   KQ130F_STM32F030_modem.elf 
+arm-none-eabi-objdump -h -S  KQ130F_STM32F030_modem.elf  > "KQ130F_STM32F030_modem.list"
+   text	   data	    bss	    dec	    hex	filename
+  13736	     20	   5524	  19280	   4b50	KQ130F_STM32F030_modem.elf
+Finished building: default.size.stdout
+ 
+Finished building: KQ130F_STM32F030_modem.list
+ 
+12:35:13 **** Incremental Build of configuration Debug for project KQ130F_STM32F030_modem ****
+make -j4 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m0 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F030x8 -c -I"C:/Users/Lidoma/Desktop/plNIC/KQ130F_STM32F030_modem/lib/Inc" -I../Core/Inc -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/STM32F0xx_HAL_Driver/Inc -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Middlewares/Third_Party/FreeRTOS/Source/include -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM0 -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/CMSIS/Device/ST/STM32F0xx/Include -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/CMSIS/Include -I../Drivers/STM32F0xx_HAL_Driver/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:173:24: error: expected expression before ',' token
+  173 |   HAL_UART_Receive_IT(&, toPcBf.bf, 1);
+      |                        ^
+make: *** [Core/Src/subdir.mk:37: Core/Src/main.o] Error 1
+"make -j4 all" terminated with exit code 2. Build might be incomplete.
+12:35:47 **** Incremental Build of configuration Debug for project KQ130F_STM32F030_modem ****
+make -j4 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m0 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F030x8 -c -I"C:/Users/Lidoma/Desktop/plNIC/KQ130F_STM32F030_modem/lib/Inc" -I../Core/Inc -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/STM32F0xx_HAL_Driver/Inc -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Middlewares/Third_Party/FreeRTOS/Source/include -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM0 -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/CMSIS/Device/ST/STM32F0xx/Include -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/CMSIS/Include -I../Drivers/STM32F0xx_HAL_Driver/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+arm-none-eabi-g++ -o "KQ130F_STM32F030_modem.elf" @"objects.list"   -mcpu=cortex-m0 -T"C:\Users\Lidoma\Desktop\plNIC\KQ130F_STM32F030_modem\STM32F030C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="KQ130F_STM32F030_modem.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
+Finished building target: KQ130F_STM32F030_modem.elf
+ 
+arm-none-eabi-size   KQ130F_STM32F030_modem.elf 
+arm-none-eabi-objdump -h -S  KQ130F_STM32F030_modem.elf  > "KQ130F_STM32F030_modem.list"
+   text	   data	    bss	    dec	    hex	filename
+  13792	     20	   5524	  19336	   4b88	KQ130F_STM32F030_modem.elf
+Finished building: default.size.stdout
+ 
+Finished building: KQ130F_STM32F030_modem.list
+ 
+12:38:19 **** Incremental Build of configuration Debug for project KQ130F_STM32F030_modem ****
+make -j4 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m0 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F030x8 -c -I"C:/Users/Lidoma/Desktop/plNIC/KQ130F_STM32F030_modem/lib/Inc" -I../Core/Inc -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/STM32F0xx_HAL_Driver/Inc -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Middlewares/Third_Party/FreeRTOS/Source/include -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM0 -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/CMSIS/Device/ST/STM32F0xx/Include -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/CMSIS/Include -I../Drivers/STM32F0xx_HAL_Driver/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+arm-none-eabi-g++ -o "KQ130F_STM32F030_modem.elf" @"objects.list"   -mcpu=cortex-m0 -T"C:\Users\Lidoma\Desktop\plNIC\KQ130F_STM32F030_modem\STM32F030C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="KQ130F_STM32F030_modem.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
+Finished building target: KQ130F_STM32F030_modem.elf
+ 
+arm-none-eabi-size   KQ130F_STM32F030_modem.elf 
+arm-none-eabi-objdump -h -S  KQ130F_STM32F030_modem.elf  > "KQ130F_STM32F030_modem.list"
+   text	   data	    bss	    dec	    hex	filename
+  13792	     20	   5524	  19336	   4b88	KQ130F_STM32F030_modem.elf
+Finished building: default.size.stdout
+ 
+Finished building: KQ130F_STM32F030_modem.list
+ 
+13:04:59 **** Incremental Build of configuration Debug for project KQ130F_STM32F030_modem ****
+make -j4 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m0 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F030x8 -c -I"C:/Users/Lidoma/Desktop/plNIC/KQ130F_STM32F030_modem/lib/Inc" -I../Core/Inc -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/STM32F0xx_HAL_Driver/Inc -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Middlewares/Third_Party/FreeRTOS/Source/include -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM0 -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/CMSIS/Device/ST/STM32F0xx/Include -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/CMSIS/Include -I../Drivers/STM32F0xx_HAL_Driver/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'handleTransmission':
+../Core/Src/main.c:100:6: error: 'rxbfr' undeclared (first use in this function); did you mean 'bfr'?
+  100 |  if (rxbfr->bf[rxbfr->datStart] == 0xCD && (bfr->datEnd - bfr->datStart) > 1) // No byte stuffings yet
+      |      ^~~~~
+      |      bfr
+../Core/Src/main.c:100:6: note: each undeclared identifier is reported only once for each function it appears in
+make: *** [Core/Src/subdir.mk:37: Core/Src/main.o] Error 1
+"make -j4 all" terminated with exit code 2. Build might be incomplete.
+13:05:28 **** Incremental Build of configuration Debug for project KQ130F_STM32F030_modem ****
+make -j4 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m0 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F030x8 -c -I"C:/Users/Lidoma/Desktop/plNIC/KQ130F_STM32F030_modem/lib/Inc" -I../Core/Inc -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/STM32F0xx_HAL_Driver/Inc -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Middlewares/Third_Party/FreeRTOS/Source/include -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM0 -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/CMSIS/Device/ST/STM32F0xx/Include -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/CMSIS/Include -I../Drivers/STM32F0xx_HAL_Driver/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+arm-none-eabi-g++ -o "KQ130F_STM32F030_modem.elf" @"objects.list"   -mcpu=cortex-m0 -T"C:\Users\Lidoma\Desktop\plNIC\KQ130F_STM32F030_modem\STM32F030C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="KQ130F_STM32F030_modem.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
+Finished building target: KQ130F_STM32F030_modem.elf
+ 
+arm-none-eabi-size   KQ130F_STM32F030_modem.elf 
+arm-none-eabi-objdump -h -S  KQ130F_STM32F030_modem.elf  > "KQ130F_STM32F030_modem.list"
+   text	   data	    bss	    dec	    hex	filename
+  13908	     20	   5524	  19452	   4bfc	KQ130F_STM32F030_modem.elf
+Finished building: default.size.stdout
+ 
+Finished building: KQ130F_STM32F030_modem.list
+ 
+13:06:38 **** Incremental Build of configuration Debug for project KQ130F_STM32F030_modem ****
+make -j4 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m0 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F030x8 -c -I"C:/Users/Lidoma/Desktop/plNIC/KQ130F_STM32F030_modem/lib/Inc" -I../Core/Inc -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/STM32F0xx_HAL_Driver/Inc -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Middlewares/Third_Party/FreeRTOS/Source/include -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM0 -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/CMSIS/Device/ST/STM32F0xx/Include -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/CMSIS/Include -I../Drivers/STM32F0xx_HAL_Driver/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+arm-none-eabi-g++ -o "KQ130F_STM32F030_modem.elf" @"objects.list"   -mcpu=cortex-m0 -T"C:\Users\Lidoma\Desktop\plNIC\KQ130F_STM32F030_modem\STM32F030C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="KQ130F_STM32F030_modem.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
+Finished building target: KQ130F_STM32F030_modem.elf
+ 
+arm-none-eabi-size   KQ130F_STM32F030_modem.elf 
+arm-none-eabi-objdump -h -S  KQ130F_STM32F030_modem.elf  > "KQ130F_STM32F030_modem.list"
+   text	   data	    bss	    dec	    hex	filename
+  13912	     20	   5524	  19456	   4c00	KQ130F_STM32F030_modem.elf
+Finished building: default.size.stdout
+ 
+Finished building: KQ130F_STM32F030_modem.list
+ 
+14:52:15 **** Incremental Build of configuration Debug for project KQ130F_STM32F030_modem ****
+make -j4 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m0 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F030x8 -c -I"C:/Users/Lidoma/Desktop/plNIC/KQ130F_STM32F030_modem/lib/Inc" -I../Core/Inc -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/STM32F0xx_HAL_Driver/Inc -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Middlewares/Third_Party/FreeRTOS/Source/include -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM0 -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/CMSIS/Device/ST/STM32F0xx/Include -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/CMSIS/Include -I../Drivers/STM32F0xx_HAL_Driver/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+arm-none-eabi-g++ -o "KQ130F_STM32F030_modem.elf" @"objects.list"   -mcpu=cortex-m0 -T"C:\Users\Lidoma\Desktop\plNIC\KQ130F_STM32F030_modem\STM32F030C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="KQ130F_STM32F030_modem.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
+Finished building target: KQ130F_STM32F030_modem.elf
+ 
+arm-none-eabi-size   KQ130F_STM32F030_modem.elf 
+arm-none-eabi-objdump -h -S  KQ130F_STM32F030_modem.elf  > "KQ130F_STM32F030_modem.list"
+   text	   data	    bss	    dec	    hex	filename
+  13912	     20	   5524	  19456	   4c00	KQ130F_STM32F030_modem.elf
+Finished building: default.size.stdout
+ 
+Finished building: KQ130F_STM32F030_modem.list
+ 
+14:56:50 **** Incremental Build of configuration Debug for project KQ130F_STM32F030_modem ****
+make -j4 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m0 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F030x8 -c -I"C:/Users/Lidoma/Desktop/plNIC/KQ130F_STM32F030_modem/lib/Inc" -I../Core/Inc -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/STM32F0xx_HAL_Driver/Inc -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Middlewares/Third_Party/FreeRTOS/Source/include -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM0 -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/CMSIS/Device/ST/STM32F0xx/Include -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/CMSIS/Include -I../Drivers/STM32F0xx_HAL_Driver/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+arm-none-eabi-g++ -o "KQ130F_STM32F030_modem.elf" @"objects.list"   -mcpu=cortex-m0 -T"C:\Users\Lidoma\Desktop\plNIC\KQ130F_STM32F030_modem\STM32F030C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="KQ130F_STM32F030_modem.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
+Finished building target: KQ130F_STM32F030_modem.elf
+ 
+arm-none-eabi-size   KQ130F_STM32F030_modem.elf 
+arm-none-eabi-objdump -h -S  KQ130F_STM32F030_modem.elf  > "KQ130F_STM32F030_modem.list"
+   text	   data	    bss	    dec	    hex	filename
+  13912	     20	   5524	  19456	   4c00	KQ130F_STM32F030_modem.elf
+Finished building: default.size.stdout
+ 
+Finished building: KQ130F_STM32F030_modem.list
+ 
+15:14:00 **** Incremental Build of configuration Debug for project KQ130F_STM32F030_modem ****
+make -j4 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m0 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F030x8 -c -I"C:/Users/Lidoma/Desktop/plNIC/KQ130F_STM32F030_modem/lib/Inc" -I../Core/Inc -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/STM32F0xx_HAL_Driver/Inc -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Middlewares/Third_Party/FreeRTOS/Source/include -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM0 -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/CMSIS/Device/ST/STM32F0xx/Include -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/CMSIS/Include -I../Drivers/STM32F0xx_HAL_Driver/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+arm-none-eabi-g++ -o "KQ130F_STM32F030_modem.elf" @"objects.list"   -mcpu=cortex-m0 -T"C:\Users\Lidoma\Desktop\plNIC\KQ130F_STM32F030_modem\STM32F030C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="KQ130F_STM32F030_modem.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
+Finished building target: KQ130F_STM32F030_modem.elf
+ 
+arm-none-eabi-size   KQ130F_STM32F030_modem.elf 
+arm-none-eabi-objdump -h -S  KQ130F_STM32F030_modem.elf  > "KQ130F_STM32F030_modem.list"
+   text	   data	    bss	    dec	    hex	filename
+  13912	     20	   5524	  19456	   4c00	KQ130F_STM32F030_modem.elf
+Finished building: default.size.stdout
+ 
+Finished building: KQ130F_STM32F030_modem.list
+ 
+15:33:29 **** Incremental Build of configuration Debug for project KQ130F_STM32F030_modem ****
+make -j4 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m0 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F030x8 -c -I"C:/Users/Lidoma/Desktop/plNIC/KQ130F_STM32F030_modem/lib/Inc" -I../Core/Inc -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/STM32F0xx_HAL_Driver/Inc -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Middlewares/Third_Party/FreeRTOS/Source/include -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM0 -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/CMSIS/Device/ST/STM32F0xx/Include -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/CMSIS/Include -I../Drivers/STM32F0xx_HAL_Driver/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+arm-none-eabi-g++ -o "KQ130F_STM32F030_modem.elf" @"objects.list"   -mcpu=cortex-m0 -T"C:\Users\Lidoma\Desktop\plNIC\KQ130F_STM32F030_modem\STM32F030C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="KQ130F_STM32F030_modem.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
+Finished building target: KQ130F_STM32F030_modem.elf
+ 
+arm-none-eabi-size   KQ130F_STM32F030_modem.elf 
+arm-none-eabi-objdump -h -S  KQ130F_STM32F030_modem.elf  > "KQ130F_STM32F030_modem.list"
+   text	   data	    bss	    dec	    hex	filename
+  13912	     20	   5524	  19456	   4c00	KQ130F_STM32F030_modem.elf
+Finished building: default.size.stdout
+ 
+Finished building: KQ130F_STM32F030_modem.list
+ 
+??:??:?? **** Incremental Build of configuration Debug for project KQ130F_STM32F030_modem ****
+make -j4 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m0 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F030x8 -c -I"C:/Users/Lidoma/Desktop/plNIC/KQ130F_STM32F030_modem/lib/Inc" -I../Core/Inc -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/STM32F0xx_HAL_Driver/Inc -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Middlewares/Third_Party/FreeRTOS/Source/include -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM0 -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/CMSIS/Device/ST/STM32F0xx/Include -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/CMSIS/Include -I../Drivers/STM32F0xx_HAL_Driver/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+arm-none-eabi-g++ -o "KQ130F_STM32F030_modem.elf" @"objects.list"   -mcpu=cortex-m0 -T"C:\Users\Lidoma\Desktop\plNIC\KQ130F_STM32F030_modem\STM32F030C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="KQ130F_STM32F030_modem.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
+Finished building target: KQ130F_STM32F030_modem.elf
+ 
+arm-none-eabi-size   KQ130F_STM32F030_modem.elf 
+arm-none-eabi-objdump -h -S  KQ130F_STM32F030_modem.elf  > "KQ130F_STM32F030_modem.list"
+   text	   data	    bss	    dec	    hex	filename
+  13892	     20	   5524	  19436	   4bec	KQ130F_STM32F030_modem.elf
+Finished building: default.size.stdout
+ 
+Finished building: KQ130F_STM32F030_modem.list
+ 
+??:??:?? **** Incremental Build of configuration Debug for project KQ130F_STM32F030_modem ****
+make -j4 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m0 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F030x8 -c -I"C:/Users/Lidoma/Desktop/plNIC/KQ130F_STM32F030_modem/lib/Inc" -I../Core/Inc -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/STM32F0xx_HAL_Driver/Inc -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Middlewares/Third_Party/FreeRTOS/Source/include -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM0 -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/CMSIS/Device/ST/STM32F0xx/Include -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/CMSIS/Include -I../Drivers/STM32F0xx_HAL_Driver/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+arm-none-eabi-g++ -o "KQ130F_STM32F030_modem.elf" @"objects.list"   -mcpu=cortex-m0 -T"C:\Users\Lidoma\Desktop\plNIC\KQ130F_STM32F030_modem\STM32F030C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="KQ130F_STM32F030_modem.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
+Finished building target: KQ130F_STM32F030_modem.elf
+ 
+arm-none-eabi-size   KQ130F_STM32F030_modem.elf 
+arm-none-eabi-objdump -h -S  KQ130F_STM32F030_modem.elf  > "KQ130F_STM32F030_modem.list"
+   text	   data	    bss	    dec	    hex	filename
+  13892	     20	   5524	  19436	   4bec	KQ130F_STM32F030_modem.elf
+Finished building: default.size.stdout
+ 
+Finished building: KQ130F_STM32F030_modem.list
+ 
+??:??:?? **** Incremental Build of configuration Debug for project KQ130F_STM32F030_modem ****
+make -j4 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m0 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F030x8 -c -I"C:/Users/Lidoma/Desktop/plNIC/KQ130F_STM32F030_modem/lib/Inc" -I../Core/Inc -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/STM32F0xx_HAL_Driver/Inc -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Middlewares/Third_Party/FreeRTOS/Source/include -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM0 -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/CMSIS/Device/ST/STM32F0xx/Include -I/home/lidoma/STM32Cube/Repository/STM32Cube_FW_F0_V1.11.3/Drivers/CMSIS/Include -I../Drivers/STM32F0xx_HAL_Driver/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+arm-none-eabi-g++ -o "KQ130F_STM32F030_modem.elf" @"objects.list"   -mcpu=cortex-m0 -T"C:\Users\Lidoma\Desktop\plNIC\KQ130F_STM32F030_modem\STM32F030C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="KQ130F_STM32F030_modem.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
+Finished building target: KQ130F_STM32F030_modem.elf
+ 
+arm-none-eabi-size   KQ130F_STM32F030_modem.elf 
+arm-none-eabi-objdump -h -S  KQ130F_STM32F030_modem.elf  > "KQ130F_STM32F030_modem.list"
+   text	   data	    bss	    dec	    hex	filename
+  13976	     20	   5524	  19520	   4c40	KQ130F_STM32F030_modem.elf
+Finished building: default.size.stdout
+ 
+Finished building: KQ130F_STM32F030_modem.list
+ 

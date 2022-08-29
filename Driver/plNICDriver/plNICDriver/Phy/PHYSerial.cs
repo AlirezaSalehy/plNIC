@@ -10,6 +10,8 @@ namespace plNICDriver.Phy
 {
 	public class PHYSerial : IBasicPhy
 	{
+		private Mutex txMutex = new Mutex();
+		private Mutex rxMutex = new Mutex();
 		private SerialPort _serialPort;
 
 		public static string[] GetAvailablePortsName()
@@ -34,9 +36,9 @@ namespace plNICDriver.Phy
 			_serialPort.Open();
 		}
 
-
 		public IBasicPhy.Status SendBytes(byte[] bytes, int offset, int numBytes)
 		{
+			txMutex.WaitOne();
 			_serialPort.WriteTimeout = int.MaxValue;
 			try
 			{
@@ -48,11 +50,15 @@ namespace plNICDriver.Phy
 			{
 				Console.WriteLine("PHY Trasmit EXCP: " +  ex.Message);
 				return IBasicPhy.Status.Failure;
+			} finally
+			{
+				txMutex.ReleaseMutex();
 			}
 		}
 
 		public IBasicPhy.Status ReceiveBytes(byte[] bytes, int offset, int numBytes)
 		{
+			rxMutex.WaitOne();
 			_serialPort.ReadTimeout = 500;
 			int numRecv = 0;
 			while (0 < numBytes)
@@ -63,11 +69,16 @@ namespace plNICDriver.Phy
 					numBytes -= numRecv;
 				} catch { }
 			}
+			rxMutex.ReleaseMutex();
 			return IBasicPhy.Status.Success;
 		}
 
 		public void Dispose()
 		{
+			rxMutex.WaitOne(5000);
+			txMutex.WaitOne(5000);
+			rxMutex.Close();
+			txMutex.Close();
 			_serialPort.Close();
 			_serialPort.Dispose();
 		}

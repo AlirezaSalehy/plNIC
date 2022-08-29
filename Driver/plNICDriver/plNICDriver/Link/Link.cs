@@ -13,46 +13,48 @@ using System.Threading.Tasks;
 namespace plNICDriver.Link
 {
 	//` ![](9CAD81B7C71C743FEFFDA0569A3ADF11.png;;;0.02599,0.02932)
-	
+
 	public class Link : IDisposable
 	{
 		// TODO: Next we should complete receiver task so that after [discarding or] receiving
+		// TODO: Piggy backing by making it possible to have multiple packet types at same time
+		// TODO: SET A TIMER IF AFTER IPALLOCATION CONFLICT APPEARED
 		// Calls related callback of ARQ or IdAlloc
 
 		public enum Status
 		{
 			Success,
-			Failure
+			Err_NoFreeWid,
+			Err_MaxRetryExceed,
+			Err_GenFailure,
+			Err_NoFreeFrame,
+			Err_NoOtherplNIC,
+			Err_NotInitialized
 		}
 
 
 		private static readonly int NUM_FRAMES = 5;
-		private static readonly int NUM_WIDS = 1;
+		private static readonly int NUM_WIDS = 2;
 
 		public delegate void OnRx(byte txid, byte[] pcktContent);
 
 		private bool _terminate;
 
-		private int _id;
+		private byte _id;
+		private bool _isIdTaken;
 
-		private Frame[] frames;
+		private Frame[] _frames;
+		private Dictionary<byte, int> _widFrameIndex;
 
 		private ARQHandler _handler;
 		private IDAllocator _allocator;
 
 		private PHYSerial _serial;
 		private Thread _rxThread;
+		private Thread _arqoutThread;
 		private OnRx _rxCallback;
 
-		ILoggerFactory loggerFactory = LoggerFactory.Create(builder => {
-			builder.AddSimpleConsole((i) =>
-			{
-				i.ColorBehavior = Microsoft.Extensions.Logging.Console.LoggerColorBehavior.Enabled;
-				i.TimestampFormat = "HH:mm:ss ";
-			});
-			builder.SetMinimumLevel(LogLevel.Trace);
-		});
-		ILogger<Link> lg;
+		ILogger<Link> _lg;
 
 		/*
 		 * For Auto Discovery
@@ -62,33 +64,58 @@ namespace plNICDriver.Link
 			throw new NotImplementedException();
 		}
 
-		public Link(string portName, int numRetries, int timeout, OnRx rx)
+		public Link(ILoggerFactory loggerFactory, string portName, int numRetries, int timeout, int idTimeOutDecide, OnRx rx)
 		{
-			lg = loggerFactory.CreateLogger<Link>();
-			
-			frames = new Frame[NUM_FRAMES];
-			for (int i = frames.Length - 1; i >= 0; i--)
-				frames[i] = new Frame();
-			_handler = new ARQHandler(numRetries, timeout);
+			_lg = loggerFactory.CreateLogger<Link>();
 
+			_frames = new Frame[NUM_FRAMES];
+			for (int i = _frames.Length - 1; i >= 0; i--)
+				_frames[i] = new Frame();
+			_handler = new ARQHandler(numRetries, timeout, NUM_WIDS);
+			_widFrameIndex = new Dictionary<byte, int>();
+
+			_isIdTaken = false;
 			_terminate = false;
 			_rxCallback = rx;
-			_id = 0b0000;
+			_id = IDAllocator.NO_ID;
 
 			_serial = new PHYSerial(portName);
-			_rxThread = new Thread(_ReceiveTask);
+			_rxThread = new Thread(FrameReceiveTask);
+			_arqoutThread = new Thread(ARQRetransmission);
+			_allocator = new IDAllocator(idTimeOutDecide);
 
-			lg.LogTrace("Link initialized");
+			_lg.LogTrace("Link initialized");
 		}
 
 		// In this function we try to allocate new id to our self
-		public Status Begin()
+		public Status Begin(long timeOutMillis = 6000)
 		{
 			_rxThread.Start();
-			return Status.Failure;
+			_arqoutThread.Start();
+
+			_allocator.NewIdPropose(out byte[] payload);
+			ARQSendBlocking(Frame.FrameType.IdA, IDAllocator.BROADCAST_ID, payload);
+			while (timeOutMillis > 0)
+			{
+				Thread.Sleep(10);
+				timeOutMillis -= 10;	
+			}
+
+			if (_allocator.GetStatus() == IDAllocator.Status.Success)
+			{
+				_id = _allocator.GetProposedId();
+				_isIdTaken = true;
+				_lg.LogInformation("Successful id allocation: {0}", _id);
+			} else
+			{
+				_id = IDAllocator.NO_ID;
+				_isIdTaken = false;
+			}
+			_allocator.End();
+			return (_id == IDAllocator.NO_ID) ? Status.Err_NotInitialized : Status.Success;
 		}
 
-		private void _ReceiveTask()
+		private void FrameReceiveTask()
 		{
 			Frame frame = new Frame();
 			while (!_terminate)
@@ -96,13 +123,13 @@ namespace plNICDriver.Link
 				if (_serial.ReceiveBytes(frame.txFrame, 0, Frame.HEADER_LEN) != IBasicPhy.Status.Success)
 					continue;
 				frame.GetHeader(out Frame.FrameType ft, out byte txid, out byte rxid, out byte wid);
-				lg.LogDebug("frame header received: {0}", frame.GetHeader());
+				_lg.LogDebug("frame header received: {0}", frame.GetHeader());
 				if (!(rxid == IDAllocator.BROADCAST_ID || rxid == _id)) // SKIP if not mine
 				{
-					lg.LogWarning("Discarding the frame!");
+					_lg.LogWarning("Discarding the frame!");
 					continue;
 
-				} 
+				}
 
 				// Get remaining
 				byte len = 0;
@@ -110,71 +137,192 @@ namespace plNICDriver.Link
 				if (_serial.ReceiveBytes(frame.txFrame, Frame.HEADER_LEN, len) != IBasicPhy.Status.Success)
 					continue;
 
-				if (ft == Frame.FrameType.ACK) // ACK
+				var seed = (int)DateTime.UtcNow.Subtract(DateTime.UnixEpoch).TotalMilliseconds;
+				Random random = new Random(seed);
+				if (random.NextDouble() > 0.7)
 				{
-					//var frame = _handler.frames[0];
-					//if (frame.txUnixMillis != 0 && frame.wid == wid) // if ack is for this and we are awaiting We can go for next packet and wid = !wid
-					//{
-					//	frame.txUnixMillis = 0;
-					//	wid++;
-					//	wid
-					//}
+					_lg.LogError("Delibrately manipulating received frame");
+					frame.ManiPulateData();
 				}
-				else if (ft == Frame.FrameType.IdA) //  
-				{ 
-					//int proposedId = payloadPlusCRC[0] & 0x0F;
-					//if (proposedId == _id) // Conflict return error
-					//{
-					//	Console.WriteLine("id conflict happened");
-					//}										 
-
-				} else if (ft == Frame.FrameType.SDU)
-				{
-					// This is data packet, First check the crc and then ACK/NACKbyte[] 
-					byte[] packet = new byte[len];
-					Array.Copy(frame.txFrame, Frame.HEADER_LEN, packet, 0, len);
-					_rxCallback(txid, packet);
-				}
-
-				// Send ack back
-				if (ft == Frame.FrameType.SDU || ft == Frame.FrameType.IdA)
-				{ // Sending Conflict message or Sending ACK message
-				  // Both are the same here
-
-					frame.RepackToAckFrame();
-					frame.GetSerialize(out byte[] ser);
-					_serial.SendBytes(ser, 0, ser.Length);
-				}
+				ARQReceive(frame);
 
 				Thread.Sleep(10);
 			}
 
 		}
 
+		private void ARQRetransmission()
+		{
+			byte startWid = 0;
+			while (!_terminate)
+			{
+				Thread.Sleep(10);
+				if (!_handler.GetNextTimedoutWid(startWid, out byte tmoutwid))
+				{
+					_lg.LogTrace("No timeout wid");
+					continue;
+				}
+
+				if (_handler.IsMaxRetryExceeded(tmoutwid))
+				{
+					//_lg.LogWarning("Max number of retries exceeded");
+					//_handler.SetWidFree(tmoutwid);
+					continue;
+				}
+
+				if (!_widFrameIndex.ContainsKey(tmoutwid))
+				{
+					_lg.LogError("No such wid sent {0}", tmoutwid);
+					continue;
+				}
+
+				_lg.LogWarning("Resending packet with wid {0}", tmoutwid);
+				ARQResend(_widFrameIndex[tmoutwid]);
+				startWid = tmoutwid;
+			}
+		}
+
 		// This send will append header and net ids to messages and transimission timestamp and packet save
-		private void _Send(int rxId, byte[]? bytes)
+		private void ARQReceive(in Frame frame)
 		{
-			var frame = frames[0];
-			int bytesLen = 0; // Corresponding to dat + crc 16 => >=2 or 0
-			if (bytes is not null)
-				bytesLen = bytes.Length;
+			frame.GetHeader(out Frame.FrameType ft, out byte txid, out byte rxid, out byte wid);
+			if (ft == Frame.FrameType.ACK) // ACK if validated then Turn the timer off and set the wid free
+			{
+				_handler.handleAckOfWid(txid, wid);
+				return;
+			} // This it is not piggy backing so if else continues 
 
-			//_serial.SendBytes(frame.txFrame, bytesLen + 2, 50);
-			frame.txUnixMillis = DateTimeOffset.Now.ToUnixTimeMilliseconds();
+			byte[] payload = frame.GetPayload();
+
+			bool isPacketValid = ARQHandler.CheckCRC(payload);
+
+			if (_isIdTaken)
+			{
+				var seed = (int)DateTime.UtcNow.Subtract(DateTime.UnixEpoch).TotalMilliseconds; 
+				Random random = new Random(seed + 30);
+				if (random.NextDouble() > 0.4)
+				{
+					_lg.LogError("Delibrately not sending ack/nack");
+				} 
+				else
+				{
+					if (isPacketValid)
+					{
+						frame.RepackToAckFrame(_id);
+						_lg.LogInformation($"Sending ACK for {wid}");
+					}
+					else
+					{
+						frame.RepackToNckFrame(_id);
+						_lg.LogWarning($"Sending NACK for {wid}");
+					}
+					frame.GetSerialize(out byte[] ser);
+					_serial.SendBytes(ser, 0, ser.Length);
+				}
+			}
+
+			if (!isPacketValid)
+				return;
+
+			byte[] packet = ARQHandler.ExtractCRC(payload);
+
+			if (ft == Frame.FrameType.IdA) //  
+			{
+				byte proposedId = (byte)(packet[0] & 0x0F);
+				_handler.SetWidFree(wid);
+				var stat = _allocator.CheckRecvId(proposedId);
+				if (stat == IDAllocator.Status.Conflict)
+				{
+					_allocator.NewIdPropose(out byte[] pidPayload);
+					ARQSendBlocking(Frame.FrameType.IdA, IDAllocator.BROADCAST_ID, pidPayload);
+					_lg.LogWarning("Id conflict happened {0}", proposedId);
+
+				}
+				else
+					_lg.LogDebug("IDAllocation status: {0}", stat.ToString());
+
+			}
+			else if (ft == Frame.FrameType.SDU)
+			{
+				// This is data packet, First check the crc and then ACK/NACKbyte[] 
+				_rxCallback(txid, packet);
+			}
+			else if (ft == Frame.FrameType.NCK)
+			{
+				// This is data packet, First check the crc and then ACK/NACKbyte[] 
+				_lg.LogWarning($"NACK received for wid: {wid}");
+				_handler.SetWidToTimeout(txid);
+			}
 		}
 
-		public Status SendPacket(int txId, byte[] bytes)
+		private bool GetFreeFrame(out int index)
 		{
-			return Status.Failure;
+			for (int i = 0; i < _frames.Length; i++)
+				if (!_frames[i].filled)
+				{
+					_frames[i].filled = true;
+					index = i;
+					return true;
+				}
+
+			index = -1;
+			return false;
 		}
 
-		public Status SendPacket(byte[] bytes)
+		// This send will append header and net ids to messages and transimission timestamp and packet save
+		private Status ARQSendBlocking(Frame.FrameType fr, byte rxId, byte[] bytes)
 		{
-			lg.LogDebug("Sending packet with len: {0}, val: {1}", bytes.Length, bytes);
-			frames[0].PackFrame(Frame.FrameType.IdA, IDAllocator.NO_ID, IDAllocator.BROADCAST_ID, bytes, 12);
-			frames[0].GetSerialize(out byte[] ser);
+			_id = _allocator.GetProposedId();
+
+			if (!GetFreeFrame(out int index))
+				return Status.Err_NoFreeFrame;
+
+			if (!_handler.GetFreeWid(rxId, out byte wid))
+				return Status.Err_NoFreeWid;
+			bytes = ARQHandler.appendCRCField(bytes);
+
+			_lg.LogDebug("Sending packet with len: {0}, val: {1}", bytes.Length, bytes);
+			_widFrameIndex[wid] = index;
+			_frames[index].PackFrame(fr, _id, rxId, bytes, wid);
+			_frames[index].GetSerialize(out byte[] ser);
 			_serial.SendBytes(ser, 0, ser.Length);
-			return Status.Failure;
+
+			bool maxRetiryExceeded = false;
+			while (!_handler.IsWidFree(wid))
+			{
+				if (_handler.IsMaxRetryExceeded(wid))
+				{
+					maxRetiryExceeded = true;
+					break;
+				}
+				Thread.Sleep(1);
+			}
+
+			_handler.SetWidFree(wid);
+			_frames[index].filled = false;
+			_widFrameIndex.Remove(wid);
+			return maxRetiryExceeded ? Status.Err_MaxRetryExceed : Status.Success;
+		}
+
+		private void ARQResend(int index)
+		{
+			_frames[index].GetSerialize(out byte[] ser);
+			_frames[index].GetHeader(out Frame.FrameType ft, out byte txid, out byte rxid, out byte wid);
+			_serial.SendBytes(ser, 0, ser.Length);
+		}
+
+		public Status SendPacketBlocking(byte txId, byte[] bytes)
+		{
+			if (_id == IDAllocator.NO_ID)
+				return Status.Err_NotInitialized;
+			return ARQSendBlocking(Frame.FrameType.SDU, txId, bytes);
+		}
+
+		public Status SendPacketBlocking(byte[] bytes)
+		{
+			if (_id == IDAllocator.NO_ID)
+				return Status.Err_NotInitialized;
+			return ARQSendBlocking(Frame.FrameType.SDU, IDAllocator.BROADCAST_ID, bytes);
 		}
 
 		public void Dispose()

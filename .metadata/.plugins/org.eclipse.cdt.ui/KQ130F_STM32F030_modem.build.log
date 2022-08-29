@@ -7,11 +7,11 @@ Finished building target: KQ130F_STM32F030_modem.elf
 arm-none-eabi-size   KQ130F_STM32F030_modem.elf 
 arm-none-eabi-objdump -h -S  KQ130F_STM32F030_modem.elf  > "KQ130F_STM32F030_modem.list"
    text	   data	    bss	    dec	    hex	filename
-  13464	     20	   2340	  15824	   3dd0	KQ130F_STM32F030_modem.elf
+  13976	     20	   5524	  19520	   4c40	KQ130F_STM32F030_modem.elf
 Finished building: default.size.stdout
  
 Finished building: KQ130F_STM32F030_modem.list
  
 
-??:??:?? Build Finished. 0 errors, 0 warnings. (took 966ms)
+??:??:?? Build Finished. 0 errors, 0 warnings. (took 893ms)
 

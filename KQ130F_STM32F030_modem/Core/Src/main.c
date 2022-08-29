@@ -22,21 +22,27 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #define BFR_SIZE 1800
-#define FRM_SIZE 255
+#define FRM_SIZE 35
+#define SFD 0xCD
 #define EACH_RECV_LEN 1
-#define SFD 0x3C // 0b00111100
-#define EFD 0x3F // 0b00111100
+
 
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
+typedef enum {
+	toHeaderBeRx,
+	toPayloadBeRx
+} RxPhase;
+
 typedef struct {
 	uint8_t bf[BFR_SIZE];
 	uint16_t datStart;
 	uint16_t datEnd;
 	volatile uint8_t txDone;
 	volatile uint8_t rxDone;
+	RxPhase rph;
 } buffer_t;
 /* USER CODE END PTD */
 
@@ -90,31 +96,31 @@ void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart)
 static inline void handleTransmission(UART_HandleTypeDef* uart, buffer_t* bfr) {
 	if (!bfr->txDone)
 		return;
+
 	bfr->datStart += uart->TxXferSize;
-	if (bfr->datStart >= bfr->datEnd)
+	uart->TxXferSize = 0;
+	if (bfr->datStart + 2 > bfr->datEnd)
 		return;
 
-	uint16_t len = 0XFFFF, i = 0;
-	uint8_t* bfridx = bfr->bf;
-//	for (i = bfr->datStart; i < bfr->datEnd; i++)
-//		if (bfridx[i] == EFD) {
-//			len = i - bfr->datStart + 1;
-//			break;
-//		}
-	len = bfridx[bfr->datStart];
-	if (len == 0XFFFF) // Frame SFD + LEN is not yet received
+	uint16_t len = 0;
+	if (bfr->bf[bfr->datStart] != 0xCD) // No byte stuffings yet
 		return;
 
-  if (len > 0) {
-	  HAL_UART_Transmit_IT(uart, bfr->bf+(bfr->datStart), len+1);
-	  bfr->txDone = 0;
-  }
+	len = bfr->bf[bfr->datStart+1];
+	if ((bfr->datEnd - bfr->datStart) < 1+1+len) {
+		return;
+	}
+
+	HAL_UART_Transmit_IT(uart, (bfr->bf)+(bfr->datStart), 1+1+len);
+	bfr->txDone = 0;
+
 }
 
 static inline void handleBufferRecycle(UART_HandleTypeDef* uart, buffer_t* rxbfr) {
 	if (rxbfr->datEnd + FRM_SIZE >= BFR_SIZE) {
 	  rxbfr->datStart = rxbfr->datEnd = 0;
 	  HAL_UART_Receive_IT(uart, (rxbfr->bf)+(rxbfr->datEnd), 2);
+	  rxbfr->rxDone = 0;
 	}
 }
 
@@ -122,26 +128,34 @@ static inline void handleReception(UART_HandleTypeDef* uart, buffer_t* rxbfr) {
 	if (!rxbfr->rxDone)
 		return;
 	rxbfr->datEnd += uart->RxXferSize;
+	rxbfr->rph = (rxbfr->rph == toHeaderBeRx) ? toPayloadBeRx : toHeaderBeRx;
 	if (rxbfr->datEnd + FRM_SIZE >= BFR_SIZE)
 		return;
 
-	uint16_t len = 0XFFFF, i = 0;
-	uint8_t* bfr = rxbfr->bf;
-//	for (i = rxbfr->datStart; i < rxbfr->datEnd; i++)
-//		if (bfr[i] == SFD && i+1 < rxbfr->datEnd) {
-//			len = bfr[i+1];
-//			rxbfr->datStart = i;
-//			break;
-//		}
-	len = bfr[rxbfr->datStart]; // Added  instead of above
-	if (len == 0XFFFF) // Frame SFD + LEN is not yet received
-		len = 1;
+	uint16_t len = 0;
+	if (rxbfr->rph == toPayloadBeRx) {
+		if (rxbfr->bf[rxbfr->datStart] != 0xCD) {
+			// No byte stuffings yet
+			rxbfr->datStart++;
+			len = 1;
+		}
+		else {
+			if (rxbfr->datStart+1 < rxbfr->datEnd) {
+				len = rxbfr->bf[rxbfr->datStart+1];
+				if (len == 0) {
+					rxbfr->datStart += 2;
+					len = 2;
+				}
+			}
+		}
+	} else if (rxbfr->rph == toHeaderBeRx) {
+		len = 2;
+	}
 
-//    HAL_UART_Receive_IT(uart, bfr+(rxbfr->datEnd), len + 1);
-    HAL_UART_Receive_IT(uart, bfr+(rxbfr->datEnd), len);
+
+    HAL_UART_Receive_IT(uart, rxbfr->bf+(rxbfr->datEnd), len);
 	rxbfr->rxDone = 0;
 }
-
 
 
 /* USER CODE END 0 */
@@ -176,13 +190,22 @@ int main(void)
   MX_USART1_UART_Init();
   MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
-  HAL_UART_Receive_IT(&PC_UART, toMdBf.bf, 2);
-  toMdBf.txDone = 1;
-  toPcBf.rxDone = 1;
 
-  HAL_UART_Receive_IT(&MD_UART, toPcBf.bf, 2);
+  toMdBf.txDone = 1;
+  toPcBf.rxDone = 0;
+
   toPcBf.txDone = 1;
-  toMdBf.rxDone = 1;
+  toPcBf.rph = toHeaderBeRx;
+
+  toMdBf.rxDone = 0;
+  toMdBf.rph = toHeaderBeRx;
+
+  PC_UART.TxXferSize = 0;
+  MD_UART.TxXferSize = 0;
+
+  HAL_UART_Receive_IT(&PC_UART, toMdBf.bf, 2);
+  HAL_UART_Receive_IT(&MD_UART, toPcBf.bf, 2);
+
 
   /* USER CODE END 2 */
 

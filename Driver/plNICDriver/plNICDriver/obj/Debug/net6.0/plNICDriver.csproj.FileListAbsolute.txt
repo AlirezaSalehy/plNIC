@@ -35,3 +35,5 @@ C:\Users\Lidoma\Desktop\plNIC\Driver\plNICDriver\plNICDriver\bin\Debug\net6.0\Mi
 C:\Users\Lidoma\Desktop\plNIC\Driver\plNICDriver\plNICDriver\bin\Debug\net6.0\Microsoft.Extensions.Options.dll
 C:\Users\Lidoma\Desktop\plNIC\Driver\plNICDriver\plNICDriver\bin\Debug\net6.0\Microsoft.Extensions.Options.ConfigurationExtensions.dll
 C:\Users\Lidoma\Desktop\plNIC\Driver\plNICDriver\plNICDriver\bin\Debug\net6.0\Microsoft.Extensions.Primitives.dll
+C:\Users\Lidoma\Desktop\plNIC\Driver\plNICDriver\plNICDriver\obj\Debug\net6.0\plNICDriver.Properties.Resources.resources
+C:\Users\Lidoma\Desktop\plNIC\Driver\plNICDriver\plNICDriver\obj\Debug\net6.0\plNICDriver.csproj.GenerateResource.cache

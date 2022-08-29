@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "XmE0y69+dK5qQdjvAbU2dh56l24wD0svIk3pIs99mr32IqKoJEVspWe0R5oXwHX6sKiAxL1O1L6hprbw2uDh2g==",
+  "dgSpecHash": "KClcrd6jX0dmQdJmwIbjeQGzGM0vZvX36ZYDyVZqSLhBgKwVS7VMVUS6GkeKDbqGTf4Ju1fJ0Yqy004sg6AYLw==",
   "success": true,
   "projectFilePath": "C:\\Users\\Lidoma\\Desktop\\plNIC\\Driver\\plNICDriver\\plNICDriver\\plNICDriver.csproj",
   "expectedPackageFiles": [
@@ -27,7 +27,11 @@
     "C:\\Users\\Lidoma\\.nuget\\packages\\system.io.ports\\6.0.0\\system.io.ports.6.0.0.nupkg.sha512",
     "C:\\Users\\Lidoma\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\6.0.0\\system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512",
     "C:\\Users\\Lidoma\\.nuget\\packages\\system.text.encodings.web\\6.0.0\\system.text.encodings.web.6.0.0.nupkg.sha512",
-    "C:\\Users\\Lidoma\\.nuget\\packages\\system.text.json\\6.0.0\\system.text.json.6.0.0.nupkg.sha512"
+    "C:\\Users\\Lidoma\\.nuget\\packages\\system.text.json\\6.0.0\\system.text.json.6.0.0.nupkg.sha512",
+    "C:\\Users\\Lidoma\\.nuget\\packages\\microsoft.netcore.app.runtime.win-x64\\6.0.7\\microsoft.netcore.app.runtime.win-x64.6.0.7.nupkg.sha512",
+    "C:\\Users\\Lidoma\\.nuget\\packages\\microsoft.aspnetcore.app.runtime.win-x64\\6.0.7\\microsoft.aspnetcore.app.runtime.win-x64.6.0.7.nupkg.sha512",
+    "C:\\Users\\Lidoma\\.nuget\\packages\\microsoft.windowsdesktop.app.runtime.win-x64\\6.0.7\\microsoft.windowsdesktop.app.runtime.win-x64.6.0.7.nupkg.sha512",
+    "C:\\Users\\Lidoma\\.nuget\\packages\\microsoft.netcore.app.crossgen2.win-x64\\6.0.7\\microsoft.netcore.app.crossgen2.win-x64.6.0.7.nupkg.sha512"
   ],
   "logs": []
 }

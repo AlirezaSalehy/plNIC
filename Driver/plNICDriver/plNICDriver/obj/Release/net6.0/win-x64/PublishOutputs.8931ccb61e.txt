@@ -1,0 +1,2 @@
+C:\Users\Lidoma\Desktop\plNIC\Driver\plNICDriver\plNICDriver\bin\Release\net6.0\win-x64\publish\win-x64\plNICDriver.pdb
+C:\Users\Lidoma\Desktop\plNIC\Driver\plNICDriver\plNICDriver\bin\Release\net6.0\win-x64\publish\win-x64\plNICDriver.exe
