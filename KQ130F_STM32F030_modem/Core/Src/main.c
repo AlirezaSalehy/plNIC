@@ -21,8 +21,11 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#define BFR_SIZE 200
+#define BFR_SIZE 1800
+#define FRM_SIZE 255
 #define EACH_RECV_LEN 1
+#define SFD 0x3C // 0b00111100
+#define EFD 0x3F // 0b00111100
 
 /* USER CODE END Includes */
 
@@ -30,10 +33,10 @@
 /* USER CODE BEGIN PTD */
 typedef struct {
 	uint8_t bf[BFR_SIZE];
-	volatile uint32_t datStart;
-	volatile uint32_t datEnd;
-	volatile uint32_t lastTxDif;
-	volatile uint32_t lastRxDif;
+	uint16_t datStart;
+	uint16_t datEnd;
+	volatile uint8_t txDone;
+	volatile uint8_t rxDone;
 } buffer_t;
 /* USER CODE END PTD */
 
@@ -70,50 +73,76 @@ static void MX_USART2_UART_Init(void);
 /* USER CODE BEGIN 0 */
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
-	buffer_t* nfp;
 	if (huart == &MD_UART)
-		nfp = &toPcBf;
+		toPcBf.rxDone = 1;
 	else
-		nfp = &toMdBf;
-
-	nfp->datEnd += nfp->lastRxDif;
-	nfp->lastRxDif = EACH_RECV_LEN;
-	if (nfp->datEnd >= BFR_SIZE)
-		return;
-
-    HAL_UART_Receive_IT(huart, (nfp->bf)+(nfp->datEnd), nfp->lastRxDif);
+		toMdBf.rxDone = 1;
 }
 
 void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart)
 {
-//	buffer_t* nfp;
-//	if (huart == &MD_UART)
-//		nfp = &toMdBf;
-//	else
-//		nfp = &toPcBf;
-//
-//	nfp->datStart += nfp->lastTxDif;
-//	if (nfp->datStart >= BFR_SIZE)
-//		nfp->datStart = 0;
-
+	if (huart == &MD_UART)
+		toMdBf.txDone = 1;
+	else
+		toPcBf.txDone = 1;
 }
 
 static inline void handleTransmission(UART_HandleTypeDef* uart, buffer_t* bfr) {
-   if (bfr->datStart < bfr->datEnd)
-	  bfr->lastTxDif = bfr->datEnd - bfr->datStart;
-   else
-	   return;
+	if (!bfr->txDone)
+		return;
+	bfr->datStart += uart->TxXferSize;
+	if (bfr->datStart >= bfr->datEnd)
+		return;
 
-  HAL_UART_Transmit_IT(uart, bfr->bf+(bfr->datStart), bfr->lastTxDif);
-  bfr->datStart += bfr->lastTxDif;
+	uint16_t len = 0XFFFF, i = 0;
+	uint8_t* bfridx = bfr->bf;
+//	for (i = bfr->datStart; i < bfr->datEnd; i++)
+//		if (bfridx[i] == EFD) {
+//			len = i - bfr->datStart + 1;
+//			break;
+//		}
+	len = bfridx[bfr->datStart];
+	if (len == 0XFFFF) // Frame SFD + LEN is not yet received
+		return;
+
+  if (len > 0) {
+	  HAL_UART_Transmit_IT(uart, bfr->bf+(bfr->datStart), len+1);
+	  bfr->txDone = 0;
+  }
 }
 
 static inline void handleBufferRecycle(UART_HandleTypeDef* uart, buffer_t* rxbfr) {
-  if (rxbfr->datStart >= BFR_SIZE) {
+	if (rxbfr->datEnd + FRM_SIZE >= BFR_SIZE) {
 	  rxbfr->datStart = rxbfr->datEnd = 0;
-	  HAL_UART_Receive_IT(uart, (rxbfr->bf)+(rxbfr->datEnd), rxbfr->lastRxDif);
-  }
+	  HAL_UART_Receive_IT(uart, (rxbfr->bf)+(rxbfr->datEnd), 2);
+	}
 }
+
+static inline void handleReception(UART_HandleTypeDef* uart, buffer_t* rxbfr) {
+	if (!rxbfr->rxDone)
+		return;
+	rxbfr->datEnd += uart->RxXferSize;
+	if (rxbfr->datEnd + FRM_SIZE >= BFR_SIZE)
+		return;
+
+	uint16_t len = 0XFFFF, i = 0;
+	uint8_t* bfr = rxbfr->bf;
+//	for (i = rxbfr->datStart; i < rxbfr->datEnd; i++)
+//		if (bfr[i] == SFD && i+1 < rxbfr->datEnd) {
+//			len = bfr[i+1];
+//			rxbfr->datStart = i;
+//			break;
+//		}
+	len = bfr[rxbfr->datStart]; // Added  instead of above
+	if (len == 0XFFFF) // Frame SFD + LEN is not yet received
+		len = 1;
+
+//    HAL_UART_Receive_IT(uart, bfr+(rxbfr->datEnd), len + 1);
+    HAL_UART_Receive_IT(uart, bfr+(rxbfr->datEnd), len);
+	rxbfr->rxDone = 0;
+}
+
+
 
 /* USER CODE END 0 */
 
@@ -147,10 +176,13 @@ int main(void)
   MX_USART1_UART_Init();
   MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
-  toMdBf.lastRxDif = EACH_RECV_LEN;
-  HAL_UART_Receive_IT(&PC_UART, toMdBf.bf, EACH_RECV_LEN);
-  toPcBf.lastRxDif = EACH_RECV_LEN;
-  HAL_UART_Receive_IT(&MD_UART, toPcBf.bf, EACH_RECV_LEN);
+  HAL_UART_Receive_IT(&PC_UART, toMdBf.bf, 2);
+  toMdBf.txDone = 1;
+  toPcBf.rxDone = 1;
+
+  HAL_UART_Receive_IT(&MD_UART, toPcBf.bf, 2);
+  toPcBf.txDone = 1;
+  toMdBf.rxDone = 1;
 
   /* USER CODE END 2 */
 
@@ -158,6 +190,9 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+	  handleReception(&PC_UART, &toMdBf);
+	  handleReception(&MD_UART, &toPcBf);
+
 	  handleTransmission(&PC_UART, &toPcBf);
 	  handleTransmission(&MD_UART, &toMdBf);
 
