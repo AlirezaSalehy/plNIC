@@ -1,167 +1,136 @@
-﻿using plNICDriver.Link.Framing;
+﻿using Microsoft.Extensions.Logging;
+using plNICDriver.Link.Framing;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace plNICDriver.Link.ARQ
 {
 	// This is basicly selective repeate ARQ with window len of 1
+	// We use task instead of thread because threads are heavier than task lots of overhead
 	public class ARQHandler
 	{
-		struct WinElement
-		{
-			private static byte counter = 0;
-			public bool filled;
-			public byte wid;
-			public byte rxid;
-			public int numRetries;
-			public DateTime timeStamp;
+		private static readonly byte CRC_LEN = 2;
+		public delegate void onRxARQFrame(Frame.FrameType ft, byte txId, byte rxId, byte[] payload);
 
-			public WinElement()
-			{
-				filled = false;
-				wid = counter++;
-				rxid = IDAllocation.IDAllocator.NO_ID;
-				timeStamp = new DateTime();
-				numRetries = 0;
-			}
+		private int _numRetries;
+		private int _timeOut;
+
+		private WindowElement[] _winElements;
+		private onRxARQFrame _onRx;
+		private FramingHandler _txer;
+
+		private ILogger<ARQHandler> _lg;
+
+		public byte ACKResponderId { get; set; }
+
+		private static bool CheckCRC(byte[] appended)
+		{
+			if (appended.Length > 2)
+				return false;
+
+			ExtractCRC(appended, out byte[] payload, out byte[] claimedCrc);
+			CalcCrc16(payload, out byte[] currCrc);
+			return !claimedCrc.Where((t, i) => t != currCrc[i]).Any();
 		}
 
-		public static readonly byte CRC_LEN = 2;
-
-		private int numRetries;
-		private int timeOut;
-
-		WinElement[] winElements;
-
-		public static bool CheckCRC(byte[] payload)
+		private static void AppendCRCField(in byte[] raw, out byte[] appended)
 		{
-			var len = payload.Length;
-			byte[] data = ExtractCRC(payload);
-
-			ushort crcField = BitConverter.ToUInt16(payload, len - CRC_LEN);
-			CalcCrc16(data, out ushort currCrc);
-
-			return currCrc == crcField;
+			appended = new byte[raw.Length + CRC_LEN];
+			CalcCrc16(raw, out byte[] crcField);
+			Array.Copy(raw, 0, appended, 0, raw.Length);
+			Array.Copy(crcField, 0, appended, raw.Length, CRC_LEN);
 		}
 
-		public static byte[] appendCRCField(byte[] bytes)
+		private static void ExtractCRC(in byte[] raw, out byte[] payload, out byte[] crc)
 		{
-			byte[] data = new byte[bytes.Length+CRC_LEN];
-			CalcCrc16(bytes, out ushort crc);
-			Array.Copy(bytes, 0, data, 0, bytes.Length);
-			byte[] crcField = BitConverter.GetBytes(crc);
-			Array.Copy(crcField, 0, data, bytes.Length, CRC_LEN);
-			return data;
-		}
-
-		public static byte[] ExtractCRC(byte[] payload)
-		{
-			var len = payload.Length;
+			var len = raw.Length;
 			if (len < CRC_LEN)
 				throw new ArgumentException("To check CRC payload must be longer than 2");
 
-			byte[] data = new byte[len - CRC_LEN];
-			Array.Copy(payload, 0, data, 0, len - CRC_LEN);
-			return data;
+			payload = new byte[len - CRC_LEN];
+			crc = new byte[CRC_LEN];
+
+			Array.Copy(payload, 0, payload, 0, len - CRC_LEN);
+			Array.Copy(payload, len - CRC_LEN, crc, 0, CRC_LEN);
 		}
 
-		private static void CalcCrc16(byte[] dat, out ushort crc)
+		// Instead of using ushort in all around the library, using byte[] will make it really simple to change
+		// crc field. e.g. to 32 bit crc
+		private static void CalcCrc16(byte[] dat, out byte[] crcBytes)
 		{
-			crc = NullFX.CRC.Crc16.ComputeChecksum(NullFX.CRC.Crc16Algorithm.Modbus, dat);
-			//Console.WriteLine("datCrc CRC: {0:X4}", crc);
+			ushort crcField = NullFX.CRC.Crc16.ComputeChecksum(NullFX.CRC.Crc16Algorithm.Modbus, dat);
+			crcBytes = BitConverter.GetBytes(crcField);
 		}
 
-		public ARQHandler(int numRetries, int timeOut, int numWidBits)
+		public ARQHandler(ILoggerFactory factory, onRxARQFrame onRx, FramingHandler txer, int numRetries, int timeOut, int numWidBits)
 		{
-			this.numRetries = numRetries;
-			this.timeOut = timeOut;
+			_numRetries = numRetries;
+			_timeOut = timeOut;
+			_onRx = onRx;
+			_txer = txer;
+			ACKResponderId = IDAllocation.IDAllocator.NO_ID;
+
+			_lg = factory.CreateLogger<ARQHandler>();
+			
 			int numElems = (int)(Math.Pow(2, numWidBits));
-			winElements = new WinElement[numElems];
-			for (int i = 0; i < winElements.Length; i++)
-				winElements[i] = new WinElement();
+			_winElements = new WindowElement[numElems];
+			for (int i = 0; i < _winElements.Length; i++)
+				_winElements[i] = new WindowElement(_txer);
+			
+			_lg.LogTrace($"ARQHandler created, #wids {numElems}");
 		}
 
-		public void handleAckOfWid(in byte txid, in byte wid)
+		public async void OnRxFrame(Frame.FrameType ft, int txid, int rxid, byte[] payload, int wid)
 		{
-			for (int i = 0; i < winElements.Length; i++)
-				if (winElements[i].filled && winElements[i].wid == wid)
-					if (winElements[i].rxid == txid || winElements[i].rxid == IDAllocation.IDAllocator.BROADCAST_ID)
-						winElements[i].filled = false;
-					else
-						Console.WriteLine("Shoule not reach here in handleAckOfWid(...), incorrect txid");
+			if (ft == Frame.FrameType.ACK || ft == Frame.FrameType.NCK) // ACK if validated then Turn the timer off and set the wid free
+			{                                                           // This it is not piggy backing so if else continues 
+				_winElements[wid].Check(ft, (byte)txid, (byte)rxid, (byte)wid);
+				return;
+			} // There is not CRC for it and instead header checksum which is done by framing component
 
-			//Console.WriteLine("Shoule not reach here in handleAckOfWid(...), maybe ack after timeout");
+			bool isPacketValid = CheckCRC(payload);
+
+			if (isPacketValid)
+			{
+				ExtractCRC(payload, out byte[] pldFld, out byte[] crcFld);
+				_onRx(ft, ((byte)txid), ((byte)txid), pldFld);
+			}
+
+			// Sending ACK/NCK for SDU only
+			if (ft == Frame.FrameType.SDU)
+			{
+				if (isPacketValid)
+					await _txer.SendFrame(Frame.FrameType.ACK, ((byte)txid), ((byte)rxid), ((byte)wid), null);
+
+				else
+					await _txer.SendFrame(Frame.FrameType.NCK, ((byte)txid), ((byte)rxid), ((byte)wid), null);
+
+				_lg.LogInformation($"Sending ACK/NCK Stat: {isPacketValid} for {wid}");
+			}
 		}
 
-		public bool GetFreeWid(in byte rxid, out byte wid)
+		public async Task<bool> SendARQedFrame(Frame.FrameType ft, byte txId, byte rxId, byte[] payload)
 		{
-			for (int i = 0; i < winElements.Length; i++)
-				if (!winElements[i].filled)
-				{
-					ref WinElement windowIdElem = ref winElements[i];
-					wid = windowIdElem.wid;
-					windowIdElem.filled = true;
-					windowIdElem.rxid = rxid;
-					windowIdElem.timeStamp = DateTime.UtcNow;
-					windowIdElem.numRetries = 1;
-					return true;
-				}
-		
-			wid = 0;
-			return false;
+			if (ft == Frame.FrameType.SDU && payload.Length > 0)
+			{
+				var frees = _winElements.Where((winEl) => { return !winEl.filled; });
+				if (!frees.Any())
+					return false;
+				var winEl = frees.First();
+
+				AppendCRCField(payload, out byte[] appended);
+				winEl.Fill(ft, txId, rxId, appended);
+
+				var rez = await winEl.StartARQ(_numRetries, _timeOut);
+				return rez;
+			} 
+			else 
+				return false;
 		}
 
-		public bool IsWidFree(byte wid)
+		public void Dispose()
 		{
-			for (int i = 0; i < winElements.Length; i++)
-				if (!winElements[i].filled && winElements[i].wid == wid)
-					return true;
-			return false;
-		}
-
-		public void SetWidFree(byte wid)
-		{
-			for (int i = 0; i < winElements.Length; i++)
-				if (winElements[i].filled && winElements[i].wid == wid)
-					winElements[i].filled = false;
-		}
-
-		public bool IsMaxRetryExceeded(byte wid)
-		{
-			for (int i = 0; i < winElements.Length; i++)
-				if (winElements[i].filled && winElements[i].wid == wid)
-					if (winElements[i].numRetries > numRetries)
-						return true;
-			return false;
-		}
-
-		public bool GetNextTimedoutWid(in byte startwid, out byte tmoutwid)
-		{
-			for (int i = startwid; i < winElements.Length; i++)
-				if (winElements[i].filled)
-				{
-					long timeSpanned = (long)(DateTime.UtcNow.Subtract(winElements[i].timeStamp).TotalMilliseconds);
-					if (timeSpanned > timeOut)
-					{
-						winElements[i].numRetries += 1;
-						winElements[i].timeStamp = DateTime.UtcNow;
-						tmoutwid = winElements[i].wid;
-						return true;
-					}
-				}
-
-			tmoutwid = 0;
-			return false;
-		}
-
-		internal void SetWidToTimeout(byte txid)
-		{
-			for (int i = 0; i < winElements.Length; i++)
-				if (winElements[i].filled)
-					winElements[i].timeStamp = DateTime.UtcNow.AddMilliseconds(timeOut * -2);
+			throw new NotImplementedException();
 		}
 	}
 }

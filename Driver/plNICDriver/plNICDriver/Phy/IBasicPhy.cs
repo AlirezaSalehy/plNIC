@@ -13,8 +13,7 @@ namespace plNICDriver.Phy
 			Success,
 			Failure
 		};
-
-		public Status SendBytes(byte[] bytes, int offset, int numBytes);
-		public Status ReceiveBytes(byte[] bytes, int offset, int numBytes);
+		public delegate void OnBytesRx(byte[] bytes);
+		public Task<Status> SendBytes(byte[] bytes, int offset, int numBytes);
 	}
 }

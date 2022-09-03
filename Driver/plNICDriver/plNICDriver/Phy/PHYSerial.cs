@@ -5,6 +5,7 @@ using System.IO.Ports;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static plNICDriver.Phy.IBasicPhy;
 
 namespace plNICDriver.Phy
 {
@@ -13,14 +14,16 @@ namespace plNICDriver.Phy
 		private Mutex txMutex = new Mutex();
 		private Mutex rxMutex = new Mutex();
 		private SerialPort _serialPort;
+		private OnBytesRx _onRx;
 
 		public static string[] GetAvailablePortsName()
 		{
 			return SerialPort.GetPortNames();
 		}
 
-		public PHYSerial(string portName)
+		public PHYSerial(string portName, OnBytesRx onRx)
 		{
+			_onRx = onRx;
 			_serialPort = new SerialPort()
 			{
 				PortName = portName,
@@ -33,44 +36,39 @@ namespace plNICDriver.Phy
 				WriteTimeout = 500
 			};
 
+			_serialPort.DataReceived += DataReceivedHandler;
 			_serialPort.Open();
 		}
 
-		public IBasicPhy.Status SendBytes(byte[] bytes, int offset, int numBytes)
+		public async Task<Status> SendBytes(byte[] bytes, int offset, int numBytes)
 		{
-			txMutex.WaitOne();
-			_serialPort.WriteTimeout = int.MaxValue;
 			try
 			{
+				txMutex.WaitOne();
+				_serialPort.WriteTimeout = int.MaxValue;
 				_serialPort.Write(bytes, offset, numBytes);
-				return IBasicPhy.Status.Success;
-
+				return Status.Success;
 			}
 			catch (Exception ex)
 			{
 				Console.WriteLine("PHY Trasmit EXCP: " +  ex.Message);
-				return IBasicPhy.Status.Failure;
+				return Status.Failure;
 			} finally
 			{
 				txMutex.ReleaseMutex();
+				await Task.Delay((numBytes) * 100);
 			}
 		}
 
-		public IBasicPhy.Status ReceiveBytes(byte[] bytes, int offset, int numBytes)
+		private void DataReceivedHandler(
+					  object sender,
+					  SerialDataReceivedEventArgs e)
 		{
-			rxMutex.WaitOne();
-			_serialPort.ReadTimeout = 500;
-			int numRecv = 0;
-			while (0 < numBytes)
-			{
-				try
-				{
-					numRecv += _serialPort.Read(bytes, numRecv+offset, numBytes);
-					numBytes -= numRecv;
-				} catch { }
-			}
-			rxMutex.ReleaseMutex();
-			return IBasicPhy.Status.Success;
+			var avail = _serialPort.BytesToRead;
+			var bytes = new byte[avail];
+			_serialPort.Read(bytes, 0, avail);
+			Console.WriteLine(bytes);
+			_onRx(bytes);
 		}
 
 		public void Dispose()

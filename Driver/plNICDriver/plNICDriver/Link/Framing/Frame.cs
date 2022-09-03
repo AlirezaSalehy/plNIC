@@ -1,16 +1,12 @@
-﻿using plNICDriver.Link.ARQ;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace plNICDriver.Link.Framing
 {
-
-	//` ![](ED6D459F5E8088B10469C782A55F30FB.png;;;0.03705,0.02610)
-
-	// Generic Link Frame is consisted of Header + Payload
 	public class Frame
 	{
 		private struct FieldInfo
@@ -27,22 +23,22 @@ namespace plNICDriver.Link.Framing
 			}
 		}
 
-		private enum Fields
-		{
-			Flag,
-			PLen,
-			TxId,
-			RxId,
-			Rerv,
-			WnId,
-		};
-
 		public enum FrameType // Resides in Flag
 		{
 			NCK = 0b000,
 			ACK = 0b001,
 			SDU = 0b010,
 			IdA = 0b100,
+		};
+
+		private enum Fields
+		{
+			Flag,
+			PLen,
+			TxId,
+			RxId,
+			Hsh,
+			WnId,
 		};
 
 		private static readonly FieldInfo[] FIELD_INFOS = new FieldInfo[]{
@@ -54,178 +50,158 @@ namespace plNICDriver.Link.Framing
 			new FieldInfo(0b1111, 2, 0),
 		};
 
-		public static readonly byte HEADER_LEN = 3;
-		public static readonly byte PAYLOAD_MAX_LEN = (byte)Math.Pow(2, 5);
-		public static readonly byte FRAME_MAX_LEN = (byte)(PAYLOAD_MAX_LEN + HEADER_LEN);
+		internal static readonly byte HEADER_LEN = 3;
+		internal static readonly byte HASH_REPLICATE_LEN = 30;
+		internal static readonly byte PAYLOAD_MAX_LEN = (byte)Math.Pow(2, 5);
+		internal static readonly byte FRAME_MAX_LEN = (byte)(PAYLOAD_MAX_LEN + HEADER_LEN);
 
-		public bool filled;
 		public byte[] txFrame;
-		public long txUnixMillis;
 
-		public static void GetHeader(byte[] hdr, out FrameType frameType, out byte txId, out byte rxId, out byte wid)
+		static private byte GetField(in byte[] hdr, in Fields field)
 		{
-			byte tempFT;
-			GetField(hdr, Fields.Flag, out tempFT);
-			frameType = (FrameType)tempFT;
-
-			GetField(hdr, Fields.TxId, out txId);
-			GetField(hdr, Fields.RxId, out rxId);
-			GetField(hdr, Fields.WnId, out wid);
-		}
-
-		private static void GetField(in byte[] hdr, in Fields field, out byte fieldVal)
-		{
+			byte fieldVal;
 			int infoIdx = (int)field;
 			ref FieldInfo fi = ref FIELD_INFOS[infoIdx];
 			fieldVal = (byte)(hdr[fi.byteIdx] >> fi.bitIdx & fi.mask);
+			return fieldVal;
 		}
 
-		public Frame()
+		static private void SetField(in byte[] hdr, Fields field, byte fieldVal)
 		{
-			filled = false;
-			txFrame = new byte[FRAME_MAX_LEN];
-			txUnixMillis = 0;
+			int infoIdx = (int)field;
+			ref FieldInfo fi = ref FIELD_INFOS[infoIdx];
+			hdr[fi.byteIdx] &= (byte)(~(fi.mask << fi.bitIdx) & 0xFF); // First empty field
+			hdr[fi.byteIdx] |= (byte)((fieldVal & fi.mask) << fi.bitIdx);
 		}
 
-		public Frame(in Frame fr)
+		private void SetField(Fields field, byte fieldVal)
 		{
-			filled = fr.filled;
-			txFrame = new byte[FRAME_MAX_LEN];
-			Array.Copy(fr.txFrame, 0, txFrame, 0, FRAME_MAX_LEN);
-			txUnixMillis = 0;
+			SetField(txFrame, field, fieldVal);
 		}
 
-		public void SetHeader(byte[] hd)
+		private byte GetField(in Fields field)
+		{
+			return GetField(txFrame, field);	
+		}
+
+		internal void SetHeader(byte[] hd)
 		{
 			for (int i = 0; i < HEADER_LEN; i--)
 				Console.WriteLine(hd[i]);
 			Array.Copy(hd, txFrame, HEADER_LEN);
 		}
 
-		private void SetHeader(byte flags, byte len, byte txId, byte rxId, byte wid)
+		private byte CalcHdrHash()
 		{
-			for (int i = HEADER_LEN - 1; i >= 0; i--) // First empty header
-				txFrame[i] = 0;
-			byte[] feildVals = new byte[] { flags, len, txId, rxId, wid };
-
-			var valInfos = FIELD_INFOS.Zip(feildVals, (l, r) => new { info = l, val = r });
-			foreach (var valInfo in valInfos)
-				txFrame[valInfo.info.byteIdx] |= (byte)((valInfo.val & valInfo.info.mask) << valInfo.info.bitIdx);
+			byte[] headerCopy = new byte[HEADER_LEN];
+			Array.Copy(txFrame, 0, headerCopy, 0, HEADER_LEN);
+			SetField(headerCopy, Fields.Hsh, 0);
+			byte[] headerReplicated = new byte[HASH_REPLICATE_LEN];
+			for (int i = 0; i < HASH_REPLICATE_LEN/HEADER_LEN; i++)
+				Array.Copy(headerCopy, 0, headerReplicated, i*HEADER_LEN, HEADER_LEN);
+			var firstByte = SHA1.HashData(headerReplicated)[0];
+			SetField(headerCopy, Fields.Hsh, firstByte);
+			return GetField(headerCopy, Fields.Hsh); ;
 		}
 
-		private void SetField(Fields field, byte fieldVal)
+		public Frame()
 		{
-			int infoIdx = (int)field;
-			ref FieldInfo fi = ref FIELD_INFOS[infoIdx];
-			txFrame[fi.byteIdx] &= (byte)(~(fi.mask << fi.bitIdx) & 0xFF); // First empty field
-			txFrame[fi.byteIdx] |= (byte)((fieldVal & fi.mask) << fi.bitIdx);
+			txFrame = new byte[FRAME_MAX_LEN];
 		}
 
-		private void GetField(Fields field, out byte fieldVal)
+		public Frame(FrameType frameType, byte txId, byte rxId, byte wid, byte[]? dat)
 		{
-			GetField(txFrame, field, out fieldVal);
-		}
-
-		public void GetHeader(out FrameType frameType, out byte txId, out byte rxId, out byte wid)
-		{
-			GetHeader(txFrame, out frameType, out txId, out rxId, out wid);
-		}
-
-		public void GetPLen(out byte plen)
-		{
-			GetField(Fields.PLen, out plen);
-		}
-
-		private void RepackAckNck(FrameType type, byte? nRxId)
-		{
-			GetField(Fields.TxId, out byte txId);
-			GetField(Fields.RxId, out byte rxId);
-			GetField(Fields.WnId, out byte wid);
-
-			if (nRxId != null)
-				rxId = nRxId.Value;
-			SetHeader((byte)type, 0, rxId, txId, wid);
-			SetField(Fields.PLen, 0);
-		}
-
-		public void RepackToAckFrame(byte? rxId)
-		{
-			RepackAckNck(FrameType.ACK, rxId);
-		}
-
-		public void RepackToNckFrame(byte? rxId)
-		{
-			RepackAckNck(FrameType.NCK, rxId);
-		}
-
-		public void PackFrame(FrameType type, byte txId, byte rxId, in byte[]? dat, byte wid)
-		{
-			byte len = 0;
+			txFrame = new byte[FRAME_MAX_LEN];
+			byte len = HEADER_LEN;
 			if (dat is not null)
 			{
 				Array.Copy(dat, 0, txFrame, HEADER_LEN, dat.Length);
 				len += (byte)dat.Length;
 			}
 
-			SetHeader((byte)type, len, txId, rxId, wid);
+			FrTp = frameType;
+			TxId = txId;
+			RxId = rxId;
+			Wid = wid;
+			PLen = len;
+			SetField(Fields.Hsh, CalcHdrHash());
 		}
 
-		public void PackFrame(in byte[]? dat)
+		public Frame(in Frame fr)
 		{
-			byte len = 0;
-			if (dat is not null)
-			{
-				Array.Copy(dat, 0, txFrame, HEADER_LEN, dat.Length);
-				len += (byte)dat.Length;
-			}
-
-			SetField(Fields.PLen, len);
+			txFrame = new byte[FRAME_MAX_LEN];
+			Array.Copy(fr.txFrame, 0, txFrame, 0, FRAME_MAX_LEN);
 		}
 
-		public void GetSerialize(out byte[] frameBytes)
+		internal FrameType FrTp { 
+			get { return ((FrameType)GetField(Fields.Flag)); }
+			private set { SetField(Fields.Flag, (byte)value); }	
+		}
+		internal byte PLen { 
+			get { return GetField(Fields.PLen); }
+			private set { SetField(Fields.PLen, value); }
+		}
+		internal byte TxId { 
+			get { return GetField(Fields.TxId);  }
+			private set { SetField(Fields.TxId, value); }
+		}
+		internal byte RxId { 
+			get { return GetField(Fields.RxId);  }
+			private set { SetField(Fields.RxId, value); }
+		}
+		internal byte Wid { 
+			get { return GetField(Fields.WnId);  }
+			private set { SetField(Fields.WnId, value); }
+		}
+		internal byte Hsh
 		{
-			GetField(Fields.PLen, out byte len);
-			byte frameLen = (byte)(len + HEADER_LEN);
+			get { return GetField(Fields.Hsh); }
+			private set { SetField(Fields.Hsh, value); }
+		}
+
+		internal bool IsValid()
+		{
+			return Hsh == CalcHdrHash();
+		}
+
+		internal void GetSerialize(out byte[] frameBytes)
+		{
+			byte frameLen = (byte)(PLen + HEADER_LEN);
 			frameBytes = new byte[frameLen];
 			Array.Copy(txFrame, 0, frameBytes, 0, frameLen);
 		}
 
-		public string GetHeader()
+		internal string GetHeader()
 		{
-			GetHeader(out FrameType ft, out byte tid, out byte rid, out byte wid);
-			GetField(Fields.PLen, out byte plen);
-			return string.Format("HEADER: TxId: {0}, RxId: {1}, FrTp: {2}, WId: {3}, PLen: {4}",
-										tid, rid, ft.ToString(), wid, plen);
+			return $"HEADER: TxId: {TxId}, RxId: {RxId}, " +
+						$"FrTp: {FrTp}, WId: {Wid}, PLen: {PLen}";
 		}
 
 		public override string ToString()
 		{
 			string desc = GetHeader();
-
-			GetField(Fields.PLen, out byte plen);
-			if (plen > 0)
+			if (PLen > 0)
 			{
-				string payload = Encoding.ASCII.GetString(txFrame, HEADER_LEN, plen);
-				desc += String.Format("\nPAYLOAD: Data: {5}", payload);
+				string payload = Encoding.ASCII.GetString(txFrame, HEADER_LEN, PLen);
+				desc += $"\nPAYLOAD: Data: {5}";
 			}
 			return desc;
-								
 		}
-		public byte[] GetPayload()
+
+		internal byte[] GetPayload()
 		{
-			GetPLen(out byte len);
-			byte[] payload = new byte[len];
-			Array.Copy(txFrame, Frame.HEADER_LEN, payload, 0, len);
+			byte[] payload = new byte[PLen];
+			Array.Copy(txFrame, HEADER_LEN, payload, 0, PLen);
 			return payload;
 		}
-		public void ManiPulateData()
+
+		internal void ManiPulateData()
 		{
-			GetPLen(out byte len);
-			if (len == 0)
+			if (PLen == 0)
 				return;
 			var seed = DateTime.UtcNow.Subtract(DateTime.UnixEpoch).Seconds;
 			Random random = new Random(seed);
-			int randIndx = random.Next(HEADER_LEN, len);
+			int randIndx = random.Next(HEADER_LEN, PLen);
 			txFrame[randIndx] = (byte)random.Next(256);
 		}
 	}
