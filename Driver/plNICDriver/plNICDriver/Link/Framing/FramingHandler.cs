@@ -41,7 +41,7 @@ namespace plNICDriver.Link.Framing
 		byte[] buffer = new byte[FRAME_MAX_LEN];
 
 		private PriorityQueue<Frame, int> _txQueue = new PriorityQueue<Frame, int>();
-
+		private IList<byte[]> _txedFrames = new List<byte[]>();
 		ILogger<FramingHandler> _lg;
 
 		public FramingHandler(ILoggerFactory loggerFactory, OnRxFrame rxFrame, string portName)
@@ -141,6 +141,9 @@ namespace plNICDriver.Link.Framing
 					Array.Copy(payload, 0, frameTotal, 1, payload.Length);
 					_lg.LDebug($"header fields: {nextFrame.GetHeader()}");
 					await _serial.SendBytes(frameTotal, 0, frameTotal.Length);
+					
+					lock (_txedFrames)
+						_txedFrames.Add(payload);
 				}
 
 				shouldTryBackOff = false;
@@ -188,6 +191,24 @@ namespace plNICDriver.Link.Framing
 			Frame frame = new Frame(type, (byte)txId, (byte)rxId, (byte)wid, dat);
 			lock(_txQueue)
 				_txQueue.Enqueue(frame, frame.PLen);
+
+			while (true)
+			{
+				lock (_txedFrames)
+				{
+					for (int i = _txedFrames.Count - 1; i >= 0; i--)
+					{
+						if (_txedFrames[i].Length == frame.PLen+HEADER_LEN)
+							if (!_txedFrames[i].Where((t, i) => t != frame.txFrame[i]).Any())
+							{
+								_txedFrames.RemoveAt(i);
+								return true;
+							}
+					}
+				}
+
+				Thread.Sleep(1);
+			}
 			
 			return true;
 		}
