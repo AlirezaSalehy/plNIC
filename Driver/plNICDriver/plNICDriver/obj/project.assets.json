@@ -187,6 +187,15 @@
           "lib/net6.0/NullFX.CRC.dll": {}
         }
       },
+      "Pastel/3.0.1": {
+        "type": "package",
+        "compile": {
+          "lib/net6.0/Pastel.dll": {}
+        },
+        "runtime": {
+          "lib/net6.0/Pastel.dll": {}
+        }
+      },
       "runtime.linux-arm.runtime.native.System.IO.Ports/6.0.0": {
         "type": "package",
         "runtimeTargets": {
@@ -516,6 +525,15 @@
         },
         "runtime": {
           "lib/net6.0/NullFX.CRC.dll": {}
+        }
+      },
+      "Pastel/3.0.1": {
+        "type": "package",
+        "compile": {
+          "lib/net6.0/Pastel.dll": {}
+        },
+        "runtime": {
+          "lib/net6.0/Pastel.dll": {}
         }
       },
       "runtime.linux-arm.runtime.native.System.IO.Ports/6.0.0": {
@@ -927,6 +945,23 @@
         "nullfx.crc.nuspec"
       ]
     },
+    "Pastel/3.0.1": {
+      "sha512": "HlxB9PGDNKgwxxqiQ0wnYKt8XZ6sJ25vJ2jVnMZ7lYVDVeo1SZ/6RM9m4bvYwV6dFTfk+RoR3T2LV/oSVu6ZDw==",
+      "type": "package",
+      "path": "pastel/3.0.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE",
+        "icon.png",
+        "lib/net6.0/Pastel.dll",
+        "lib/net6.0/Pastel.xml",
+        "lib/netstandard2.0/Pastel.dll",
+        "lib/netstandard2.0/Pastel.xml",
+        "pastel.3.0.1.nupkg.sha512",
+        "pastel.nuspec"
+      ]
+    },
     "runtime.linux-arm.runtime.native.System.IO.Ports/6.0.0": {
       "sha512": "75q52H7CSpgIoIDwXb9o833EvBZIXJ0mdPhz1E6jSisEXUBlSCPalC29cj3EXsjpuDwr0dj1LRXZepIQH/oL4Q==",
       "type": "package",
@@ -1192,6 +1227,7 @@
       "Microsoft.Extensions.Logging >= 6.0.0",
       "Microsoft.Extensions.Logging.Console >= 6.0.0",
       "NullFX.CRC >= 1.1.5",
+      "Pastel >= 3.0.1",
       "System.IO.Ports >= 6.0.0"
     ]
   },
@@ -1245,6 +1281,10 @@
           "NullFX.CRC": {
             "target": "Package",
             "version": "[1.1.5, )"
+          },
+          "Pastel": {
+            "target": "Package",
+            "version": "[3.0.1, )"
           },
           "System.IO.Ports": {
             "target": "Package",

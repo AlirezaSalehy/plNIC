@@ -67,7 +67,6 @@ namespace plNICDriver.Phy
 			var avail = _serialPort.BytesToRead;
 			var bytes = new byte[avail];
 			_serialPort.Read(bytes, 0, avail);
-			Console.WriteLine(bytes);
 			_onRx(bytes);
 		}
 

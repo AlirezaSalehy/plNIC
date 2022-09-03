@@ -1,8 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
 using plNICDriver.Link.Framing;
-using System;
-using System.Linq;
-using System.Text;
 
 namespace plNICDriver.Link.ARQ
 {
@@ -24,28 +21,20 @@ namespace plNICDriver.Link.ARQ
 
 		public byte ACKResponderId { get; set; }
 
-		private static bool IsCrcValid(byte[] appended)
+		private bool IsCrcValid(byte[] appended)
 		{
 			if (appended.Length < 3)
 				return false;
 
 			ExtractCRC(appended, out byte[] payload, out byte[] claimedCrc);
 			CalcCrc16(payload, out byte[] currCrc);
-			//Console.WriteLine($"This is payload {PrintByteArray(payload)}");
-			//Console.WriteLine($"This is claimed {PrintByteArray(claimedCrc)}");
-			//Console.WriteLine($"This is current {PrintByteArray(currCrc)}");
-			return !claimedCrc.Where((t, i) => t != currCrc[i]).Any();
-		}
 
-		public static string PrintByteArray(byte[] bytes)
-		{
-			var sb = new StringBuilder("new byte[] { ");
-			foreach (var b in bytes)
-			{
-				sb.Append(b + ", ");
-			}
-			sb.Append("}");
-			return sb.ToString();
+			var isValid = !claimedCrc.Where((t, i) => t != currCrc[i]).Any();
+			if (!isValid)
+				_lg.LError($"crc claimed: {claimedCrc.ToStr()}, " +
+							$"crc current: {currCrc.ToStr()}");
+
+			return isValid;
 		}
 
 		private static void AppendCRCField(in byte[] raw, out byte[] appended)
@@ -56,11 +45,11 @@ namespace plNICDriver.Link.ARQ
 			Array.Copy(crcField, 0, appended, raw.Length, CRC_LEN);
 		}
 
-		private static void ExtractCRC(in byte[] raw, out byte[] payload, out byte[] crc)
+		private void ExtractCRC(in byte[] raw, out byte[] payload, out byte[] crc)
 		{
 			var len = raw.Length;
-			if (len < CRC_LEN)
-				throw new ArgumentException("To check CRC payload must be longer than 2");
+			if (len <= CRC_LEN)
+				_lg.LError("SDU payload len must be > 2");
 
 			payload = new byte[len - CRC_LEN];
 			crc = new byte[CRC_LEN];
@@ -104,7 +93,6 @@ namespace plNICDriver.Link.ARQ
 			} // There is not CRC for it and instead header checksum which is done by framing component
 
 			bool isFrameValid = IsCrcValid(payload);
-
 			if (isFrameValid)
 			{
 				ExtractCRC(payload, out byte[] pldFld, out byte[] crcFld);
@@ -114,7 +102,7 @@ namespace plNICDriver.Link.ARQ
 			// Sending ACK/NCK for SDU only
 			if (ft == Frame.FrameType.SDU)
 			{
-				_lg.LogInformation($"Sending ACK/NCK Stat: {isFrameValid} for {wid}");
+				_lg.LDebug($"Sending ACK/NCK Stat: {isFrameValid} for {wid}");
 
 				if (isFrameValid)
 					await _txer.SendFrame(Frame.FrameType.ACK, ((byte)rxid), ((byte)txid), ((byte)wid), null);

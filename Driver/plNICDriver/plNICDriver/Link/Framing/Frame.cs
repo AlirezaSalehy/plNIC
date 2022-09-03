@@ -157,9 +157,10 @@ namespace plNICDriver.Link.Framing
 			private set { SetField(Fields.Hsh, value); }
 		}
 
-		internal bool IsValid()
+		internal bool IsValid(out byte calcdHash)
 		{
-			return Hsh == CalcHdrHash();
+			calcdHash = CalcHdrHash();
+			return Hsh == calcdHash;
 		}
 
 		internal void GetSerialize(out byte[] frameBytes)

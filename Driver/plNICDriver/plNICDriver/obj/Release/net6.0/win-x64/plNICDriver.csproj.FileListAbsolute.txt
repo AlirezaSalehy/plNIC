@@ -252,3 +252,4 @@ C:\Users\Lidoma\Desktop\plNIC\Driver\plNICDriver\plNICDriver\obj\Release\net6.0\
 C:\Users\Lidoma\Desktop\plNIC\Driver\plNICDriver\plNICDriver\obj\Release\net6.0\win-x64\plNICDriver.pdb
 C:\Users\Lidoma\Desktop\plNIC\Driver\plNICDriver\plNICDriver\obj\Release\net6.0\win-x64\plNICDriver.genruntimeconfig.cache
 C:\Users\Lidoma\Desktop\plNIC\Driver\plNICDriver\plNICDriver\obj\Release\net6.0\win-x64\ref\plNICDriver.dll
+C:\Users\Lidoma\Desktop\plNIC\Driver\plNICDriver\plNICDriver\bin\Release\net6.0\win-x64\Pastel.dll

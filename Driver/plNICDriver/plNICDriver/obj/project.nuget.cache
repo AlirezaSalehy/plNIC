@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "KClcrd6jX0dmQdJmwIbjeQGzGM0vZvX36ZYDyVZqSLhBgKwVS7VMVUS6GkeKDbqGTf4Ju1fJ0Yqy004sg6AYLw==",
+  "dgSpecHash": "NVGeIbltDexLU+4LlD8qhmhJjhJ11zF3FczEAmS8eDZpKXMk9Ymhcd5IXq+6mUWf6jCmUF0fxAAG3yoKiW68OA==",
   "success": true,
   "projectFilePath": "C:\\Users\\Lidoma\\Desktop\\plNIC\\Driver\\plNICDriver\\plNICDriver\\plNICDriver.csproj",
   "expectedPackageFiles": [
@@ -17,6 +17,7 @@
     "C:\\Users\\Lidoma\\.nuget\\packages\\microsoft.extensions.options.configurationextensions\\6.0.0\\microsoft.extensions.options.configurationextensions.6.0.0.nupkg.sha512",
     "C:\\Users\\Lidoma\\.nuget\\packages\\microsoft.extensions.primitives\\6.0.0\\microsoft.extensions.primitives.6.0.0.nupkg.sha512",
     "C:\\Users\\Lidoma\\.nuget\\packages\\nullfx.crc\\1.1.5\\nullfx.crc.1.1.5.nupkg.sha512",
+    "C:\\Users\\Lidoma\\.nuget\\packages\\pastel\\3.0.1\\pastel.3.0.1.nupkg.sha512",
     "C:\\Users\\Lidoma\\.nuget\\packages\\runtime.linux-arm.runtime.native.system.io.ports\\6.0.0\\runtime.linux-arm.runtime.native.system.io.ports.6.0.0.nupkg.sha512",
     "C:\\Users\\Lidoma\\.nuget\\packages\\runtime.linux-arm64.runtime.native.system.io.ports\\6.0.0\\runtime.linux-arm64.runtime.native.system.io.ports.6.0.0.nupkg.sha512",
     "C:\\Users\\Lidoma\\.nuget\\packages\\runtime.linux-x64.runtime.native.system.io.ports\\6.0.0\\runtime.linux-x64.runtime.native.system.io.ports.6.0.0.nupkg.sha512",

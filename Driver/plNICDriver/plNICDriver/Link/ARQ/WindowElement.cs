@@ -70,7 +70,7 @@ namespace plNICDriver.Link.ARQ
 
 			Random rand = new Random((int)DateTime.UtcNow.Ticks);
 
-			while (retries < numRetries)
+			while (true)
 			{
 				if (AckRecv)
 				{
@@ -81,8 +81,10 @@ namespace plNICDriver.Link.ARQ
 				if (timeOutCounter >= timeoutDiv)
 				{
 					timeOutCounter = 0;
-					await serial.SendFrame(ft, txid, rxid, wid, pld);
 					retries++;
+					if (retries > numRetries)
+						break;
+					await serial.SendFrame(ft, txid, rxid, wid, pld);
 				}
 
 				await Task.Delay(timeOut/timeoutDiv);

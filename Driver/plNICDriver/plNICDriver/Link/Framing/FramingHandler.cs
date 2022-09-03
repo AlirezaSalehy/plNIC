@@ -1,9 +1,11 @@
 ﻿using Microsoft.Extensions.Logging;
+using Pastel;
 using plNICDriver.Link.ARQ;
 using plNICDriver.Link.IDAllocation;
 using plNICDriver.Phy;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -57,11 +59,14 @@ namespace plNICDriver.Link.Framing
 		private void OnBytesRx(byte[] bytes)
 		{
 			lock (_busOccupiedlock)
+			{
 				_BusLastRxTick = DateTime.UtcNow.Ticks;
-			Array.Copy(bytes, 0, buffer, frameCounter, bytes.Length);
-			lock (_busOccupiedlock) frameCounter += bytes.Length;
-			if (frameCounter >= FRAME_MAX_LEN)
-				frameCounter = 0;
+				Array.Copy(bytes, 0, buffer, frameCounter, bytes.Length);
+				frameCounter += bytes.Length;
+				if (frameCounter >= FRAME_MAX_LEN)
+					frameCounter = 0;
+			}
+			_lg.LogDebug($"bytes recv {buffer.ToStr(bytes.Length)}");
 		}
 
 		private void ReceiveBytes(byte[] bytes, int offset, int numBytes)
@@ -88,10 +93,16 @@ namespace plNICDriver.Link.Framing
 			{
 				ReceiveBytes(frm.txFrame, 0, 1);
 				ReceiveBytes(frm.txFrame, 0, Frame.HEADER_LEN);
-				if (!frm.IsValid())
-					continue;
+				
+				_lg.LogDebug("Frame header received: {0}", frm.GetHeader());
 
-				_lg.LogDebug("frame header received: {0}", frm.GetHeader());
+				if (!frm.IsValid(out byte calcHash))
+				{
+					_lg.LError($"Invalid header, calculated Hsh {calcHash}");
+					continue;
+				} else
+					_lg.LDebug("valid header");
+
 
 				// Get remaining
 				ReceiveBytes(frm.txFrame, Frame.HEADER_LEN, frm.PLen);
@@ -118,7 +129,9 @@ namespace plNICDriver.Link.Framing
 			{
 				// Fallback for a random time
 				Random rand = new Random((int)DateTime.UtcNow.Ticks);
-				await Task.Delay((int)(rand.NextDouble() * MAX_FRAME_TX_TIME));
+				var backOffTime = (int)(rand.NextDouble() * MAX_FRAME_TX_TIME);
+				_lg.LWarning($"Back-off for " + $"{backOffTime} millis".PastelBg(Color.Maroon));
+				await Task.Delay(backOffTime);
 
 				// Check if possible to send
 				lock (_busOccupiedlock)
@@ -126,6 +139,8 @@ namespace plNICDriver.Link.Framing
 					var now = DateTime.UtcNow.Ticks;
 					if ((now - _BusLastRxTick) / TimeSpan.TicksPerMillisecond > 130)
 						toSend = true;
+					else
+						_lg.LWarning("Waiting, bus is " + "occupied".PastelBg(Color.Maroon));
 				}
 			}
 
@@ -136,22 +151,10 @@ namespace plNICDriver.Link.Framing
 			frameTotal[0] = ((byte)payload.Length);
 			Array.Copy(payload, 0, frameTotal, 1, payload.Length);
 
-			_lg.LogInformation($"Get header: {frame.GetHeader()}");
-			_lg.LogInformation($"Sending frame: {PrintByteArray(frameTotal)}");
+			_lg.LDebug($"header fields: {frame.GetHeader()}");
 
 			await _serial.SendBytes(frameTotal, 0, frameTotal.Length);
 			return true;
-		}
-
-		public string PrintByteArray(byte[] bytes)
-		{
-			var sb = new StringBuilder("new byte[] { ");
-			foreach (var b in bytes)
-			{
-				sb.Append(b + ", ");
-			}
-			sb.Append("}");
-			return sb.ToString();
 		}
 
 		public void Dispose()

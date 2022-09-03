@@ -12,6 +12,7 @@
           "Microsoft.Extensions.Logging": "6.0.0",
           "Microsoft.Extensions.Logging.Console": "6.0.0",
           "NullFX.CRC": "1.1.5",
+          "Pastel": "3.0.1",
           "System.IO.Ports": "6.0.0",
           "runtimepack.Microsoft.NETCore.App.Runtime.win-x64": "6.0.7"
         },
@@ -1013,6 +1014,14 @@
           }
         }
       },
+      "Pastel/3.0.1": {
+        "runtime": {
+          "lib/net6.0/Pastel.dll": {
+            "assemblyVersion": "3.0.1.0",
+            "fileVersion": "3.0.1.0"
+          }
+        }
+      },
       "runtime.linux-arm.runtime.native.System.IO.Ports/6.0.0": {},
       "runtime.linux-arm64.runtime.native.System.IO.Ports/6.0.0": {},
       "runtime.linux-x64.runtime.native.System.IO.Ports/6.0.0": {},
@@ -1158,6 +1167,13 @@
       "sha512": "sha512-eiYssrRB66GvvgvFZiiVsmBpJO1AGpw6nxfGK62dun5F8os9q8sPHq1FjfE7HzuPFK94IaNMPBYBeVonDLITmA==",
       "path": "nullfx.crc/1.1.5",
       "hashPath": "nullfx.crc.1.1.5.nupkg.sha512"
+    },
+    "Pastel/3.0.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-HlxB9PGDNKgwxxqiQ0wnYKt8XZ6sJ25vJ2jVnMZ7lYVDVeo1SZ/6RM9m4bvYwV6dFTfk+RoR3T2LV/oSVu6ZDw==",
+      "path": "pastel/3.0.1",
+      "hashPath": "pastel.3.0.1.nupkg.sha512"
     },
     "runtime.linux-arm.runtime.native.System.IO.Ports/6.0.0": {
       "type": "package",
