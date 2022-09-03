@@ -128,7 +128,7 @@ namespace plNICDriver.Link.Framing
 		public Frame(in Frame fr)
 		{
 			txFrame = new byte[FRAME_MAX_LEN];
-			Array.Copy(fr.txFrame, 0, txFrame, 0, FRAME_MAX_LEN);
+			Array.Copy(fr.txFrame, 0, txFrame, 0, fr.PLen+HEADER_LEN);
 		}
 
 		internal FrameType FrTp { 

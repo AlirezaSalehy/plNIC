@@ -29,6 +29,7 @@ namespace plNICDriver.Link.Framing
 
 		private PHYSerial _serial;
 		private Thread _rxThread;
+		private Thread _txThread;
 		
 		private OnRxFrame _onRxFrame;
 		private bool _terminate;
@@ -39,6 +40,8 @@ namespace plNICDriver.Link.Framing
 		int frameCounter = 0;
 		byte[] buffer = new byte[FRAME_MAX_LEN];
 
+		private PriorityQueue<Frame, int> _txQueue = new PriorityQueue<Frame, int>();
+
 		ILogger<FramingHandler> _lg;
 
 		public FramingHandler(ILoggerFactory loggerFactory, OnRxFrame rxFrame, string portName)
@@ -47,6 +50,7 @@ namespace plNICDriver.Link.Framing
 
 			_serial = new PHYSerial(portName, OnBytesRx);
 			_rxThread = new Thread(FrameReceiveTask);
+			_txThread = new Thread(FramePriorityTransmissionTask);
 			_terminate = false;
 			_onRxFrame = rxFrame;
 		}
@@ -54,6 +58,7 @@ namespace plNICDriver.Link.Framing
 		public void Begin()
 		{
 			_rxThread.Start();
+			_txThread.Start();
 		}
 
 		private void OnBytesRx(byte[] bytes)
@@ -83,6 +88,63 @@ namespace plNICDriver.Link.Framing
 					}
 
 				Thread.Yield();
+			}
+		}
+
+		private async Task<bool> BackOff()
+		{
+			// Non persistent CSMA
+			var toSend = false;
+			while (!toSend)
+			{
+				// Fallback for a random time
+				Random rand = new Random((int)DateTime.UtcNow.Ticks);
+				var backOffTime = (int)(rand.NextDouble() * MAX_FRAME_TX_TIME);
+				_lg.LWarning($"Back-off for " + $"{backOffTime} millis".PastelBg(Color.Maroon));
+				await Task.Delay(backOffTime);
+
+				// Check if possible to send
+				lock (_busOccupiedlock)
+				{
+					var now = DateTime.UtcNow.Ticks;
+					if ((now - _BusLastRxTick) / TimeSpan.TicksPerMillisecond > 130)
+						toSend = true;
+					else
+						_lg.LWarning("Waiting, bus is " + "occupied".PastelBg(Color.Maroon));
+				}
+			}
+
+			return true;
+		}
+
+		private async void FramePriorityTransmissionTask()
+		{
+			bool shouldTryBackOff = false;
+			Frame nextFrame;
+			while (!_terminate)
+			{
+				lock (_txQueue)
+					if (_txQueue.Count > 0)
+						shouldTryBackOff = true;
+				
+				if (shouldTryBackOff)
+				{
+					await BackOff(); // This way we give chance to late arriving lower priorities to be first
+
+					lock (_txQueue)
+						nextFrame = new Frame(_txQueue.Dequeue());
+
+					nextFrame.GetSerialize(out byte[] payload);
+					// TODO: Here we can use contant pattern boundaries and stuffing
+					byte[] frameTotal = new byte[payload.Length + 1];
+					frameTotal[0] = ((byte)payload.Length);
+					Array.Copy(payload, 0, frameTotal, 1, payload.Length);
+					_lg.LDebug($"header fields: {nextFrame.GetHeader()}");
+					await _serial.SendBytes(frameTotal, 0, frameTotal.Length);
+				}
+
+				shouldTryBackOff = false;
+				Thread.Sleep(1);
 			}
 		}
 
@@ -123,37 +185,10 @@ namespace plNICDriver.Link.Framing
 
 		public async Task<bool> SendFrame(FrameType type, int txId, int rxId, int wid, byte[]? dat)
 		{
-			// Non persistent CSMA
-			var toSend = false;
-			while (!toSend)
-			{
-				// Fallback for a random time
-				Random rand = new Random((int)DateTime.UtcNow.Ticks);
-				var backOffTime = (int)(rand.NextDouble() * MAX_FRAME_TX_TIME);
-				_lg.LWarning($"Back-off for " + $"{backOffTime} millis".PastelBg(Color.Maroon));
-				await Task.Delay(backOffTime);
-
-				// Check if possible to send
-				lock (_busOccupiedlock)
-				{
-					var now = DateTime.UtcNow.Ticks;
-					if ((now - _BusLastRxTick) / TimeSpan.TicksPerMillisecond > 130)
-						toSend = true;
-					else
-						_lg.LWarning("Waiting, bus is " + "occupied".PastelBg(Color.Maroon));
-				}
-			}
-
 			Frame frame = new Frame(type, (byte)txId, (byte)rxId, (byte)wid, dat);
-			frame.GetSerialize(out byte[] payload);
-			// TODO: Here we can use contant pattern boundaries and stuffing
-			byte[] frameTotal = new byte[payload.Length + 1];
-			frameTotal[0] = ((byte)payload.Length);
-			Array.Copy(payload, 0, frameTotal, 1, payload.Length);
-
-			_lg.LDebug($"header fields: {frame.GetHeader()}");
-
-			await _serial.SendBytes(frameTotal, 0, frameTotal.Length);
+			lock(_txQueue)
+				_txQueue.Enqueue(frame, frame.PLen);
+			
 			return true;
 		}
 
