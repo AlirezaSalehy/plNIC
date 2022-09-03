@@ -60,8 +60,11 @@ try
 				continue;
 
 			// Fragmentation??
-			var status = link.SendPacket(Encoding.ASCII.GetBytes(input));
-			Console.WriteLine($"Packet Status {status.Result.ToString()}");
+			Task.Run(() =>
+			{
+				var status = link.SendPacket(Encoding.ASCII.GetBytes(input));
+				Console.WriteLine($"Packet Status {status.Result}");
+			});
 		}
 	}
 

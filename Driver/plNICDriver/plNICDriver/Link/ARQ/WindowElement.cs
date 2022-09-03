@@ -57,6 +57,7 @@ namespace plNICDriver.Link.ARQ
 			ft = Ft;
 			rxid = rxId;
 			txid = txId;
+			pld = new byte[payLoad.Length];
 			Array.Copy(payLoad, 0, pld, 0, payLoad.Length);
 			retries = 0;
 		}
@@ -67,11 +68,9 @@ namespace plNICDriver.Link.ARQ
 			AckRecv = false;
 			retries = 0;
 
-			Console.WriteLine("sdsfsdf");
-
 			Random rand = new Random((int)DateTime.UtcNow.Ticks);
 
-			while (retries <= numRetries)
+			while (retries < numRetries)
 			{
 				if (AckRecv)
 				{
@@ -82,7 +81,6 @@ namespace plNICDriver.Link.ARQ
 				if (timeOutCounter >= timeoutDiv)
 				{
 					timeOutCounter = 0;
-					Console.WriteLine("sdsfsdf");
 					await serial.SendFrame(ft, txid, rxid, wid, pld);
 					retries++;
 				}
@@ -95,7 +93,7 @@ namespace plNICDriver.Link.ARQ
 			return false;
 		}
 
-		public bool Check(Frame.FrameType ft, byte txId, byte rxId, byte wid)
+		public bool Check(Frame.FrameType fT, byte txId, byte rxId, byte wid)
 		{
 			AckRecv = false;
 
@@ -103,14 +101,15 @@ namespace plNICDriver.Link.ARQ
 			{
 				if (this.txid == rxId && this.wid == wid)
 				{
-					if (this.ft == Frame.FrameType.ACK)
+					if (fT == Frame.FrameType.ACK)
 						AckRecv = true;
 
-					else if (ft == Frame.FrameType.NCK)
+					else if (fT == Frame.FrameType.NCK)
 						lock (timeOutCounterObj) { timeOutCounter = timeoutDiv; }
 				}
 			}
 
+			Console.WriteLine($"ackRecv is {AckRecv}");
 			return AckRecv;
 		}
 

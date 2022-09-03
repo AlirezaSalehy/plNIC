@@ -136,10 +136,22 @@ namespace plNICDriver.Link.Framing
 			frameTotal[0] = ((byte)payload.Length);
 			Array.Copy(payload, 0, frameTotal, 1, payload.Length);
 
-			_lg.LogInformation($"Sending frame: {frameTotal}");
+			_lg.LogInformation($"Get header: {frame.GetHeader()}");
+			_lg.LogInformation($"Sending frame: {PrintByteArray(frameTotal)}");
 
 			await _serial.SendBytes(frameTotal, 0, frameTotal.Length);
 			return true;
+		}
+
+		public string PrintByteArray(byte[] bytes)
+		{
+			var sb = new StringBuilder("new byte[] { ");
+			foreach (var b in bytes)
+			{
+				sb.Append(b + ", ");
+			}
+			sb.Append("}");
+			return sb.ToString();
 		}
 
 		public void Dispose()

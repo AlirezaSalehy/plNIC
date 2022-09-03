@@ -2,6 +2,7 @@
 using plNICDriver.Link.Framing;
 using System;
 using System.Linq;
+using System.Text;
 
 namespace plNICDriver.Link.ARQ
 {
@@ -23,14 +24,28 @@ namespace plNICDriver.Link.ARQ
 
 		public byte ACKResponderId { get; set; }
 
-		private static bool CheckCRC(byte[] appended)
+		private static bool IsCrcValid(byte[] appended)
 		{
-			if (appended.Length > 2)
+			if (appended.Length < 3)
 				return false;
 
 			ExtractCRC(appended, out byte[] payload, out byte[] claimedCrc);
 			CalcCrc16(payload, out byte[] currCrc);
+			//Console.WriteLine($"This is payload {PrintByteArray(payload)}");
+			//Console.WriteLine($"This is claimed {PrintByteArray(claimedCrc)}");
+			//Console.WriteLine($"This is current {PrintByteArray(currCrc)}");
 			return !claimedCrc.Where((t, i) => t != currCrc[i]).Any();
+		}
+
+		public static string PrintByteArray(byte[] bytes)
+		{
+			var sb = new StringBuilder("new byte[] { ");
+			foreach (var b in bytes)
+			{
+				sb.Append(b + ", ");
+			}
+			sb.Append("}");
+			return sb.ToString();
 		}
 
 		private static void AppendCRCField(in byte[] raw, out byte[] appended)
@@ -50,8 +65,8 @@ namespace plNICDriver.Link.ARQ
 			payload = new byte[len - CRC_LEN];
 			crc = new byte[CRC_LEN];
 
-			Array.Copy(payload, 0, payload, 0, len - CRC_LEN);
-			Array.Copy(payload, len - CRC_LEN, crc, 0, CRC_LEN);
+			Array.Copy(raw, 0, payload, 0, len - CRC_LEN);
+			Array.Copy(raw, len - CRC_LEN, crc, 0, CRC_LEN);
 		}
 
 		// Instead of using ushort in all around the library, using byte[] will make it really simple to change
@@ -88,9 +103,9 @@ namespace plNICDriver.Link.ARQ
 				return;
 			} // There is not CRC for it and instead header checksum which is done by framing component
 
-			bool isPacketValid = CheckCRC(payload);
+			bool isFrameValid = IsCrcValid(payload);
 
-			if (isPacketValid)
+			if (isFrameValid)
 			{
 				ExtractCRC(payload, out byte[] pldFld, out byte[] crcFld);
 				_onRx(ft, ((byte)txid), ((byte)txid), pldFld);
@@ -99,13 +114,14 @@ namespace plNICDriver.Link.ARQ
 			// Sending ACK/NCK for SDU only
 			if (ft == Frame.FrameType.SDU)
 			{
-				if (isPacketValid)
-					await _txer.SendFrame(Frame.FrameType.ACK, ((byte)txid), ((byte)rxid), ((byte)wid), null);
+				_lg.LogInformation($"Sending ACK/NCK Stat: {isFrameValid} for {wid}");
+
+				if (isFrameValid)
+					await _txer.SendFrame(Frame.FrameType.ACK, ((byte)rxid), ((byte)txid), ((byte)wid), null);
 
 				else
-					await _txer.SendFrame(Frame.FrameType.NCK, ((byte)txid), ((byte)rxid), ((byte)wid), null);
+					await _txer.SendFrame(Frame.FrameType.NCK, ((byte)rxid), ((byte)txid), ((byte)wid), null);
 
-				_lg.LogInformation($"Sending ACK/NCK Stat: {isPacketValid} for {wid}");
 			}
 		}
 

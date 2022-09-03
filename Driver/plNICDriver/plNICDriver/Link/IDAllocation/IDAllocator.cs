@@ -129,7 +129,7 @@ namespace plNICDriver.Link.IDAllocation
 
 		public byte GetId()
 		{
-			return _proposeId;
+			return _id;
 		}
 
 		private async Task<Status> NegotiateTask(long totalTimeOut)

@@ -86,8 +86,6 @@ namespace plNICDriver.Link.Framing
 
 		internal void SetHeader(byte[] hd)
 		{
-			for (int i = 0; i < HEADER_LEN; i--)
-				Console.WriteLine(hd[i]);
 			Array.Copy(hd, txFrame, HEADER_LEN);
 		}
 
@@ -112,11 +110,11 @@ namespace plNICDriver.Link.Framing
 		public Frame(FrameType frameType, byte txId, byte rxId, byte wid, byte[]? dat)
 		{
 			txFrame = new byte[FRAME_MAX_LEN];
-			byte len = HEADER_LEN;
+			byte len = 0;
 			if (dat is not null)
 			{
 				Array.Copy(dat, 0, txFrame, HEADER_LEN, dat.Length);
-				len += (byte)dat.Length;
+				len = (byte)dat.Length;
 			}
 
 			FrTp = frameType;
@@ -174,7 +172,7 @@ namespace plNICDriver.Link.Framing
 		internal string GetHeader()
 		{
 			return $"HEADER: TxId: {TxId}, RxId: {RxId}, " +
-						$"FrTp: {FrTp}, WId: {Wid}, PLen: {PLen}";
+						$"FrTp: {FrTp}, WId: {Wid}, PLen: {PLen}, Hsh: {Hsh}";
 		}
 
 		public override string ToString()
