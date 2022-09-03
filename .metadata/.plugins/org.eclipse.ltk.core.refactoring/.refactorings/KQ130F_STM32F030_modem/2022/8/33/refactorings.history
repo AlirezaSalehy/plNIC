@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<session version="1.0">
-<refactoring comment="Rename resource &apos;KQ130F_STM32F030_modem/lib/Inc/Encryption.h&apos; to &apos;Encryption.hpp&apos;" description="Rename resource &apos;Encryption.h&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="lib/Inc/Encryption.h" name="Encryption.hpp" stamp="1660906232744" updateReferences="true"/>
-</session>

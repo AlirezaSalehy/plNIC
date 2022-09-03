@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # plNIC using KQ130F FSK modem
 The under developed plNIC will provide encryption, DMA, buffering techniques, CRC error checking and RTOS(FreeRTOS).
 
