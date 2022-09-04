@@ -35,9 +35,9 @@ namespace plNICDriver.Phy
 				ReadTimeout = 500,
 				WriteTimeout = 500
 			};
-
-			_serialPort.DataReceived += DataReceivedHandler;
 			_serialPort.Open();
+			_serialPort.DiscardInBuffer();
+			_serialPort.DataReceived += DataReceivedHandler;
 		}
 
 		public async Task<Status> SendBytes(byte[] bytes, int offset, int numBytes)

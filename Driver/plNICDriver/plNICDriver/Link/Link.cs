@@ -35,7 +35,6 @@ namespace plNICDriver.Link
 			Err_NotInitialized
 		}
 
-		private static readonly int NUM_FRAMES = 5;
 		private static readonly int NUM_WIDS = 2;
 
 		public delegate void OnRx(byte txid, byte[] pcktContent);

@@ -21,9 +21,18 @@ namespace plNICDriver.Link.Framing
 	// specify different boundaries of the frame, so that if misalignment happened can be recovered
 
 	// Generic Link Frame is consisted of Header + Payload
+
+	// Two way to synchronize packet parsing 1- len & timeout 2- byte/bit stuffing => makes packet twice less in worst case
+	
+	/*
+	 * درآغاز این جوری بود که فریم های بسیار بزرگ باعث انقضای زمانی میشدند که این مشکل با 
+	 * داده اولویت بالاتر به اندازه های کوچک تر بهتر شد ولی چون فرستادن پاک ناهمگام بود سبب قحطی برای بسته 
+	 * های بزرگ میشد
+	 */
 	public class FramingHandler
 	{
 		private static readonly int MAX_FRAME_TX_TIME = 4000;
+		private static readonly int TIME_DIV = 10;
 
 		public delegate void OnRxFrame(FrameType type, int txId, int rxId, byte[] dat, int wid);
 
@@ -38,7 +47,7 @@ namespace plNICDriver.Link.Framing
 		private long _BusLastRxTick = 0;
 
 		int frameCounter = 0;
-		byte[] buffer = new byte[FRAME_MAX_LEN];
+		byte[] buffer = new byte[FRAME_MAX_LEN*3];
 
 		private PriorityQueue<Frame, int> _txQueue = new PriorityQueue<Frame, int>();
 		private IList<byte[]> _txedFrames = new List<byte[]>();
@@ -74,21 +83,36 @@ namespace plNICDriver.Link.Framing
 			_lg.LogDebug($"bytes recv {buffer.ToStr(bytes.Length)}");
 		}
 
-		private void ReceiveBytes(byte[] bytes, int offset, int numBytes)
+		// Hello This is a test with len
+		private async Task<bool> ReceiveBytes(byte[] bytes, int offset, int numBytes)
 		{
+			double timeout = numBytes * 130;
+			var counter = TIME_DIV;
 			while (0 < numBytes)
 			{
+				var delayTime = (int)(Math.Ceiling(timeout / TIME_DIV));
+				await Task.Delay(delayTime);
+				counter--;
+
 				lock (_busOccupiedlock)
 					if (frameCounter >= numBytes)
 					{
 						Array.Copy(buffer, 0, bytes, offset, numBytes);
 						frameCounter = frameCounter - numBytes;
 						Array.Copy(buffer, numBytes, buffer, 0, frameCounter);
-						break;
+						return true;
+					} 
+					else
+					{
+						timeout = (numBytes - frameCounter) * 130;
+						counter = TIME_DIV;
 					}
 
-				Thread.Yield();
+				if (counter == 0)
+					return false;
 			}
+
+			return false;
 		}
 
 		private async Task<bool> BackOff()
@@ -139,7 +163,7 @@ namespace plNICDriver.Link.Framing
 					byte[] frameTotal = new byte[payload.Length + 1];
 					frameTotal[0] = ((byte)payload.Length);
 					Array.Copy(payload, 0, frameTotal, 1, payload.Length);
-					_lg.LDebug($"header fields: {nextFrame.GetHeader()}");
+					_lg.LDebug($"Frame header transmitting: {nextFrame.GetHeader()}");
 					await _serial.SendBytes(frameTotal, 0, frameTotal.Length);
 					
 					lock (_txedFrames)
@@ -151,15 +175,19 @@ namespace plNICDriver.Link.Framing
 			}
 		}
 
-		private void FrameReceiveTask()
+		private async void FrameReceiveTask()
 		{
 			Frame frm = new Frame();
 			while (!_terminate)
 			{
-				ReceiveBytes(frm.txFrame, 0, 1);
-				ReceiveBytes(frm.txFrame, 0, Frame.HEADER_LEN);
+				Thread.Sleep(2);
+
+				if (! await ReceiveBytes(frm.txFrame, 0, 1))
+					continue;
+				if (! await ReceiveBytes(frm.txFrame, 0, Frame.HEADER_LEN))
+					continue;
 				
-				_lg.LogDebug("Frame header received: {0}", frm.GetHeader());
+				_lg.LDebug($"Frame header received: {frm.GetHeader()}");
 
 				if (!frm.IsValid(out byte calcHash))
 				{
@@ -168,9 +196,10 @@ namespace plNICDriver.Link.Framing
 				} else
 					_lg.LDebug("valid header");
 
-
-				// Get remaining
-				ReceiveBytes(frm.txFrame, Frame.HEADER_LEN, frm.PLen);
+				if (frm.PLen > 0)
+					// Get remaining
+					if (! await ReceiveBytes(frm.txFrame, Frame.HEADER_LEN, frm.PLen))
+						continue;
 
 				//Random random = new Random((int)DateTime.Now.Ticks);
 				//if (random.NextDouble() > 0.7)
@@ -181,8 +210,6 @@ namespace plNICDriver.Link.Framing
 
 				var payload = frm.GetPayload();
 				_onRxFrame(frm.FrTp, frm.TxId, frm.RxId, payload, frm.Wid);
-
-				Thread.Sleep(10);
 			}
 		}
 
@@ -207,10 +234,8 @@ namespace plNICDriver.Link.Framing
 					}
 				}
 
-				Thread.Sleep(1);
+				await Task.Delay(1);
 			}
-			
-			return true;
 		}
 
 		public void Dispose()
