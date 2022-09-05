@@ -56,7 +56,7 @@ namespace plNICDriver.Phy
 			} finally
 			{
 				txMutex.ReleaseMutex();
-				await Task.Delay((numBytes) * 100);
+				await Task.Delay((numBytes) * 130);
 			}
 		}
 

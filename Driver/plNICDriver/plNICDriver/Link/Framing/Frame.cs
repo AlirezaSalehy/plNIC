@@ -107,8 +107,10 @@ namespace plNICDriver.Link.Framing
 			txFrame = new byte[FRAME_MAX_LEN];
 		}
 
-		public Frame(FrameType frameType, byte txId, byte rxId, byte wid, byte[]? dat)
+		public Frame(FrameType frameType, byte txId, byte rxId, byte wid, byte[]? dat, int tries = 1)
 		{
+			// Retries is a property of win element but for Back-off num of retries is needed
+			Tries = tries;
 			txFrame = new byte[FRAME_MAX_LEN];
 			byte len = 0;
 			if (dat is not null)
@@ -127,10 +129,17 @@ namespace plNICDriver.Link.Framing
 
 		public Frame(in Frame fr)
 		{
+			Tries = fr.Tries;
 			txFrame = new byte[FRAME_MAX_LEN];
 			Array.Copy(fr.txFrame, 0, txFrame, 0, fr.PLen+HEADER_LEN);
 		}
 
+
+		internal int Tries
+		{
+			get;
+			private set;
+		}
 		internal FrameType FrTp { 
 			get { return ((FrameType)GetField(Fields.Flag)); }
 			private set { SetField(Fields.Flag, (byte)value); }	

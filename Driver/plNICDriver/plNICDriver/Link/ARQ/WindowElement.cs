@@ -84,7 +84,7 @@ namespace plNICDriver.Link.ARQ
 					retries++;
 					if (retries > numRetries)
 						break;
-					await serial.SendFrame(ft, txid, rxid, wid, pld);
+					await serial.SendFrame(ft, txid, rxid, wid, pld, retries);
 				}
 
 				await Task.Delay(timeOut/timeoutDiv);
@@ -111,7 +111,6 @@ namespace plNICDriver.Link.ARQ
 				}
 			}
 
-			Console.WriteLine($"ackRecv is {AckRecv}");
 			return AckRecv;
 		}
 

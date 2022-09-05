@@ -5,6 +5,7 @@ using static plNICDriver.LoggerExtension;
 using System.Text;
 using Pastel;
 using System.Drawing;
+using plNICDriver.Net;
 
 // This is a demo to show how driver library works
 
@@ -47,21 +48,21 @@ bool GetArgs(out string portName, out byte id)
 	return true;
 }
 
-async void RunCMDInterface(Link link)
+async void RunCMDInterface(NetPort netPort)
 {
 	try
 	{
-		var res = await link.Begin();
+		var res = await netPort.Begin();
 		if (!res)
 			return;
 
 		_lg.LInformation("All done! can now send messages, -1 to terminate");
 
-		SendPackets();
+		SendMessages();
 
-		link.Dispose();
+		netPort.Dispose();
 
-		void SendPackets()
+		void SendMessages()
 		{
 			while (true)
 			{
@@ -73,11 +74,11 @@ async void RunCMDInterface(Link link)
 					continue;
 
 				// Fragmentation??
-				Task.Run(() =>
+				Task.Run(async () =>
 				{
-					var status = link.SendPacket(Encoding.ASCII.GetBytes(input));
-					_lg.LInformation($"Packet Status " +
-						$"{status.Result.ToString().Pastel(Color.DarkBlue).PastelBg(Color.LightGreen)}");
+					var status = await netPort.SendSegment(Encoding.ASCII.GetBytes(input));
+					_lg.LInformation($"Segment Status " +
+						$"{status.ToString().Pastel(Color.DarkBlue).PastelBg(Color.LightGreen)}");
 				});
 			}
 		}
@@ -92,11 +93,11 @@ async void RunCMDInterface(Link link)
 
 if (GetArgs(out string comPort, out byte id))
 {
-	Link link = new Link(loggerFactory, id, comPort, 3, 3500*2+300*2, 3000, (byte txid, byte[] dat) => {
+	NetPort netPort = new NetPort(loggerFactory, comPort, id, (byte txid, byte[] dat) => {
 		_lg.LInformation($"Recv: {Encoding.ASCII.GetString(dat).Pastel(Color.Black).PastelBg(Color.LightGreen)}");
 	});
 
-	RunCMDInterface(link);
+	RunCMDInterface(netPort);
 }
 
 Console.ReadLine();

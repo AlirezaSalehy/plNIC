@@ -60,7 +60,7 @@ namespace plNICDriver.Link
 			_rxCallback = rx;
 			_arqh.ACKResponderId = ((byte)id);
 
-			_lg.LogTrace("Link initialized");
+			_lg.LInformation("Link layer initialized");
 		}
 
 		public void OnRxFrameDispatch(Frame.FrameType ft, int txid, int rxid, byte[] payload, int wid)

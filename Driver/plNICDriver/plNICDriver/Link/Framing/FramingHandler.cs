@@ -31,7 +31,8 @@ namespace plNICDriver.Link.Framing
 	 */
 	public class FramingHandler
 	{
-		private static readonly int MAX_FRAME_TX_TIME = 4000;
+		private static readonly int TURN_AROUND = 10 + 100 + 10 + 100;
+		private static readonly int BIT_DELAY = 20 + 100 + 5;
 		private static readonly int TIME_DIV = 10;
 
 		public delegate void OnRxFrame(FrameType type, int txId, int rxId, byte[] dat, int wid);
@@ -62,6 +63,8 @@ namespace plNICDriver.Link.Framing
 			_txThread = new Thread(FramePriorityTransmissionTask);
 			_terminate = false;
 			_onRxFrame = rxFrame;
+
+			_BusLastRxTick = DateTime.UtcNow.Ticks;
 		}
 
 		public void Begin()
@@ -80,13 +83,13 @@ namespace plNICDriver.Link.Framing
 				if (frameCounter >= FRAME_MAX_LEN)
 					frameCounter = 0;
 			}
-			_lg.LogDebug($"bytes recv {buffer.ToStr(bytes.Length)}");
+			//_lg.LDebug($"bytes recv {buffer.ToStr(bytes.Length)}");
 		}
 
 		// Hello This is a test with len
 		private async Task<bool> ReceiveBytes(byte[] bytes, int offset, int numBytes)
 		{
-			double timeout = numBytes * 130;
+			double timeout = numBytes * BIT_DELAY;
 			var counter = TIME_DIV;
 			while (0 < numBytes)
 			{
@@ -104,7 +107,7 @@ namespace plNICDriver.Link.Framing
 					} 
 					else
 					{
-						timeout = (numBytes - frameCounter) * 130;
+						timeout = (numBytes - frameCounter) * BIT_DELAY;
 						counter = TIME_DIV;
 					}
 
@@ -115,15 +118,18 @@ namespace plNICDriver.Link.Framing
 			return false;
 		}
 
-		private async Task<bool> BackOff()
+		//`
+
+		//`![](2F6EA1EA363F933B2713EFFB670F3DD5.png;https://www.geeksforgeeks.org/difference-between-1-persistent-and-non-persistent-csma/ ;;0.04488,0.04759)
+		private async Task<bool> BackOff(int tries)
 		{
+			var retries = tries - 1;
 			// Non persistent CSMA
-			var toSend = false;
-			while (!toSend)
+			while (true)
 			{
 				// Fallback for a random time
 				Random rand = new Random((int)DateTime.UtcNow.Ticks);
-				var backOffTime = (int)(rand.NextDouble() * MAX_FRAME_TX_TIME);
+				var backOffTime = (int)(rand.NextInt64((int)Math.Pow(2, retries+3)) * TURN_AROUND);
 				_lg.LWarning($"Back-off for " + $"{backOffTime} millis".PastelBg(Color.Maroon));
 				await Task.Delay(backOffTime);
 
@@ -131,14 +137,17 @@ namespace plNICDriver.Link.Framing
 				lock (_busOccupiedlock)
 				{
 					var now = DateTime.UtcNow.Ticks;
-					if ((now - _BusLastRxTick) / TimeSpan.TicksPerMillisecond > 130)
-						toSend = true;
+					if ((now - _BusLastRxTick) / TimeSpan.TicksPerMillisecond > BIT_DELAY)
+						return true;
 					else
+					{
 						_lg.LWarning("Waiting, bus is " + "occupied".PastelBg(Color.Maroon));
+						retries++;
+						if (retries > 15)
+							return false;
+					}
 				}
 			}
-
-			return true;
 		}
 
 		private async void FramePriorityTransmissionTask()
@@ -153,10 +162,11 @@ namespace plNICDriver.Link.Framing
 				
 				if (shouldTryBackOff)
 				{
-					await BackOff(); // This way we give chance to late arriving lower priorities to be first
-
 					lock (_txQueue)
 						nextFrame = new Frame(_txQueue.Dequeue());
+
+					if (!await BackOff(nextFrame.Tries)) // This way we give chance to late arriving lower priorities to be first
+						_lg.LCritical("Back off failed for 15 times");
 
 					nextFrame.GetSerialize(out byte[] payload);
 					// TODO: Here we can use contant pattern boundaries and stuffing
@@ -180,7 +190,7 @@ namespace plNICDriver.Link.Framing
 			Frame frm = new Frame();
 			while (!_terminate)
 			{
-				Thread.Sleep(2);
+				await Task.Delay(2);
 
 				if (! await ReceiveBytes(frm.txFrame, 0, 1))
 					continue;
@@ -213,9 +223,9 @@ namespace plNICDriver.Link.Framing
 			}
 		}
 
-		public async Task<bool> SendFrame(FrameType type, int txId, int rxId, int wid, byte[]? dat)
+		public async Task<bool> SendFrame(FrameType type, int txId, int rxId, int wid, byte[]? dat, int numTries = 1)
 		{
-			Frame frame = new Frame(type, (byte)txId, (byte)rxId, (byte)wid, dat);
+			Frame frame = new Frame(type, (byte)txId, (byte)rxId, (byte)wid, dat, numTries);
 			lock(_txQueue)
 				_txQueue.Enqueue(frame, frame.PLen);
 
