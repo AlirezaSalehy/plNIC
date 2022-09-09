@@ -1,9 +1,0 @@
-{
-  "profiles": {
-    "plNICDriver": {
-      "commandName": "Project",
-      "remoteDebugEnabled": false,
-      "authenticationMode": "Windows"
-    }
-  }
-}
