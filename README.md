@@ -239,6 +239,9 @@ The discussed plNIC soldered on double sided hole board as bellow:
 <img src="Docs/Imgs/Modem_Physical_Picture.jpg" width="70%" height="70%">
 <img src="/Docs/Imgs/Modems.jpg" width="70%" height="70%">
 
+
+>__Warning__  Although the datasheet states that leaving MODE pin in Hi-Z is fine, I suggest you not to do this. Using Custom mode and pulling the pin to the ground is a much better approach. After mentioned adjustment two awkward problems encountered were solved. Which were noisy transmissions and power supply problem.
+
 >__Warning__  The ambiguous insufficient documentation of this Chinese modem, which I provided in Docs/Texts, states that the maximum current crossing the modem is about 300mA. Though my tests reveal effectively more current passing it. This misinformation made me use a heat sink after board soldering, which was a trouble, as it gets necessary. So be careful about it. 
 
 >__Note__ This website has useful information to calculate Total Thermal Resistance(θ<sub>JA</sub>(TOTAL)) and need of heat sink: https://www.petervis.com/electronics/Voltage_Regulator_Heatsink/Heatsink_for_TO-220_Voltage_Regulator.html
