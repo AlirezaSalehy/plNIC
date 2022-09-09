@@ -7,7 +7,7 @@ namespace plNICDriver.Link.ARQ
 	// We use task instead of thread because threads are heavier than task lots of overhead
 	public class ARQHandler
 	{
-		private static readonly byte CRC_LEN = 2;
+		internal static readonly byte CRC_LEN = 2;
 		public delegate void onRxARQFrame(Frame.FrameType ft, byte txId, byte rxId, byte[] payload);
 
 		private int _numRetries;
@@ -81,7 +81,7 @@ namespace plNICDriver.Link.ARQ
 			for (int i = 0; i < _winElements.Length; i++)
 				_winElements[i] = new WindowElement(_txer);
 			
-			_lg.LogTrace($"ARQHandler created, #wids {numElems}");
+			_lg.LDebug($"ARQHandler created, #wids {numElems}");
 		}
 
 		public async void OnRxFrame(Frame.FrameType ft, int txid, int rxid, byte[] payload, int wid)

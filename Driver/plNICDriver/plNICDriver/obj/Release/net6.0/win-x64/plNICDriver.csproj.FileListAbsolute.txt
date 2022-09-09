@@ -1,3 +1,4 @@
+C:\Users\Lidoma\Desktop\plNIC\Driver\plNICDriver\plNICDriver\bin\Release\net6.0\win-x64\System.Threading.dll
 C:\Users\Lidoma\Desktop\plNIC\Driver\plNICDriver\plNICDriver\bin\Release\net6.0\win-x64\plNICDriver.exe
 C:\Users\Lidoma\Desktop\plNIC\Driver\plNICDriver\plNICDriver\bin\Release\net6.0\win-x64\plNICDriver.dll
 C:\Users\Lidoma\Desktop\plNIC\Driver\plNICDriver\plNICDriver\bin\Release\net6.0\win-x64\Microsoft.Extensions.DependencyInjection.dll
@@ -5,7 +6,6 @@ C:\Users\Lidoma\Desktop\plNIC\Driver\plNICDriver\plNICDriver\bin\Release\net6.0\
 C:\Users\Lidoma\Desktop\plNIC\Driver\plNICDriver\plNICDriver\bin\Release\net6.0\win-x64\Microsoft.Extensions.Logging.dll
 C:\Users\Lidoma\Desktop\plNIC\Driver\plNICDriver\plNICDriver\bin\Release\net6.0\win-x64\Microsoft.Extensions.Logging.Abstractions.dll
 C:\Users\Lidoma\Desktop\plNIC\Driver\plNICDriver\plNICDriver\bin\Release\net6.0\win-x64\Microsoft.Extensions.Options.dll
-C:\Users\Lidoma\Desktop\plNIC\Driver\plNICDriver\plNICDriver\bin\Release\net6.0\win-x64\NullFX.CRC.dll
 C:\Users\Lidoma\Desktop\plNIC\Driver\plNICDriver\plNICDriver\bin\Release\net6.0\win-x64\Pastel.dll
 C:\Users\Lidoma\Desktop\plNIC\Driver\plNICDriver\plNICDriver\bin\Release\net6.0\win-x64\System.IO.Ports.dll
 C:\Users\Lidoma\Desktop\plNIC\Driver\plNICDriver\plNICDriver\bin\Release\net6.0\win-x64\System.Collections.Concurrent.dll
@@ -25,14 +25,11 @@ C:\Users\Lidoma\Desktop\plNIC\Driver\plNICDriver\plNICDriver\bin\Release\net6.0\
 C:\Users\Lidoma\Desktop\plNIC\Driver\plNICDriver\plNICDriver\bin\Release\net6.0\win-x64\System.Runtime.InteropServices.RuntimeInformation.dll
 C:\Users\Lidoma\Desktop\plNIC\Driver\plNICDriver\plNICDriver\bin\Release\net6.0\win-x64\System.Runtime.InteropServices.dll
 C:\Users\Lidoma\Desktop\plNIC\Driver\plNICDriver\plNICDriver\bin\Release\net6.0\win-x64\System.Runtime.dll
-C:\Users\Lidoma\Desktop\plNIC\Driver\plNICDriver\plNICDriver\bin\Release\net6.0\win-x64\System.Security.Cryptography.Algorithms.dll
-C:\Users\Lidoma\Desktop\plNIC\Driver\plNICDriver\plNICDriver\bin\Release\net6.0\win-x64\System.Security.Cryptography.Primitives.dll
 C:\Users\Lidoma\Desktop\plNIC\Driver\plNICDriver\plNICDriver\bin\Release\net6.0\win-x64\System.Text.Encoding.Extensions.dll
 C:\Users\Lidoma\Desktop\plNIC\Driver\plNICDriver\plNICDriver\bin\Release\net6.0\win-x64\System.Text.RegularExpressions.dll
 C:\Users\Lidoma\Desktop\plNIC\Driver\plNICDriver\plNICDriver\bin\Release\net6.0\win-x64\System.Threading.Overlapped.dll
 C:\Users\Lidoma\Desktop\plNIC\Driver\plNICDriver\plNICDriver\bin\Release\net6.0\win-x64\System.Threading.Thread.dll
 C:\Users\Lidoma\Desktop\plNIC\Driver\plNICDriver\plNICDriver\bin\Release\net6.0\win-x64\System.Threading.ThreadPool.dll
-C:\Users\Lidoma\Desktop\plNIC\Driver\plNICDriver\plNICDriver\bin\Release\net6.0\win-x64\System.Threading.dll
 C:\Users\Lidoma\Desktop\plNIC\Driver\plNICDriver\plNICDriver\bin\Release\net6.0\win-x64\netstandard.dll
 C:\Users\Lidoma\Desktop\plNIC\Driver\plNICDriver\plNICDriver\bin\Release\net6.0\win-x64\plNICDriver.deps.json
 C:\Users\Lidoma\Desktop\plNIC\Driver\plNICDriver\plNICDriver\bin\Release\net6.0\win-x64\plNICDriver.runtimeconfig.json
@@ -44,6 +41,7 @@ C:\Users\Lidoma\Desktop\plNIC\Driver\plNICDriver\plNICDriver\bin\Release\net6.0\
 C:\Users\Lidoma\Desktop\plNIC\Driver\plNICDriver\plNICDriver\bin\Release\net6.0\win-x64\Microsoft.Extensions.Logging.Console.dll
 C:\Users\Lidoma\Desktop\plNIC\Driver\plNICDriver\plNICDriver\bin\Release\net6.0\win-x64\Microsoft.Extensions.Options.ConfigurationExtensions.dll
 C:\Users\Lidoma\Desktop\plNIC\Driver\plNICDriver\plNICDriver\bin\Release\net6.0\win-x64\Microsoft.Extensions.Primitives.dll
+C:\Users\Lidoma\Desktop\plNIC\Driver\plNICDriver\plNICDriver\bin\Release\net6.0\win-x64\NullFX.CRC.dll
 C:\Users\Lidoma\Desktop\plNIC\Driver\plNICDriver\plNICDriver\bin\Release\net6.0\win-x64\Microsoft.CSharp.dll
 C:\Users\Lidoma\Desktop\plNIC\Driver\plNICDriver\plNICDriver\bin\Release\net6.0\win-x64\Microsoft.VisualBasic.Core.dll
 C:\Users\Lidoma\Desktop\plNIC\Driver\plNICDriver\plNICDriver\bin\Release\net6.0\win-x64\Microsoft.VisualBasic.dll
@@ -144,10 +142,12 @@ C:\Users\Lidoma\Desktop\plNIC\Driver\plNICDriver\plNICDriver\bin\Release\net6.0\
 C:\Users\Lidoma\Desktop\plNIC\Driver\plNICDriver\plNICDriver\bin\Release\net6.0\win-x64\System.Runtime.Serialization.dll
 C:\Users\Lidoma\Desktop\plNIC\Driver\plNICDriver\plNICDriver\bin\Release\net6.0\win-x64\System.Security.AccessControl.dll
 C:\Users\Lidoma\Desktop\plNIC\Driver\plNICDriver\plNICDriver\bin\Release\net6.0\win-x64\System.Security.Claims.dll
+C:\Users\Lidoma\Desktop\plNIC\Driver\plNICDriver\plNICDriver\bin\Release\net6.0\win-x64\System.Security.Cryptography.Algorithms.dll
 C:\Users\Lidoma\Desktop\plNIC\Driver\plNICDriver\plNICDriver\bin\Release\net6.0\win-x64\System.Security.Cryptography.Cng.dll
 C:\Users\Lidoma\Desktop\plNIC\Driver\plNICDriver\plNICDriver\bin\Release\net6.0\win-x64\System.Security.Cryptography.Csp.dll
 C:\Users\Lidoma\Desktop\plNIC\Driver\plNICDriver\plNICDriver\bin\Release\net6.0\win-x64\System.Security.Cryptography.Encoding.dll
 C:\Users\Lidoma\Desktop\plNIC\Driver\plNICDriver\plNICDriver\bin\Release\net6.0\win-x64\System.Security.Cryptography.OpenSsl.dll
+C:\Users\Lidoma\Desktop\plNIC\Driver\plNICDriver\plNICDriver\bin\Release\net6.0\win-x64\System.Security.Cryptography.Primitives.dll
 C:\Users\Lidoma\Desktop\plNIC\Driver\plNICDriver\plNICDriver\bin\Release\net6.0\win-x64\System.Security.Cryptography.X509Certificates.dll
 C:\Users\Lidoma\Desktop\plNIC\Driver\plNICDriver\plNICDriver\bin\Release\net6.0\win-x64\System.Security.Principal.Windows.dll
 C:\Users\Lidoma\Desktop\plNIC\Driver\plNICDriver\plNICDriver\bin\Release\net6.0\win-x64\System.Security.Principal.dll

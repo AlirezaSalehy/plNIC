@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32630.192
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "plNICDriverV1_7", "plNICDriverV1_7\plNICDriverV1_7.csproj", "{F05A42B1-5A6A-4332-A020-DB7594270C2D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F05A42B1-5A6A-4332-A020-DB7594270C2D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F05A42B1-5A6A-4332-A020-DB7594270C2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F05A42B1-5A6A-4332-A020-DB7594270C2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F05A42B1-5A6A-4332-A020-DB7594270C2D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {42BB7198-187D-43FF-B10E-0DD83FD446B0}
+	EndGlobalSection
+EndGlobal

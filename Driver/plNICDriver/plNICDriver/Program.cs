@@ -29,6 +29,9 @@ ILoggerFactory loggerFactory = LoggerFactory.Create(builder => {
 ILogger<Program> _lg = loggerFactory.CreateLogger<Program>();
 _lg.LInformation("This is a Demo of plNIC Driver utilization");
 
+string portName;
+byte id;
+
 bool GetArgs(out string portName, out byte id)
 {
 	portName = "";
@@ -48,7 +51,7 @@ bool GetArgs(out string portName, out byte id)
 	return true;
 }
 
-async void RunCMDInterface(NetPort netPort)
+async void RunCMDInterface(Transport netPort)
 {
 	try
 	{
@@ -76,7 +79,7 @@ async void RunCMDInterface(NetPort netPort)
 				// Fragmentation??
 				Task.Run(async () =>
 				{
-					var status = await netPort.SendSegment(Encoding.ASCII.GetBytes(input));
+					var status = await netPort.SendSegment(((byte)(10-id)), Encoding.ASCII.GetBytes(input));
 					_lg.LInformation($"Segment Status " +
 						$"{status.ToString().Pastel(Color.DarkBlue).PastelBg(Color.LightGreen)}");
 				});
@@ -91,9 +94,9 @@ async void RunCMDInterface(NetPort netPort)
 
 }
 
-if (GetArgs(out string comPort, out byte id))
+if (GetArgs(out portName, out id))
 {
-	NetPort netPort = new NetPort(loggerFactory, comPort, id, (byte txid, byte[] dat) => {
+	Transport netPort = new Transport(loggerFactory, portName, id, (byte txid, byte[] dat) => {
 		_lg.LInformation($"Recv: {Encoding.ASCII.GetString(dat).Pastel(Color.Black).PastelBg(Color.LightGreen)}");
 	});
 

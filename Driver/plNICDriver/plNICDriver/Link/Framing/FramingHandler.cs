@@ -80,10 +80,13 @@ namespace plNICDriver.Link.Framing
 				_BusLastRxTick = DateTime.UtcNow.Ticks;
 				Array.Copy(bytes, 0, buffer, frameCounter, bytes.Length);
 				frameCounter += bytes.Length;
-				if (frameCounter >= FRAME_MAX_LEN)
-					frameCounter = 0;
+				//if (frameCounter >= FRAME_MAX_LEN)
+				//{
+				//	_lg.LDebug($"falls back to zero");
+				//	frameCounter = 0;
+				//}
 			}
-			//_lg.LDebug($"bytes recv {buffer.ToStr(bytes.Length)}");
+			_lg.LDebug($"bytes recv {buffer.ToStr(bytes.Length)}");
 		}
 
 		// Hello This is a test with len
@@ -94,6 +97,7 @@ namespace plNICDriver.Link.Framing
 			while (0 < numBytes)
 			{
 				var delayTime = (int)(Math.Ceiling(timeout / TIME_DIV));
+				//Console.WriteLine($"this is delay time {delayTime}");
 				await Task.Delay(delayTime);
 				counter--;
 
@@ -105,11 +109,11 @@ namespace plNICDriver.Link.Framing
 						Array.Copy(buffer, numBytes, buffer, 0, frameCounter);
 						return true;
 					} 
-					else
-					{
-						timeout = (numBytes - frameCounter) * BIT_DELAY;
-						counter = TIME_DIV;
-					}
+					//else
+					//{
+					//	timeout = (numBytes - frameCounter) * BIT_DELAY;
+					//	counter = TIME_DIV;
+					//}
 
 				if (counter == 0)
 					return false;
@@ -191,12 +195,19 @@ namespace plNICDriver.Link.Framing
 			while (!_terminate)
 			{
 				await Task.Delay(2);
+				//_lg.LWarning($"trying");
 
 				if (! await ReceiveBytes(frm.txFrame, 0, 1))
+				{
+					//_lg.LWarning($"time out");
 					continue;
+				}
 				if (! await ReceiveBytes(frm.txFrame, 0, Frame.HEADER_LEN))
+				{
+					//_lg.LWarning($"time out");
 					continue;
-				
+				}
+
 				_lg.LDebug($"Frame header received: {frm.GetHeader()}");
 
 				if (!frm.IsValid(out byte calcHash))

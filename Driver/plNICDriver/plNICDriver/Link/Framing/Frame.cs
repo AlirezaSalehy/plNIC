@@ -1,4 +1,5 @@
-﻿using System;
+﻿using plNICDriver.FieldProcessing;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
@@ -9,20 +10,6 @@ namespace plNICDriver.Link.Framing
 {
 	public class Frame
 	{
-		private struct FieldInfo
-		{
-			public byte mask;
-			public int byteIdx;
-			public int bitIdx;
-
-			public FieldInfo(byte mask, int byteIdx, int bitIdx)
-			{
-				this.mask = mask;
-				this.byteIdx = byteIdx;
-				this.bitIdx = bitIdx;
-			}
-		}
-
 		public enum FrameType // Resides in Flag
 		{
 			NCK = 0b000,
@@ -41,47 +28,30 @@ namespace plNICDriver.Link.Framing
 			WnId,
 		};
 
-		private static readonly FieldInfo[] FIELD_INFOS = new FieldInfo[]{
+		private static readonly FieldProcessor FIELD_PROCESSOR = new FieldProcessor(new FieldInfo[]{
 			new FieldInfo(0b111, 0, 5),
 			new FieldInfo(0b11111, 0, 0),
 			new FieldInfo(0b1111, 1, 4),
 			new FieldInfo(0b1111, 1, 0),
 			new FieldInfo(0b1111, 2, 4),
 			new FieldInfo(0b1111, 2, 0),
-		};
+		});
 
 		internal static readonly byte HEADER_LEN = 3;
 		internal static readonly byte HASH_REPLICATE_LEN = 30;
-		internal static readonly byte PAYLOAD_MAX_LEN = (byte)Math.Pow(2, 5);
-		internal static readonly byte FRAME_MAX_LEN = (byte)(PAYLOAD_MAX_LEN + HEADER_LEN);
+		internal static readonly byte PAYLOAD_MAX_LEN = (byte)(Math.Pow(2, 5)-1-ARQ.ARQHandler.CRC_LEN);
+		internal static readonly byte FRAME_MAX_LEN = (byte)(PAYLOAD_MAX_LEN + HEADER_LEN + ARQ.ARQHandler.CRC_LEN);
 
 		public byte[] txFrame;
 
-		static private byte GetField(in byte[] hdr, in Fields field)
-		{
-			byte fieldVal;
-			int infoIdx = (int)field;
-			ref FieldInfo fi = ref FIELD_INFOS[infoIdx];
-			fieldVal = (byte)(hdr[fi.byteIdx] >> fi.bitIdx & fi.mask);
-			return fieldVal;
-		}
-
-		static private void SetField(in byte[] hdr, Fields field, byte fieldVal)
-		{
-			int infoIdx = (int)field;
-			ref FieldInfo fi = ref FIELD_INFOS[infoIdx];
-			hdr[fi.byteIdx] &= (byte)(~(fi.mask << fi.bitIdx) & 0xFF); // First empty field
-			hdr[fi.byteIdx] |= (byte)((fieldVal & fi.mask) << fi.bitIdx);
-		}
-
 		private void SetField(Fields field, byte fieldVal)
 		{
-			SetField(txFrame, field, fieldVal);
+			FIELD_PROCESSOR.SetField(txFrame, ((int)field), fieldVal);
 		}
 
 		private byte GetField(in Fields field)
 		{
-			return GetField(txFrame, field);	
+			return FIELD_PROCESSOR.GetField(txFrame, ((int)field));	
 		}
 
 		internal void SetHeader(byte[] hd)
@@ -93,13 +63,13 @@ namespace plNICDriver.Link.Framing
 		{
 			byte[] headerCopy = new byte[HEADER_LEN];
 			Array.Copy(txFrame, 0, headerCopy, 0, HEADER_LEN);
-			SetField(headerCopy, Fields.Hsh, 0);
+			FIELD_PROCESSOR.SetField(headerCopy, ((int)Fields.Hsh), 0);
 			byte[] headerReplicated = new byte[HASH_REPLICATE_LEN];
 			for (int i = 0; i < HASH_REPLICATE_LEN/HEADER_LEN; i++)
 				Array.Copy(headerCopy, 0, headerReplicated, i*HEADER_LEN, HEADER_LEN);
 			var firstByte = SHA1.HashData(headerReplicated)[0];
-			SetField(headerCopy, Fields.Hsh, firstByte);
-			return GetField(headerCopy, Fields.Hsh); ;
+			FIELD_PROCESSOR.SetField(headerCopy, ((int)Fields.Hsh), firstByte);
+			return FIELD_PROCESSOR.GetField(headerCopy, ((int)Fields.Hsh)); ;
 		}
 
 		public Frame()

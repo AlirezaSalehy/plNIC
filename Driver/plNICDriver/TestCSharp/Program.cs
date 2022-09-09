@@ -1,9 +1,14 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
+
 int count = 0;
-for (int i = 10 - 1; i >= 0; i--)
-	await print(i);
-	
+//for (int i = 10 - 1; i >= 0; i--)
+//	await print(i);
+
+byte[] arr = new byte[] { 1, 2, 3, 4, 5, 6, 7, 8 };
+var a = 0..3;
+var b = arr[a];
+Console.WriteLine(arr[0..3]);
 
 Console.WriteLine("Hello, World!");
 

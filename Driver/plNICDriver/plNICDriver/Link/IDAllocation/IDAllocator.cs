@@ -10,6 +10,7 @@ namespace plNICDriver.Link.IDAllocation
 	{
 		public static readonly byte BROADCAST_ID = 0b1111;
 		public static readonly byte NO_ID = 0b0000;
+		public static readonly Range LINK_IDS = 1..16;
 		private static readonly int BUS_CAP = 16 - 2;
 		private static readonly int TIME_DIV = 16;
 
