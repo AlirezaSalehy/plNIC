@@ -16,7 +16,6 @@ namespace plNICDriver.Net
 	//`![](5D533510B3B2024905CB9148794ED75C.png)
 	public class Transport : IDisposable
 	{
-		private static readonly string keyBase64 = "b14ca5898a4e4133bbce2ea2315a1916";
 		private static readonly int FRAME_TIMEOUT = 3500 * 2 + 300 * 2;
 		private static readonly int DECIDE_TIMEOUT = 3000;
 		private static readonly int NUM_RETRIES = 3;
@@ -26,6 +25,7 @@ namespace plNICDriver.Net
 		private Link.Link _link;
 		private Fragmentation.FragmentHandler _fhandler;
 		private ILogger<Transport> _lg;
+		private OnRxSegment _onRx;
 
 		public Transport(ILoggerFactory loggerFactory, string comPort, OnRxSegment onRx) : 
 										this(loggerFactory, comPort, Link.IDAllocation.IDAllocator.NO_ID, onRx)	{}
@@ -35,8 +35,9 @@ namespace plNICDriver.Net
 			_lg = loggerFactory.CreateLogger<Transport>();
 			_link = new Link.Link(loggerFactory, id, comPort, 
 									NUM_RETRIES, FRAME_TIMEOUT,	DECIDE_TIMEOUT, OnRxFrame);
-			_fhandler = new Fragmentation.FragmentHandler(loggerFactory, _link, onRx);
+			_fhandler = new Fragmentation.FragmentHandler(loggerFactory, _link, OnRxSegmnt);
 			_lg.LInformation("NetPort layer is initialized");
+			_onRx = onRx;
 		}
 
 		public void Dispose()
@@ -49,17 +50,25 @@ namespace plNICDriver.Net
 			return await _link.Begin();
 		}
 
-		public async Task<bool> SendSegment(byte txId, byte[] dat)
+		public async Task<bool> SendSegment(byte txId, string dat)
 		{
-			var encSeg = AESOperation.EncryptString(keyBase64, dat);
+			var datBytes = Encoding.ASCII.GetBytes(dat);
+			byte[] encSeg = AESOperation.Encrypt(dat);
+			_lg.LDebug($"encSeg seg {encSeg.ToStr()}");
 			return await _fhandler.SendSegment(txId, encSeg);
 		}
 
 		private void OnRxFrame(byte txId, byte[] dat) // Here defragmentation and deciphering is done
+		{ 
+			_fhandler.OnRxFrames(txId, dat);
+		}
+
+		private void OnRxSegmnt(byte txId, byte[] dat) // Here defragmentation and deciphering is done
 		{
-			var plainSeg = AESOperation.DecryptString(keyBase64, dat);
+			_lg.LDebug($"encSeg seg {dat.ToStr()}");
+			var plainSeg = AESOperation.Decrypt(dat);
 			var plainInBytes = plainSeg.Select(c => (byte)c).ToArray();
-			_fhandler.OnRxFrames(txId, plainInBytes);
+			_onRx(txId, plainInBytes);
 		}
 	}
 }

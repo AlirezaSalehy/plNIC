@@ -79,7 +79,7 @@ async void RunCMDInterface(Transport netPort)
 				// Fragmentation??
 				Task.Run(async () =>
 				{
-					var status = await netPort.SendSegment(((byte)(10 - id)), Encoding.ASCII.GetBytes(input));
+					var status = await netPort.SendSegment(((byte)(10 - id)), input);
 					_lg.LInformation($"Segment Status " +
 						$"{status.ToString().Pastel(Color.DarkBlue).PastelBg(Color.LightGreen)}");
 				});

@@ -177,7 +177,7 @@ namespace plNICDriver.Link.Framing
 					byte[] frameTotal = new byte[payload.Length + 1];
 					frameTotal[0] = ((byte)payload.Length);
 					Array.Copy(payload, 0, frameTotal, 1, payload.Length);
-					_lg.LDebug($"Frame header transmitting: {nextFrame.GetHeader()}");
+					_lg.LDebug($"Frame header transmitting: {nextFrame.GetHeader()}, bytes: {frameTotal.ToStr()}");
 					await _serial.SendBytes(frameTotal, 0, frameTotal.Length);
 					
 					lock (_txedFrames)
