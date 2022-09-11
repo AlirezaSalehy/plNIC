@@ -18,7 +18,7 @@ namespace plNICDriver.Net
 	{
 		private static readonly int FRAME_TIMEOUT = 3500 * 2 + 300 * 2;
 		private static readonly int DECIDE_TIMEOUT = 3000;
-		private static readonly int NUM_RETRIES = 3;
+		private static readonly int NUM_RETRIES = 5;
 
 		public delegate void OnRxSegment(byte txId, byte[] data); // this is fragmented and encypted
 

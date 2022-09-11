@@ -108,18 +108,32 @@ namespace plNICDriver.Link.Framing
 						frameCounter = frameCounter - numBytes;
 						Array.Copy(buffer, numBytes, buffer, 0, frameCounter);
 						return true;
-					} 
+					}
+
+				if (counter == 0)
+				{
+					if (!IsTxGoingOn() && frameCounter > 0) 
+						_lg.LWarning($"{frameCounter} bytes discarded".Pastel(Color.Violet) + " due to timing");
+					lock (_busOccupiedlock)
+						frameCounter = 0;
+					return false;
+				}
+
 					//else
 					//{
 					//	timeout = (numBytes - frameCounter) * BIT_DELAY;
 					//	counter = TIME_DIV;
 					//}
-
-				if (counter == 0)
-					return false;
 			}
 
 			return false;
+		}
+
+		private bool IsTxGoingOn()
+		{
+			var now = DateTime.UtcNow.Ticks;
+			lock (_busOccupiedlock)
+				return ((now - _BusLastRxTick) / TimeSpan.TicksPerMillisecond < BIT_DELAY);
 		}
 
 		//`
@@ -134,23 +148,20 @@ namespace plNICDriver.Link.Framing
 				// Fallback for a random time
 				Random rand = new Random((int)DateTime.UtcNow.Ticks);
 				var backOffTime = (int)(rand.NextInt64((int)Math.Pow(2, retries+3)) * TURN_AROUND);
-				_lg.LWarning($"Back-off for " + $"{backOffTime} millis".PastelBg(Color.Maroon));
+				_lg.LWarning($"Back-off for " + $"{backOffTime} millis".PastelBg(Color.Maroon) + " No TX till then!");
 				await Task.Delay(backOffTime);
 
 				// Check if possible to send
-				lock (_busOccupiedlock)
+				if (!IsTxGoingOn())
+					return true;
+				else
 				{
-					var now = DateTime.UtcNow.Ticks;
-					if ((now - _BusLastRxTick) / TimeSpan.TicksPerMillisecond > BIT_DELAY)
-						return true;
-					else
-					{
-						_lg.LWarning("Waiting, bus is " + "occupied".PastelBg(Color.Maroon));
-						retries++;
-						if (retries > 15)
-							return false;
-					}
+					_lg.LWarning("Waiting, bus is " + "occupied".PastelBg(Color.Maroon));
+					retries++;
+					if (retries > 15)
+						return false;
 				}
+				
 			}
 		}
 
@@ -220,7 +231,10 @@ namespace plNICDriver.Link.Framing
 				if (frm.PLen > 0)
 					// Get remaining
 					if (! await ReceiveBytes(frm.txFrame, Frame.HEADER_LEN, frm.PLen))
+					{
+						_lg.LWarning($"time out");
 						continue;
+					}
 
 				//Random random = new Random((int)DateTime.Now.Ticks);
 				//if (random.NextDouble() > 0.7)

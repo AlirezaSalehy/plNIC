@@ -1,6 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
+using Pastel;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -160,9 +162,18 @@ namespace plNICDriver.Net.Fragmentation
 			this._onRx = _onRx;
 		}
 
+		private string FragmentDescLog(ref Fragment frag)
+		{
+			return $" sid: " +
+					$"{frag.SID}".Pastel(Color.Yellow) + ", fid: "
+					+ $"{frag.FID}".Pastel(Color.Yellow)
+					+ ", df: " + $"{frag.DF}".Pastel(Color.Yellow);
+		}
+
 		public async Task<bool> SendSegment(byte txId, byte[] dat)
 		{
-			_lg.LInformation($"Sending segment with length: {dat.Length} to TxId: {txId}");
+			_lg.LInformation($"Sending segment ".Pastel(Color.YellowGreen) + $"with length: " + 
+				$"{dat.Length}".Pastel(Color.Yellow) + " to TxId:" + $"{txId}".Pastel(Color.Yellow));
 			int nnssid;
 			int? sid;
 			lock (connections)
@@ -179,8 +190,9 @@ namespace plNICDriver.Net.Fragmentation
 			while (nextFrag is not null)
 			{
 				nextFrag.GetSerialized(out byte[] serialized);
-				_lg.LInformation($"Sending fragment sid: {nextFrag.SID}, fid: " +
-					$"{nextFrag.FID}, df: {nextFrag.DF} fragLen: {serialized.Length}");
+				_lg.LInformation($"Sending fragment".Pastel(Color.YellowGreen) 
+									+ FragmentDescLog(ref nextFrag) 
+									+ " fragLen: " + $"{serialized.Length}".Pastel(Color.Yellow));
 				var status  = await _link.SendPacket(txId, serialized);
 				if (status == Link.Link.Status.Success)
 					lock (connections)
@@ -198,8 +210,9 @@ namespace plNICDriver.Net.Fragmentation
 		public void OnRxFrames(byte txId, byte[] framePayload)
 		{
 			Fragment frag = new Fragment(framePayload);
-			_lg.LDebug($"Fragment received sid: {frag.SID}, fid: {frag.FID}," +
-				$" df: {frag.DF} fragLen: {framePayload.Length}");
+			_lg.LDebug($"Fragment received".Pastel(Color.YellowGreen) 
+						+ FragmentDescLog(ref frag) 
+						+ $"fragLen: {framePayload.Length}");
 			if (connections[txId].IsRxFragmentValid(frag))
 				connections[txId].AddRxFragment(frag);
 			var seg =  connections[txId].NextCmpltRxSegment();

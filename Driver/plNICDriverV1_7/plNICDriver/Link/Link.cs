@@ -73,6 +73,8 @@ namespace plNICDriver.Link
 			{
 				if (rxid == IDAllocator.BROADCAST_ID || rxid == _allocator.GetId()) // SKIP if not mine
 					_arqh.OnRxFrame(ft, txid, rxid, payload, wid);
+				else
+					_lg.LDebug($"Packet is not ours frame rxId: {rxid}, our Id: {_allocator.GetId()}");
 			}
 		}
 

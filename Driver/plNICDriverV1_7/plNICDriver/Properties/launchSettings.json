@@ -2,7 +2,7 @@
   "profiles": {
     "plNICDriverV1_7": {
       "commandName": "Project",
-      "commandLineArgs": "COM11 6"
+      "commandLineArgs": "COM19 6"
     }
   }
 }
