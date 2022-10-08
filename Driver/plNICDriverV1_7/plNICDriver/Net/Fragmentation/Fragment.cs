@@ -12,7 +12,7 @@ namespace plNICDriver.Net.Fragmentation
 	{
 		private enum Fields
 		{
-			DF, // Don't fragment flag
+			MF, // more fragment flag
 			SID, // Segment Id
 			FID // Fragment Id which indicates order of fragments
 		};
@@ -43,11 +43,11 @@ namespace plNICDriver.Net.Fragmentation
 		}
 
 		// Segement maximum length is 248 = 31 * 8
-		public Fragment(int dF, int sID, int fID, byte[] msg)
+		public Fragment(int mF, int sID, int fID, byte[] msg)
 		{
 			_txFragment = new byte[FRAGMENT_MAX_LEN];
 			MLEN = msg.Length;
-			DF = dF;
+			MF = mF;
 			SID = sID;
 			FID = fID;
 			Array.Copy(msg, 0, _txFragment, HEADER_LEN, MLEN);
@@ -90,10 +90,10 @@ namespace plNICDriver.Net.Fragmentation
 			return FID;
 		}
 
-		internal int DF
+		internal int MF
 		{
-			get => GetField(Fields.DF);
-			private set => SetField(Fields.DF, (byte)value);
+			get => GetField(Fields.MF);
+			private set => SetField(Fields.MF, (byte)value);
 		}
 		internal int SID
 		{

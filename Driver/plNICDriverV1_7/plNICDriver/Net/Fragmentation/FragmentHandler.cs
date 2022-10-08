@@ -167,7 +167,7 @@ namespace plNICDriver.Net.Fragmentation
 			return $" sid: " +
 					$"{frag.SID}".Pastel(Color.Yellow) + ", fid: "
 					+ $"{frag.FID}".Pastel(Color.Yellow)
-					+ ", df: " + $"{frag.DF}".Pastel(Color.Yellow);
+					+ ", mf: " + $"{frag.MF}".Pastel(Color.Yellow);
 		}
 
 		public async Task<bool> SendSegment(byte txId, byte[] dat)

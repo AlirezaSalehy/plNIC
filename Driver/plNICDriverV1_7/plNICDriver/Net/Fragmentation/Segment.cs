@@ -43,7 +43,7 @@ namespace plNICDriver.Net.Fragmentation
 
 		public bool IsValid()
 		{
-			if (!_fragments.Any() || _fragments.Last().DF != 1)
+			if (!_fragments.Any() || _fragments.Last().MF != 1)
 				return false;
 
 			var lastFragFid = _fragments.Last().FID;
